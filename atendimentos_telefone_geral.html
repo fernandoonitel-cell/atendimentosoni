@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atendimentos no Telefone</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f8ff;
+            text-align: center;
+        }
+
+        h1 {
+            color: #004080;
+            font-size: 28px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #004080;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007acc;
+            color: white;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #004080;
+            border-radius: 5px;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .botoes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            /* Tamanho mínimo de cada botão */
+            gap: 12px;
+            /* Espaçamento entre os botões */
+            margin: 20px auto;
+            max-width: 1000px;
+            /* Limita a largura para centralizar melhor */
+        }
+
+
+        button {
+            background-color: #007acc;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #005f99;
+        }
+
+        .right {
+            margin-left: auto;
+        }
+
+        /* Estilização do campo de mensagem */
+        .message-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    textarea {
+            width: 80%;
+            /* Aumenta a largura */
+            min-height: 100px;
+            /* Aumenta a altura mínima */
+            max-height: 300px;
+            /* Ajusta a altura máxima */
+            padding: 10px;
+            font-size: 16px;
+            resize: vertical;
+            border: 2px solid #004080;
+            border-radius: 5px;
+        }
+
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #007acc;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #005f99;
+        }
+    </style>
+</head>
+<body>
+<h1>Atendimentos no Telefone</h1>
+<table id="tabelaAtendimentos">
+<thead>
+<tr>
+<th>Nº</th>
+<th>Nome</th>
+<th>CPF</th>
+<th>Protocolo</th>
+<th>Telefone</th>
+<th>Situação</th>
+</tr>
+</thead>
+<tbody>
+<!-- Os dados serão inseridos aqui dinamicamente -->
+</tbody>
+</table>
+<div class="buttons-container">
+<div>
+<button onclick="adicionarLinha()">Adicionar Linha</button>
+<button onclick="salvarDados()">Salvar Dados</button>
+<button onclick="carregarDados()">Carregar Dados</button>
+<button onclick="baixarDados()">Baixar Dados</button>
+</div>
+<button class="right" onclick="limparTabela()">Limpar Dados</button>
+</div>
+
+<h2>Mensagens de Atendimento</h2>
+
+
+<div class="botoes-container">
+    <button onclick="mostrarMensagem('msg3')">Início de Atendimento</button>
+    <button onclick="mostrarMensagem('msg4')">Final de Atendimento</button>
+    <button onclick="mostrarMensagem('msg10')">Avaliação do Google</button>
+    <button onclick="mostrarMensagem('msg21')">PEDIR CONFIRMAÇÃO DE DADOS</button>
+    <button onclick="mostrarMensagem('msg9')">Falta de Comunicação</button>
+    <button onclick="mostrarMensagem('msg8')">Rompimento Massivo</button>
+    <button onclick="mostrarMensagem('msg11')">HORÁRIO DOS TÉCNICOS</button>
+    <button onclick="mostrarMensagem('msg19')">AÇÕES VARIADAS</button>
+    <button onclick="mostrarMensagem('msg31')">TEM LUZ VERMELHA ?</button>
+    <button onclick="mostrarMensagem('msg13')">COBRANÇA TAXA VISITA R$ 40,00</button>
+    <button onclick="mostrarMensagem('msg14')">TESTE DE VELOCIDADE</button>
+    <button onclick="mostrarMensagem('msg15')">LENTIDÃO INVESTIGAÇÃO</button>
+    <button onclick="mostrarMensagem('msg6')">LENTIDÃO REDE 5G</button>
+    <button onclick="mostrarMensagem('msg5')">TV Box</button>
+    <button onclick="mostrarMensagem('msg7')">TV/CELULAR NÃO PEGA REDE 5G</button>
+    <button onclick="mostrarMensagem('msg16')">LENTIDÃO INVESTIGAÇÃO NO PC</button>
+    <button onclick="mostrarMensagem('msg17')">INÍCIO DAS AÇÕES SOBRE LENTIDÃO</button>
+    <button onclick="mostrarMensagem('msg18')">FIM DAS AÇÕES SOBRE LENTIDÃO</button>
+    <button onclick="mostrarMensagem('msg20')">EXPLICAÇÃO SOBRE CAT 6 / VELOCIDADE</button>
+    <button onclick="mostrarMensagem('msg22')">EXPLICAÇÃO DE ROMPIMENTO MASSIVO</button>
+    <button onclick="mostrarMensagem('msg23')">EXPLICAÇÃO DE LOSS | FIBRA ROMPIDA COM MASSIVO</button>
+    <button onclick="mostrarMensagem('msg24')">EXPLICAÇÃO DE PON PISCANDO</button>
+    <button onclick="mostrarMensagem('msg25')">TESTE TVBOX / YOUTUBE NO CELULAR</button>
+    <button onclick="mostrarMensagem('msg26')">EXPEDIENTE FINDANDO</button>
+    <button onclick="mostrarMensagem('msg27')">CLIENTE SOLICITA SENHA DE ACESSO AO ROTEADOR</button>
+    <button onclick="mostrarMensagem('msg28')">CONTRATAÇÃO IP FIXO</button>
+    <button onclick="mostrarMensagem('msg29')">ENCERRAMENTO PALAVRAS DE BAIXO CALÃO</button>
+    <button onclick="mostrarMensagem('msg30')">GRATIDÃO AVALIAÇÃO NO GOOGLE</button>
+    <button onclick="mostrarMensagem('msg12')">Desculpas pelo Alto Fluxo</button>
+<button onclick="mostrarMensagem('msg32')">TROCA DE SENHA/REDE</button>
+<button onclick="mostrarMensagem('msg33')">PRINT REDE WI-FI</button>
+<button onclick="mostrarMensagem('msg34')">ENVIO PARA COBRANÇA</button>
+<button onclick="mostrarMensagem('msg35')">SITE MEU IP</button>
+<button onclick="mostrarMensagem('msg36')">LIBERAÇÃO DE CONEXÃO</button>
+
+
+
+</div>
+
+<!-- Input de mensagem redimensionável -->
+<div class="mensagem-container" id="msg3">
+<button class="copy-button" onclick="copiarTexto('texto3')">Copiar</button>
+<textarea class="editable-text" id="texto3" readonly="">
+Suporte Técnico Onitel – Boa noite! 😊
+Como posso te ajudar hoje?
+Por gentileza, informe o CPF ou CNPJ do titular da internet.
+Em seguida, me diga com o que posso te auxiliar!
+
+</textarea>
+<button class="save-button" onclick="salvarTexto('texto3')">Salvar</button>
+</div>
+<div class="mensagem-container" id="msg4">
+<button class="copy-button" onclick="copiarTexto('texto4')">Copiar</button>
+<textarea class="editable-text" id="texto4" readonly="">
+Muito obrigado pelo seu contato! 😊
+Sua avaliação com NOTA 5 faz toda a diferença e me ajuda a continuar oferecendo um atendimento cada vez melhor.
+Conto com seu apoio e te desejo uma ótima noite!
+
+
+</textarea>
+
+  <button class="save-button" onclick="salvarTexto('texto4')">Salvar</button>
+</div>
+<div class="mensagem-container" id="msg5">
+<button class="copy-button" onclick="copiarTexto('texto5')">Copiar</button>
+<textarea class="editable-text" id="texto5" readonly="">Gostaria de lhe dar uma dica em relação à TV Box. A senhora pode adquirir um cabo de rede (barra 1000) em uma loja de informática e conectar o aparelho da TV Box diretamente no roteador. Isso pode melhorar a sua conexão.</textarea>
+<button class="save-button" onclick="salvarTexto('texto5')">Salvar</button>
+</div>
+
+
+<div class="mensagem-container" id="msg6">
+<button class="copy-button" onclick="copiarTexto('texto6')">Copiar</button>
+<textarea class="editable-text" id="texto6" readonly="">
+  Poderia me informar quais dispositivos estão apresentando problemas na conexão? Seria o celular, TV ou o computador? Além disso, em qual rede o senhor está conectado no dispositivo: 5G ou 2.5G?</textarea>
+<button class="save-button" onclick="salvarTexto('texto6')">Salvar</button>
+</div>
+
+
+
+<div class="mensagem-container" id="msg7">
+<button class="copy-button" onclick="copiarTexto('texto7')">Copiar</button>
+<textarea class="editable-text" id="texto7" readonly="">
+Gostaríamos de esclarecer que algumas TVs, especialmente modelos mais antigos ou de entrada, não são compatíveis com redes Wi-Fi de 5GHz. Isso acontece porque esses modelos vêm equipados apenas com receptor Wi-Fi de 2.4GHz, que é uma frequência mais comum.
+A frequência de 5GHz é mais rápida e tem menos interferência, mas possui alcance menor e só pode ser utilizada por dispositivos que tenham hardware compatível com essa tecnologia.
+Caso a sua TV não esteja encontrando a rede 5G do seu roteador, isso indica que ela provavelmente funciona apenas na faixa de 2.4GHz. Para contornar essa limitação.
+
+Alguns celulares — especialmente modelos mais antigos ou de entrada — não são compatíveis com redes Wi-Fi de 5GHz.
+
+Isso acontece porque muitos desses aparelhos têm apenas receptor Wi-Fi de 2.4GHz, que é uma frequência mais comum.
+🔍 Se o seu celular não encontra a rede 5G do roteador, é provável que ele suporte apenas 2.4GHz.
+</textarea>
+<button class="save-button" onclick="salvarTexto('texto7')">Salvar</button>
+</div>
+
+
+
+<div class="mensagem-container" id="msg8">
+<button class="copy-button" onclick="copiarTexto('texto8')">Copiar</button>
+<textarea class="editable-text" id="texto8" readonly="">Gostaríamos de informá-lo(a) que houve um rompimento na fibra óptica em sua região, o que pode estar afetando o seu serviço de internet. Desejamos tranquilizá-lo(a) informando que uma equipe técnica já foi deslocada para resolver a situação com a máxima urgência.
+
+Pedimos sinceras desculpas pelo inconveniente e agradecemos profundamente sua paciência e compreensão enquanto trabalhamos para restaurar completamente os serviços.
+
+Atenciosamente,
+Equipe Onitel 💙</textarea>
+
+
+
+<button class="save-button" onclick="salvarTexto('texto8')">Salvar</button>
+</div>
+
+<div class="mensagem-container" id="msg9">
+<button class="copy-button" onclick="copiarTexto('texto9')">Copiar</button>
+<textarea class="editable-text" id="texto9" readonly="">
+Como não tivemos mais interações, entenderei que sua conexão foi restabelecida. Caso o problema de falta de conexão persista, fique à vontade para entrar em contato novamente — estamos à disposição 24 horas por dia.
+Por favor, não deixe de avaliar nosso atendimento com 5 (CINCO) ESTRELAS ⭐️⭐️⭐️⭐️⭐️ — isso me ajuda a continuar oferecendo um serviço cada vez melhor!
+Se precisar de algo, você pode entrar em contato comigo ou com nosso time de suporte a qualquer momento. Estamos sempre aqui para ajudar!
+</textarea>
+<button class="save-button" onclick="salvarTexto('texto9')">Salvar</button>
+</div>
+
+
+
+<!-- AVALIAÇÃO GOOGLE -->
+<div class="mensagem-container" id="msg10">
+  <button class="copy-button" onclick="copiarTexto('texto10')">Copiar</button>
+  <textarea class="editable-text" id="texto10" readonly>
+Se for possível, gostaria de pedir sua gentileza para deixar uma avaliação com ⭐⭐⭐⭐⭐ no Google mencionando meu nome (FERNANDO). Isso contribui muito para o meu trabalho!
+
+👉 Basta clicar neste link: https://g.co/kgs/MmGpTYD
+  
+💬 Sugestão de comentário:
+"Fui muito bem atendido(a) pelo Fernando."
+
+📸 Se puder, me envie um print da avaliação após concluir. Isso me ajuda a registrar e acompanhar os atendimentos.
+
+Desde já, agradeço imensamente pelo seu tempo e apoio! 🙏
+</textarea>
+  <button class="save-button" onclick="salvarTexto('texto10')">Salvar</button>
+</div>
+
+<!-- HORÁRIO TÉCNICOS -->
+<div class="mensagem-container" id="msg11">
+  <button class="copy-button" onclick="copiarTexto('texto11')">Copiar</button>
+  <textarea class="editable-text" id="texto11" readonly>
+Nossos técnicos atuam de 8h até 18h. Não tenho como informar um horário fixo, porque eles atuam por rota. Assim que eles estiverem saindo, ele vai entrar em contato. Tudo bem?
+
+Senhor(a). Informamos que o agendamento está realizado para (dia). Pedimos, por gentileza, que haja um adulto presente no local para receber o técnico. Pode confirmar por favor?
+
+Caso queira, eu posso colocar uma observação referente a horário ou período (manhã ou tarde), pode me informar?
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto11')">Salvar</button>
+</div>
+
+<!-- ALTA DEMANDA -->
+<div class="mensagem-container" id="msg12">
+  <button class="copy-button" onclick="copiarTexto('texto12')">Copiar</button>
+  <textarea class="editable-text" id="texto12" readonly>
+Peço desculpas pela demora 🙏. Estamos com um alto fluxo de atendimentos agora, mas sua solicitação já está na minha fila e será resolvida em breve. Obrigado pela paciência e compreensão 💙.
+
+
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto12')">Salvar</button>
+</div>
+
+<!-- COBRANÇA TAXA DE VISITA -->
+<div class="mensagem-container" id="msg13">
+  <button class="copy-button" onclick="copiarTexto('texto13')">Copiar</button>
+  <textarea class="editable-text" id="texto13" readonly>
+Senhor(a), constatei que a ruptura da fibra ou a desconfiguração do equipamento (roteador ou ONU), fornecido em regime de comodato (empréstimo), foi causada por mau uso.
+
+Conforme previsto em nossos procedimentos, nesses casos é aplicada uma taxa de R$ 40,00 referente à visita técnica para reparo e manutenção, necessária para restabelecer sua conexão.
+
+Essa cobrança será incluída em sua próxima fatura.
+
+Podemos agendar a visita técnica para realizar o serviço?
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto13')">Salvar</button>
+</div>
+
+<!-- TESTE DE CONEXÃO -->
+<div class="mensagem-container" id="msg14">
+  <button class="copy-button" onclick="copiarTexto('texto14')">Copiar</button>
+  <textarea class="editable-text" id="texto14" readonly>
+Vou pedir pra você, de preferência, realizar o teste no computador, conectando-o à rede via cabo barra mil e garantindo que a placa de rede tenha suporte para a velocidade máxima. 
+
+Caso não tenha um computador disponível, você pode realizar o teste no celular. Para isso, conecte seu celular à rede Wi-Fi (5G), acesse o site abaixo e realize o teste de conexão. Após, tire um print e me envie aqui.
+
+https://fast.com/pt/
+
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto14')">Salvar</button>
+</div>
+
+<!-- LENTIDÃO INVESTIGAÇÃO -->
+<div class="mensagem-container" id="msg15">
+  <button class="copy-button" onclick="copiarTexto('texto15')">Copiar</button>
+  <textarea class="editable-text" id="texto15" readonly>
+Essa lentidão está ocorrendo em algum aplicativo/site específico ou aparelho eletrônico específico?
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto15')">Salvar</button>
+</div>
+
+<!-- LENTIDÃO INVESTIGAÇÃO NO PC -->
+<div class="mensagem-container" id="msg16">
+  <button class="copy-button" onclick="copiarTexto('texto16')">Copiar</button>
+  <textarea class="editable-text" id="texto16" readonly>
+Favor, me envie um print (foto) das Propriedades de rede em seu PC, precisamos verificar sobre a velocidade de (Recepção/Transmissão) em seu computador. 
+
+🖥️ PASSOS NO COMPUTADOR (Windows 10 ou 11):
+Clique com o botão direito do mouse no ícone de Wi-Fi ou rede no canto inferior direito da tela (barra de tarefas).
+Selecione a opção:
+“Abrir Configurações de Rede e Internet”.
+Na nova janela, clique em:
+“Propriedades” ou “Exibir propriedades da rede”.
+Role a tela até encontrar a seção chamada:
+"Velocidade de Link (Recepção/Transmissão)" ou "Velocidade de conexão".
+Tire um print (foto) dessa tela mostrando a velocidade e nos envie.
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto16')">Salvar</button>
+</div>
+
+<!-- INÍCIO DAS AÇÕES SOBRE LENTIDÃO -->
+<div class="mensagem-container" id="msg17">
+  <button class="copy-button" onclick="copiarTexto('texto17')">Copiar</button>
+  <textarea class="editable-text" id="texto17" readonly>
+Entendi! Só um instante, por favor. Vou realizar algumas configurações remotas no seu roteador para melhorar o sinal e reduzir possíveis interferências. Durante esse processo, a conexão pode oscilar ou cair por um momento. Aviso assim que finalizar! 😊
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto17')">Salvar</button>
+</div>
+
+<!-- FIM DAS AÇÕES SOBRE LENTIDÃO -->
+<div class="mensagem-container" id="msg18">
+  <button class="copy-button" onclick="copiarTexto('texto18')">Copiar</button>
+  <textarea class="editable-text" id="texto18" readonly>
+Fiz as configurações necessárias e reiniciei seu equipamento. A conexão deve cair completamente por cerca de 2 a 3 minutos. Assim que voltar, por favor, teste a internet e me avise se tudo voltou ao normal. 😊
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto18')">Salvar</button>
+</div>
+
+<!-- AÇÕES VARIADAS -->
+<div class="mensagem-container" id="msg19">
+  <button class="copy-button" onclick="copiarTexto('texto19')">Copiar</button>
+  <textarea class="editable-text" id="texto19" readonly>
+Peço que desligue o equipamento da TOMADA e aguarde 10 min, após isso religue o equipamento e verifique se a conexão voltou por favor.
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto19')">Salvar</button>
+</div>
+
+<!-- CAT6 / VELOCIDADE -->
+<div class="mensagem-container" id="msg20">
+  <button class="copy-button" onclick="copiarTexto('texto20')">Copiar</button>
+  <textarea class="editable-text" id="texto20" readonly>
+Para verificar corretamente a velocidade máxima da sua conexão, é necessário realizar o teste de velocidade em um computador conectado diretamente via cabo de rede CAT6 (categoria 6), padrão 1000 Mbps (1 Gbps).
+
+Ressaltamos que testes realizados via celular ou Wi-Fi podem apresentar variações devido a interferências e limitações do próprio dispositivo, e por isso não refletem com precisão a velocidade contratada.
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto20')">Salvar</button>
+</div>
+
+<!-- CONFIRMAÇÃO DE DADOS -->
+<div class="mensagem-container" id="msg21">
+  <button class="copy-button" onclick="copiarTexto('texto21')">Copiar</button>
+  <textarea class="editable-text" id="texto21" readonly>
+Prezado(a) Senhor(a),
+Solicitamos, por gentileza, o envio dos seguintes dados atualizados do titular do serviço de internet:
+
+Número de telefone do titular;
+
+Endereço completo e atualizado (incluindo o bairro);
+
+Localização fixa (pode ser um link do Google Maps ou de outro serviço de localização)
+
+Com essas informações confirmadas, poderemos, se necessário, agendar uma visita técnica e garantir que o técnico seja direcionado corretamente até sua residência.
+
+Agradecemos desde já pela colaboração.
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto21')">Salvar</button>
+</div>
+
+<!-- EXPLICAÇÃO DE ROMPIMENTO MASSIVO -->
+<div class="mensagem-container" id="msg22">
+  <button class="copy-button" onclick="copiarTexto('texto22')">Copiar</button>
+  <textarea class="editable-text" id="texto22" readonly>
+Esse tipo de ocorrência acontece quando um ou mais cabos de fibra óptica são danificados de forma significativa, afetando uma grande quantidade de usuários ao mesmo tempo. As causas mais comuns incluem:
+
+- Obras civis ou escavações acidentais;
+- Quedas de árvores ou postes;
+- Atos de vandalismo;
+- Acidentes com veículos;
+- Fenômenos naturais (como tempestades ou deslizamentos de terra).
+
+Quando há um rompimento dessa natureza, o sinal é interrompido totalmente nas áreas impactadas, e o restabelecimento depende de uma ação técnica especializada para localizar, acessar e reparar o trecho danificado da fibra — o que pode levar algumas horas, dependendo da gravidade e da acessibilidade do local. Nossa equipe técnica já está atuando com prioridade máxima para resolver o problema o mais rápido possível. Agradecemos pela sua compreensão e paciência.
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto22')">Salvar</button>
+</div>
+
+<!-- LOSS | FIBRA ROMPIDA COM MASSIVO -->
+<div class="mensagem-container" id="msg23">
+  <button class="copy-button" onclick="copiarTexto('texto23')">Copiar</button>
+  <textarea class="editable-text" id="texto23" readonly>
+Entendi, nesse caso de luz vermelha é sinal de fibra rompida, vou confirmar se não é rompimento massivo na rua/região. Se for, assim que os nossos técnicos realizarem a manutenção referente a esse rompimento, a sua conexão vai ser restabelecida. Caso contrário, preciso agendar uma visita com um técnico para identificar onde foi o rompimento.
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto23')">Salvar</button>
+</div>
+
+<!-- PON PISCANDO -->
+<div class="mensagem-container" id="msg24">
+  <button class="copy-button" onclick="copiarTexto('texto24')">Copiar</button>
+  <textarea class="editable-text" id="texto24" readonly>
+Entendi, nesse caso, que a luz de PON está piscando é sinal de oscilação, o que causa o rompimento da conexão. Será necessário agendar uma visita com um técnico para realizar a manutenção presencial e restabelecer a sua conexão. Peço que aguarde um momento enquanto preencho os dados e realizo o agendamento.
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto24')">Salvar</button>
+</div>
+
+<!-- TESTE TVBOX / YOUTUBE NO CELULAR -->
+<div class="mensagem-container" id="msg25">
+  <button class="copy-button" onclick="copiarTexto('texto25')">Copiar</button>
+  <textarea class="editable-text" id="texto25" readonly>
+Para verificar se a lentidão está realmente no seu TV Box, sugerimos realizar o seguinte teste:
+No exato momento em que notar a lentidão no TV Box, abra o YouTube em seu celular, conectado na mesma rede Wi-Fi.
+Se o YouTube funcionar normalmente no celular, o problema está restrito ao TV Box.
+
+Como informado anteriormente, não prestamos suporte técnico para TV Box/IPTV, pois esse tipo de equipamento não é homologado pela Anatel.
+
+É importante destacar que:
+- A lentidão pode estar relacionada a servidores de baixa qualidade utilizados pelo fornecedor do seu TV Box.
+- Em alguns casos, rotas específicas utilizadas por esses equipamentos podem ser limitadas ou bloqueadas por medidas da própria Anatel.
+- Isso pode causar congestionamento (ou “engarrafamento” de rede) quando muitas pessoas acessam simultaneamente os mesmos servidores.
+
+O que eu posso sugerir para o senhor(a) é tentar conectar o TV Box à internet utilizando um cabo de rede (CAT 6 ou superior, com barra mil), o que pode melhorar a estabilidade da conexão.
+
+Porém, caso o problema persista, será necessário entrar em contato diretamente com o fornecedor do TV Box ou IPTV, pois reforçamos que o suporte a esse tipo de equipamento é de responsabilidade do próprio usuário.
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto25')">Salvar</button>
+</div>
+
+<!-- EXPEDIENTE FINDANDO -->
+<div class="mensagem-container" id="msg26">
+  <button class="copy-button" onclick="copiarTexto('texto26')">Copiar</button>
+  <textarea class="editable-text" id="texto26" readonly>
+No momento meu expediente está acabando, mas fique à vontade em entrar em contato novamente caso ainda precise de algo.
+
+Agradeço seu contato, poderia avaliar meu atendimento com uma nota 5?
+Isso é muito importante para mim. Boa noite!!!
+
+Tenha uma ótima noite! 😊
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto26')">Salvar</button>
+</div>
+
+<!-- CLIENTE SOLICITA SENHA ROTEADOR -->
+<div class="mensagem-container" id="msg27">
+  <button class="copy-button" onclick="copiarTexto('texto27')">Copiar</button>
+  <textarea class="editable-text" id="texto27" readonly>
+Informamos que, caso o(a) senhor(a) opte por receber o usuário e senha de acesso ao roteador, qualquer alteração realizada nas configurações será de inteira responsabilidade sua. E não prestamos suporte, devido ao acesso estar em sua responsabilidade.
+
+Em situações de lentidão, perda de conexão ou desconfiguração do equipamento por manuseio indevido, o suporte remoto poderá ser limitado.
+
+Caso seja necessária a visita de um técnico para configuração do roteador, será cobrada uma taxa de R$ 40,00 referente à visita técnica presencial.
+
+Deseja prosseguir com a solicitação do usuário e senha de acesso ao roteador?
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto27')">Salvar</button>
+</div>
+
+<!-- CONTRATAÇÃO IP FIXO -->
+<div class="mensagem-container" id="msg28">
+  <button class="copy-button" onclick="copiarTexto('texto28')">Copiar</button>
+  <textarea class="editable-text" id="texto28" readonly>
+Senhor(a), sua conexão hoje utiliza um sistema chamado CGNAT, que é uma tecnologia que compartilha IP entre vários usuários. Isso funciona perfeitamente para navegação, vídeos, redes sociais e a maioria dos serviços.
+
+Porém, alguns serviços específicos, como jogos online — principalmente Xbox, PS5 e alguns servidores de PC — precisam de um IP exclusivo para liberar totalmente as portas e conseguir o NAT Aberto, que é o ideal para jogar sem restrições.
+
+Por isso, quando o senhor vê “NAT Moderado” no console, significa que há limitações na comunicação direta com outros jogadores, e isso pode afetar partidas, chats ou conexões P2P.
+
+A solução nesse caso é a contratação de um IP Público dedicado, que libera essas restrições e permite o NAT Aberto. Esse serviço tem uma taxa de R$ 50,00 mensais, porque o IP Público é um recurso limitado e com custo adicional para nós, provedores.
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto28')">Salvar</button>
+</div>
+
+<!-- ENCERRAMENTO COM PALAVRAS DE BAIXO CALÃO -->
+<div class="mensagem-container" id="msg29">
+  <button class="copy-button" onclick="copiarTexto('texto29')">Copiar</button>
+  <textarea class="editable-text" id="texto29" readonly>
+Informamos que, devido ao uso contínuo de palavras inadequadas e de baixo calão durante o atendimento, podemos não dar seguimento à interação. Nosso compromisso é oferecer um atendimento respeitoso e cordial.
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto29')">Salvar</button>
+</div>
+
+<!-- GRATIDÃO AVALIAÇÃO NO GOOGLE -->
+<div class="mensagem-container" id="msg30">
+  <button class="copy-button" onclick="copiarTexto('texto30')">Copiar</button>
+  <textarea class="editable-text" id="texto30" readonly>
+Muito obrigado pela avaliação de 5 estrelas! Sua confiança e carinho significam muito para mim. É uma alegria enorme ter clientes tão especiais como você!
+
+Desejo que sua vida seja sempre iluminada por muitas bênçãos, felicidade e sucesso em todos os caminhos que escolher trilhar. Que você tenha uma noite maravilhosa e uma semana cheia de boas energias, realizações e paz.
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto30')">Salvar</button>
+</div>
+
+<!-- TEM LUZ VERMELHA ? -->
+<div class="mensagem-container" id="msg31">
+  <button class="copy-button" onclick="copiarTexto('texto31')">Copiar</button>
+  <textarea class="editable-text" id="texto31" readonly>
+Tem uma luz vermelha piscando no roteador?
+Por favor, envie um vídeo do roteador e uma foto nítida da parte de baixo do roteador. Preciso de alguns números que ficam nessa região para verificar no sistema sobre sua conexão.
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto31')">Salvar</button>
+</div>
+
+<!-- TROCA DE SENHA? -->
+<div class="mensagem-container" id="msg32">
+  <button class="copy-button" onclick="copiarTexto('texto32')">Copiar</button>
+  <textarea class="editable-text" id="texto32" readonly>
+Por motivos de segurança, solicitamos a confirmação dos dados abaixo:
+Telefone:
+Endereço:
+E-mail:
+
+Após a confirmação, por favor, informe a nova senha da rede Wi-Fi ou o novo nome da rede (SSID), com no mínimo 8 caracteres.
+
+Talvez o seu roteador exija que a senha tenha letras, números e também caracteres especiais (como @, #, !).
+Por favor, me informe uma nova senha seguindo esse padrão.
+Exemplo: Joao123@
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto32')">Salvar</button>
+</div>
+
+<!-- PRINT DAS REDE-->
+<div class="mensagem-container" id="msg33">
+  <button class="copy-button" onclick="copiarTexto('texto33')">Copiar</button>
+  <textarea class="editable-text" id="texto33" readonly>
+Por gentileza, poderia me enviar um print (captura de tela) das redes Wi-Fi que aparecem no seu celular?
+  </textarea>
+  <button class="save-button" onclick="salvarTexto('texto33')">Salvar</button>
+</div>
+
+<!-- PRINT DAS REDE-->
+<div class="mensagem-container" id="msg34">
+  <button class="copy-button" onclick="copiarTexto('texto34')">Copiar</button>
+  <textarea class="editable-text" id="texto34" readonly>
+Senhor(a), verifiquei que o seu cadastro possui pendências financeiras. Nesse caso, a ativação da sua conexão só será possível após a regularização dos débitos (pagamento em dia).
+
+O(a) senhor(a) consegue efetuar o pagamento agora?
+
+Além disso, será necessário transferi-lo(a) para o setor responsável por esse tipo de situação. Posso realizar a transferência agora?
+ </textarea>
+  <button class="save-button" onclick="salvarTexto('texto34')">Salvar</button>
+</div>
+
+<!-- VERIFICAR REDE-->
+<div class="mensagem-container" id="msg35">
+  <button class="copy-button" onclick="copiarTexto('texto35')">Copiar</button>
+  <textarea class="editable-text" id="texto35" readonly>
+Olá!
+Para que eu possa verificar algumas possíveis anomalias no sistema, por favor, acesse o link abaixo utilizando a internet da Onitel:
+
+🔗 https://meuip.com/
+
+Em seguida, tire um print da tela que aparece e me envie a imagem. Com essa informação, conseguirei analisar melhor o que está acontecendo.
+
+Obrigado pela colaboração!
+ </textarea>
+  <button class="save-button" onclick="salvarTexto('texto35')">Salvar</button>
+</div>
+
+
+<!-- LIBERAR CONEXÃO-->
+<div class="mensagem-container" id="msg36">
+  <button class="copy-button" onclick="copiarTexto('texto36')">Copiar</button>
+  <textarea class="editable-text" id="texto36" readonly>
+Realizei agora algumas configurações no sistema. Agora preciso que DESLIGUE O ROTEADOR (ou os dois roteadores, caso tenha mais de um), aguarde 5 minutos e ligue novamente.
+Depois, por favor, me envie aqui a mensagem “Conexão voltou” para que eu confirme se está tudo certo.
+
+ </textarea>
+  <button class="save-button" onclick="salvarTexto('texto36')">Salvar</button>
+</div>
+
+
+
+</div>
+<br/>
+<script>
+        let contador = 1;
+    
+        function adicionarLinha(nome = "", cpf = "", protocolo = "", telefone = "", situacao = "em progresso") {
+            const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
+            const novaLinha = tabela.insertRow();
+    
+            const celulaNumero = novaLinha.insertCell(0);
+            const celulaNome = novaLinha.insertCell(1);
+            const celulaCPF = novaLinha.insertCell(2);
+            const celulaProtocolo = novaLinha.insertCell(3);
+            const celulaTelefone = novaLinha.insertCell(4);
+            const celulaSituacao = novaLinha.insertCell(5);
+    
+            celulaNumero.textContent = contador;
+            celulaNome.innerHTML = `<input type="text" value="${nome}" placeholder="Nome">`;
+            celulaCPF.innerHTML = `<input type="text" value="${cpf}" placeholder="CPF">`;
+            celulaProtocolo.innerHTML = `<input type="text" value="${protocolo}" placeholder="Protocolo">`;
+            celulaTelefone.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
+            celulaSituacao.innerHTML = `
+                <select>
+                    <option value="em progresso" ${situacao === 'em progresso' ? 'selected' : ''}>Em Progresso</option>
+                    <option value="pendente" ${situacao === 'pendente' ? 'selected' : ''}>Pendente</option>
+                    <option value="transferido" ${situacao === 'transferido' ? 'selected' : ''}>Transferido</option>
+                    <option value="lentidão" ${situacao === 'lentidão' ? 'selected' : ''}>Lentidão</option>
+                    <option value="fibra rompida" ${situacao === 'fibra rompida' ? 'selected' : ''}>Fibra Rompida</option>
+                    <option value="fim" ${situacao === 'fim' ? 'selected' : ''}>Fim</option>
+                </select>`;
+    
+            contador++;
+        }
+    
+        function salvarDados() {
+            const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
+            const linhas = tabela.getElementsByTagName('tr');
+            const atendimentos = [];
+    
+            for (let i = 0; i < linhas.length; i++) {
+                const inputs = linhas[i].getElementsByTagName('input');
+                const select = linhas[i].getElementsByTagName('select')[0];
+    
+                atendimentos.push({
+                    numero: i + 1,
+                    nome: inputs[0].value,
+                    cpf: inputs[1].value,
+                    protocolo: inputs[2].value,
+                    telefone: inputs[3].value,
+                    situacao: select.value
+                });
+            }
+    
+            localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
+            alert('Dados salvos com sucesso!');
+        }
+    
+        function carregarDados() {
+            const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
+            const dadosSalvos = localStorage.getItem('atendimentos');
+    
+            if (dadosSalvos) {
+                const atendimentos = JSON.parse(dadosSalvos);
+                tabela.innerHTML = '';
+                contador = 1;
+    
+                atendimentos.forEach(atendimento => {
+                    adicionarLinha(atendimento.nome, atendimento.cpf, atendimento.protocolo, atendimento.telefone, atendimento.situacao);
+                });
+            } else {
+                alert('Nenhum dado salvo encontrado!');
+            }
+        }
+    
+        function baixarDados() {
+            const dadosSalvos = localStorage.getItem('atendimentos');
+            if (!dadosSalvos) {
+                alert("Nenhum dado para baixar!");
+                return;
+            }
+    
+            const blob = new Blob([dadosSalvos], { type: "application/json" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "atendimentos.json";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    
+        function limparTabela() {
+            if (confirm("Tem certeza que deseja limpar todos os dados?")) {
+                document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0].innerHTML = '';
+                localStorage.removeItem('atendimentos');
+                contador = 1;
+                alert("Dados apagados com sucesso!");
+            }
+        }
+    
+        function salvarMensagem() {
+            const mensagem = document.getElementById("mensagemInput").value;
+            localStorage.setItem("mensagem", mensagem);
+            alert("Mensagem salva!");
+        }
+    
+        function carregarMensagem() {
+            const mensagem = localStorage.getItem("mensagem");
+            if (mensagem) {
+                document.getElementById("mensagemInput").value = mensagem;
+            }
+        }
+    
+        window.onload = carregarMensagem;
+    
+
+// Scripts importados do código 2
+
+        function mostrarMensagem(id) {
+            let container = document.getElementById(id);
+            if (container.style.display === 'block') {
+                container.style.display = 'none';
+            } else {
+                document.querySelectorAll('.mensagem-container').forEach(el => el.style.display = 'none');
+                container.style.display = 'block';
+            }
+        }
+
+        function copiarTexto(id) {
+            let texto = document.getElementById(id);
+            texto.select();
+            document.execCommand("copy");
+            alert("Mensagem copiada!");
+        }
+
+        function salvarTexto(id) {
+            let texto = document.getElementById(id);
+            localStorage.setItem(id, texto.value);  // Salva no localStorage
+            alert("Mensagem salva com sucesso!");
+        }
+
+        // Torna as caixas de texto editáveis
+        document.querySelectorAll('.editable-text').forEach(el => {
+            el.addEventListener('click', function () {
+                el.removeAttribute('readonly');  // Permite edição ao clicar
+                el.focus();
+                el.nextElementSibling.style.display = 'block';  // Exibe o botão de salvar
+            });
+        });
+
+        // Carrega as mensagens salvas (se houver) ao abrir a página
+        document.querySelectorAll('.editable-text').forEach(el => {
+            let savedText = localStorage.getItem(el.id);
+            if (savedText) {
+                el.value = savedText;
+            }
+        });
+    </script>
+</body>
+</html>
