@@ -118,6 +118,18 @@
         a:hover {
             color: #005f99;
         }
+
+/* Categorias principais */
+.btn-lentidao { background-color: #28a745; } /* verde */
+.btn-rompida  { background-color: #dc3545; } /* vermelho */
+.btn-inicio, .btn-fim { background-color: #007acc; } /* azul */
+.btn-avaliacao { background-color: #ffc107; color: black; } /* amarelo */
+.btn-dados { background-color: #fd7e14; } /* laranja */
+.btn-financeiro { background-color: #6f42c1; } /* roxo */
+.btn-tv { background-color: #6c757d; } /* cinza */
+.btn-acao, .btn-informativo, .btn-tecnicos { background-color: #17a2b8; } /* ciano */
+.btn-alerta { background-color: #ff5733; } /* laranja forte/vermelho */
+
     </style>
 </head>
 <body>
@@ -151,41 +163,41 @@
 
 
 <div class="botoes-container">
-    <button onclick="mostrarMensagem('msg3')">Início de Atendimento</button>
-    <button onclick="mostrarMensagem('msg4')">Final de Atendimento</button>
-    <button onclick="mostrarMensagem('msg10')">Avaliação do Google</button>
-    <button onclick="mostrarMensagem('msg21')">PEDIR CONFIRMAÇÃO DE DADOS</button>
-    <button onclick="mostrarMensagem('msg9')">Falta de Comunicação</button>
-    <button onclick="mostrarMensagem('msg8')">Rompimento Massivo</button>
-    <button onclick="mostrarMensagem('msg11')">HORÁRIO DOS TÉCNICOS</button>
-    <button onclick="mostrarMensagem('msg19')">AÇÕES VARIADAS</button>
-    <button onclick="mostrarMensagem('msg31')">TEM LUZ VERMELHA ?</button>
-    <button onclick="mostrarMensagem('msg13')">COBRANÇA TAXA VISITA R$ 40,00</button>
-    <button onclick="mostrarMensagem('msg14')">TESTE DE VELOCIDADE</button>
-    <button onclick="mostrarMensagem('msg15')">LENTIDÃO INVESTIGAÇÃO</button>
-    <button onclick="mostrarMensagem('msg6')">LENTIDÃO REDE 5G</button>
-    <button onclick="mostrarMensagem('msg5')">TV Box</button>
-    <button onclick="mostrarMensagem('msg7')">TV/CELULAR NÃO PEGA REDE 5G</button>
-    <button onclick="mostrarMensagem('msg16')">LENTIDÃO INVESTIGAÇÃO NO PC</button>
-    <button onclick="mostrarMensagem('msg17')">INÍCIO DAS AÇÕES SOBRE LENTIDÃO</button>
-    <button onclick="mostrarMensagem('msg18')">FIM DAS AÇÕES SOBRE LENTIDÃO</button>
-    <button onclick="mostrarMensagem('msg20')">EXPLICAÇÃO SOBRE CAT 6 / VELOCIDADE</button>
-    <button onclick="mostrarMensagem('msg22')">EXPLICAÇÃO DE ROMPIMENTO MASSIVO</button>
-    <button onclick="mostrarMensagem('msg23')">EXPLICAÇÃO DE LOSS | FIBRA ROMPIDA COM MASSIVO</button>
-    <button onclick="mostrarMensagem('msg24')">EXPLICAÇÃO DE PON PISCANDO</button>
-    <button onclick="mostrarMensagem('msg25')">TESTE TVBOX / YOUTUBE NO CELULAR</button>
-    <button onclick="mostrarMensagem('msg26')">EXPEDIENTE FINDANDO</button>
-    <button onclick="mostrarMensagem('msg27')">CLIENTE SOLICITA SENHA DE ACESSO AO ROTEADOR</button>
-    <button onclick="mostrarMensagem('msg28')">CONTRATAÇÃO IP FIXO</button>
-    <button onclick="mostrarMensagem('msg29')">ENCERRAMENTO PALAVRAS DE BAIXO CALÃO</button>
-    <button onclick="mostrarMensagem('msg30')">GRATIDÃO AVALIAÇÃO NO GOOGLE</button>
-    <button onclick="mostrarMensagem('msg12')">Desculpas pelo Alto Fluxo</button>
-<button onclick="mostrarMensagem('msg32')">TROCA DE SENHA/REDE</button>
-<button onclick="mostrarMensagem('msg33')">PRINT REDE WI-FI</button>
-<button onclick="mostrarMensagem('msg34')">ENVIO PARA COBRANÇA</button>
-<button onclick="mostrarMensagem('msg35')">SITE MEU IP</button>
-<button onclick="mostrarMensagem('msg36')">LIBERAÇÃO DE CONEXÃO</button>
-
+    <button class="btn-inicio" onclick="mostrarMensagem('msg3')">Início de Atendimento</button>
+<button class="btn-fim" onclick="mostrarMensagem('msg4')">Final de Atendimento</button>
+<button class="btn-avaliacao" onclick="mostrarMensagem('msg10')">Avaliação do Google</button>
+<button class="btn-dados" onclick="mostrarMensagem('msg21')">PEDIR CONFIRMAÇÃO DE DADOS</button>
+<button class="btn-acao" onclick="mostrarMensagem('msg19')">AÇÕES VARIADAS</button>
+<button class="btn-rompida" onclick="mostrarMensagem('msg8')">Rompimento Massivo</button>
+<button class="btn-tecnicos" onclick="mostrarMensagem('msg11')">HORÁRIO DOS TÉCNICOS</button>
+<button class="btn-falha" onclick="mostrarMensagem('msg9')">Falta de Comunicação</button>
+<button class="btn-rompida" onclick="mostrarMensagem('msg31')">TEM LUZ VERMELHA ?</button>
+<button class="btn-financeiro" onclick="mostrarMensagem('msg13')">COBRANÇA TAXA VISITA R$ 40,00</button>
+<button class="btn-teste" onclick="mostrarMensagem('msg14')">TESTE DE VELOCIDADE</button>
+<button class="btn-tv" onclick="mostrarMensagem('msg5')">TV Box</button>
+<button class="btn-lentidao" onclick="mostrarMensagem('msg6')">LENTIDÃO REDE 5G</button>
+<button class="btn-lentidao" onclick="mostrarMensagem('msg15')">LENTIDÃO INVESTIGAÇÃO</button>
+<button class="btn-lentidao" onclick="mostrarMensagem('msg36')">LENTIDÃO TV</button>
+<button class="btn-tv" onclick="mostrarMensagem('msg7')">TV/CELULAR NÃO PEGA REDE 5G</button>
+<button class="btn-lentidao" onclick="mostrarMensagem('msg16')">LENTIDÃO INVESTIGAÇÃO NO PC</button>
+<button class="btn-lentidao" onclick="mostrarMensagem('msg17')">INÍCIO DAS AÇÕES SOBRE LENTIDÃO</button>
+<button class="btn-lentidao" onclick="mostrarMensagem('msg18')">FIM DAS AÇÕES SOBRE LENTIDÃO</button>
+<button class="btn-informativo" onclick="mostrarMensagem('msg20')">EXPLICAÇÃO SOBRE CAT 6 / VELOCIDADE</button>
+<button class="btn-rompida" onclick="mostrarMensagem('msg22')">EXPLICAÇÃO DE LOSS | FIBRA ROMPIDA</button>
+<button class="btn-rompida" onclick="mostrarMensagem('msg23')">EXPLICAÇÃO DE LOSS | FIBRA ROMPIDA COM MASSIVO</button>
+<button class="btn-rompida" onclick="mostrarMensagem('msg24')">EXPLICAÇÃO DE PON PISCANDO</button>
+<button class="btn-tv" onclick="mostrarMensagem('msg25')">TESTE TVBOX / YOUTUBE NO CELULAR</button>
+<button class="btn-inicio" onclick="mostrarMensagem('msg26')">EXPEDIENTE FINDANDO</button>
+<button class="btn-dados" onclick="mostrarMensagem('msg27')">CLIENTE SOLICITA SENHA DE ACESSO AO ROTEADOR</button>
+<button class="btn-financeiro" onclick="mostrarMensagem('msg28')">CONTRATAÇÃO IP FIXO</button>
+<button class="btn-alerta" onclick="mostrarMensagem('msg29')">ENCERRAMENTO PALAVRAS DE BAIXO CALÃO</button>
+<button class="btn-avaliacao" onclick="mostrarMensagem('msg30')">GRATIDÃO AVALIAÇÃO NO GOOGLE</button>
+<button class="btn-acao" onclick="mostrarMensagem('msg12')">Desculpas pelo Alto Fluxo</button>
+<button class="btn-dados" onclick="mostrarMensagem('msg32')">TROCA DE SENHA/REDE</button>
+<button class="btn-dados" onclick="mostrarMensagem('msg33')">PRINT REDE WI-FI</button>
+<button class="btn-financeiro" onclick="mostrarMensagem('msg34')">ENVIO PARA COBRANÇA</button>
+<button class="btn-informativo" onclick="mostrarMensagem('msg35')">SITE MEU IP</button>
+<button class="btn-lentidao" onclick="mostrarMensagem('msg37')">INSERIR EM LENTIDÃO</button>
 
 
 </div>
@@ -308,9 +320,9 @@ Caso queira, eu posso colocar uma observação referente a horário ou período 
 <div class="mensagem-container" id="msg12">
   <button class="copy-button" onclick="copiarTexto('texto12')">Copiar</button>
   <textarea class="editable-text" id="texto12" readonly>
-Peço desculpas pela demora 🙏. Estamos com um alto fluxo de atendimentos agora, mas sua solicitação já está na minha fila e será resolvida em breve. Obrigado pela paciência e compreensão 💙.
+Peço desculpas pela demora no atendimento. Mas fique tranquilo(a), sua solicitação está na aqui na minha fila e será atendida o mais breve possível. Agradeço muito pela paciência e compreensão! 💙
 
-
+Só um momento, por favor, vou verificar o seu cadastro, peço que aguarde um momento, estamos com um alto fluxo de clientes nesse momento, mas fique tranquilo que vou lhe atender.
   </textarea>
   <button class="save-button" onclick="salvarTexto('texto12')">Salvar</button>
 </div>
@@ -334,11 +346,13 @@ Podemos agendar a visita técnica para realizar o serviço?
 <div class="mensagem-container" id="msg14">
   <button class="copy-button" onclick="copiarTexto('texto14')">Copiar</button>
   <textarea class="editable-text" id="texto14" readonly>
-Vou pedir pra você, de preferência, realizar o teste no computador, conectando-o à rede via cabo barra mil e garantindo que a placa de rede tenha suporte para a velocidade máxima. 
+Vou pedir pra você, de preferência, realizar o teste no computador, conectando-o à rede via cabo de rede e garantindo que a placa de rede tenha suporte para a velocidade máxima.
 
-Caso não tenha um computador disponível, você pode realizar o teste no celular. Para isso, conecte seu celular à rede Wi-Fi (5G), acesse o site abaixo e realize o teste de conexão. Após, tire um print e me envie aqui.
+Caso não tenha um computador disponível, você pode realizar o teste no celular. Para isso, conecte seu celular à rede Wi-Fi (5G), acesse os sites abaixo, realize os testes de conexão e, em seguida, tire prints de cada um e me envie aqui:
 
 https://fast.com/pt/
+
+https://www.speedtest.net/
 
   </textarea>
   <button class="save-button" onclick="salvarTexto('texto14')">Salvar</button>
@@ -394,8 +408,9 @@ Fiz as configurações necessárias e reiniciei seu equipamento. A conexão deve
 <div class="mensagem-container" id="msg19">
   <button class="copy-button" onclick="copiarTexto('texto19')">Copiar</button>
   <textarea class="editable-text" id="texto19" readonly>
-Peço que desligue o equipamento da TOMADA e aguarde 10 min, após isso religue o equipamento e verifique se a conexão voltou por favor.
-  </textarea>
+Peço que desligue o equipamento da tomada e aguarde 10 minutos. Depois, religue e verifique se a conexão voltou, por favor.
+Assim que fizer o teste, me confirme aqui se funcionou ou não, para que eu possa dar continuidade no atendimento.  
+</textarea>
   <button class="save-button" onclick="salvarTexto('texto19')">Salvar</button>
 </div>
 
@@ -430,19 +445,13 @@ Agradecemos desde já pela colaboração.
   <button class="save-button" onclick="salvarTexto('texto21')">Salvar</button>
 </div>
 
-<!-- EXPLICAÇÃO DE ROMPIMENTO MASSIVO -->
+<!-- EXPLICAÇÃO DE LOSS | FIBRA ROMPIDA -->
 <div class="mensagem-container" id="msg22">
   <button class="copy-button" onclick="copiarTexto('texto22')">Copiar</button>
   <textarea class="editable-text" id="texto22" readonly>
-Esse tipo de ocorrência acontece quando um ou mais cabos de fibra óptica são danificados de forma significativa, afetando uma grande quantidade de usuários ao mesmo tempo. As causas mais comuns incluem:
+Entendi, nesse caso, que a luz vermelha é sinal de fibra rompida. Será necessário agendar uma visita com um técnico para realizar a manutenção presencial e restabelecer a sua conexão. 
 
-- Obras civis ou escavações acidentais;
-- Quedas de árvores ou postes;
-- Atos de vandalismo;
-- Acidentes com veículos;
-- Fenômenos naturais (como tempestades ou deslizamentos de terra).
-
-Quando há um rompimento dessa natureza, o sinal é interrompido totalmente nas áreas impactadas, e o restabelecimento depende de uma ação técnica especializada para localizar, acessar e reparar o trecho danificado da fibra — o que pode levar algumas horas, dependendo da gravidade e da acessibilidade do local. Nossa equipe técnica já está atuando com prioridade máxima para resolver o problema o mais rápido possível. Agradecemos pela sua compreensão e paciência.
+Peço que aguarde um momento enquanto preencho os dados e realizo o agendamento.
   </textarea>
   <button class="save-button" onclick="salvarTexto('texto22')">Salvar</button>
 </div>
@@ -571,10 +580,6 @@ Endereço:
 E-mail:
 
 Após a confirmação, por favor, informe a nova senha da rede Wi-Fi ou o novo nome da rede (SSID), com no mínimo 8 caracteres.
-
-Talvez o seu roteador exija que a senha tenha letras, números e também caracteres especiais (como @, #, !).
-Por favor, me informe uma nova senha seguindo esse padrão.
-Exemplo: Joao123@
   </textarea>
   <button class="save-button" onclick="salvarTexto('texto32')">Salvar</button>
 </div>
@@ -617,17 +622,28 @@ Obrigado pela colaboração!
   <button class="save-button" onclick="salvarTexto('texto35')">Salvar</button>
 </div>
 
-
-<!-- LIBERAR CONEXÃO-->
+<!-- LENTIDÃO TV-->
 <div class="mensagem-container" id="msg36">
   <button class="copy-button" onclick="copiarTexto('texto36')">Copiar</button>
   <textarea class="editable-text" id="texto36" readonly>
-Realizei agora algumas configurações no sistema. Agora preciso que DESLIGUE O ROTEADOR (ou os dois roteadores, caso tenha mais de um), aguarde 5 minutos e ligue novamente.
-Depois, por favor, me envie aqui a mensagem “Conexão voltou” para que eu confirme se está tudo certo.
-
+Entendi. Sua TV está conectada à internet via cabo de rede ou via Wi-Fi (como no celular)?
+Você poderia me enviar um vídeo mostrando a lentidão ou o problema de conexão que está acontecendo nela?
  </textarea>
   <button class="save-button" onclick="salvarTexto('texto36')">Salvar</button>
 </div>
+
+<!-- INSERIR EM LENTIDÃO-->
+<div class="mensagem-container" id="msg37">
+  <button class="copy-button" onclick="copiarTexto('texto37')">Copiar</button>
+  <textarea class="editable-text" id="texto37" readonly>
+Foi configurado no roteador: o SNTP, canais do roteador, largura de banda, DHCP e reiniciado.
+Inclusive pedido evidências de lentidão ao cliente como testes de velocidade e onde ocorria o problema.
+
+ </textarea>
+  <button class="save-button" onclick="salvarTexto('texto37')">Salvar</button>
+</div>
+
+
 
 
 
@@ -659,7 +675,10 @@ Depois, por favor, me envie aqui a mensagem “Conexão voltou” para que eu co
                     <option value="transferido" ${situacao === 'transferido' ? 'selected' : ''}>Transferido</option>
                     <option value="lentidão" ${situacao === 'lentidão' ? 'selected' : ''}>Lentidão</option>
                     <option value="fibra rompida" ${situacao === 'fibra rompida' ? 'selected' : ''}>Fibra Rompida</option>
-                    <option value="fim" ${situacao === 'fim' ? 'selected' : ''}>Fim</option>
+                    <option value="Finalizado" ${situacao === 'Finalizado' ? 'selected' : ''}>Finalizado</option>
+
+                                 		    <option value="Finalizado" ${situacao === 'Atendimento foi para o OPA' ? 'selected' : ''}>Atendimento foi para o OPA</option>
+
                 </select>`;
     
             contador++;
@@ -757,6 +776,28 @@ Depois, por favor, me envie aqui a mensagem “Conexão voltou” para que eu co
                 container.style.display = 'block';
             }
         }
+
+function mostrarMensagem(id) {
+    let container = document.getElementById(id);
+
+    if (container.style.display === 'block') {
+        container.style.display = 'none';
+    } else {
+        // Fecha todas as mensagens
+        document.querySelectorAll('.mensagem-container').forEach(el => el.style.display = 'none');
+        // Mostra a mensagem escolhida
+        container.style.display = 'block';
+
+        // Copia automaticamente o texto da mensagem exibida
+        let textarea = container.querySelector("textarea");
+        if (textarea) {
+            textarea.select();
+            document.execCommand("copy");
+            alert("Mensagem exibida e copiada!");
+        }
+    }
+}
+
 
         function copiarTexto(id) {
             let texto = document.getElementById(id);
