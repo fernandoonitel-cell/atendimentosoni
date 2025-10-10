@@ -88,6 +88,45 @@
   form.form-box { flex:1; min-width:280px; max-width:520px; background:#fff; padding:16px; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.08); text-align:left; }
   form.form-box h2{ margin-top:0; color:#004080; }
   .result-box { margin-top:12px; white-space:pre-line; background:#fff; padding:12px; border-radius:8px; border:1px solid #c7dff3; max-width:800px; }
+  /* === CONSULTA RÁPIDA - ESTILO === */
+.consulta-container {
+  max-width: 500px;
+  margin: 30px auto;
+  background: #e6f3ff;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #007acc;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: left;
+}
+
+.consulta-container h2 {
+  color: #004080;
+  font-size: 20px;
+  border-bottom: 2px solid #007acc;
+  padding-bottom: 5px;
+  margin-top: 0;
+}
+
+.consulta-item {
+  margin-bottom: 10px;
+  padding: 5px;
+  border-left: 4px solid #007acc;
+  background-color: white;
+  border-radius: 3px;
+}
+
+.consulta-item p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.consulta-setor {
+  font-weight: bold;
+  color: #cc0000;
+  float: right;
+}
+
 </style>
 </head>
 <body>
@@ -102,6 +141,8 @@
     <div class="tab" data-target="vaga" onclick="openTab(event)">📅 Solicitação de Vaga</div>
     <div class="tab" data-target="agendamentos" onclick="openTab(event)">⏱ Agendamentos sem monitoramento</div>
     <div class="tab" data-target="enviar_lista" onclick="openTab(event)">📤 Enviar lista/dados de agendamentos ao grupo</div>
+    <div class="tab" data-target="enviar_lista" onclick="openTab(event)">🔍Consulta Rápida - Setor de Encaminhamento</div>
+
   </aside>
 
   <!-- MAIN -->
@@ -985,6 +1026,51 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
         </div>
       </div>
     </section>
+
+<!-- === Consulta Rápida - Setor de Encaminhamento === -->
+<section id="enviar_lista" class="content" style="display:none;">
+  <div class="card">
+    <div class="consulta-container">
+      <h2>Consulta Rápida - Setor de Encaminhamento</h2>
+
+      <div class="consulta-item">
+        <span class="consulta-setor">ADM</span>
+        <p>MUDANÇA DE ENDEREÇO</p>
+      </div>
+
+      <div class="consulta-item">
+        <span class="consulta-setor">COBRANÇA</span>
+        <p>CLIENTE NEGATIVADO COM FATURA/BOLETO EM ABERTO</p>
+      </div>
+
+      <div class="consulta-item">
+        <span class="consulta-setor">ADM</span>
+        <p>ENVIO DE FATURA/BOLETO/QRCODE PIX</p>
+      </div>
+
+      <div class="consulta-item">
+        <span class="consulta-setor">ADM</span>
+        <p>ASSUNTOS DO SETOR DE ADMINISTRATIVO/FINANCEIRO</p>
+      </div>
+
+      <div class="consulta-item">
+        <span class="consulta-setor">VENDAS</span>
+        <p>ASSUNTOS DO SETOR DE VENDAS</p>
+      </div>
+
+      <div class="consulta-item">
+        <span class="consulta-setor">VENDAS</span>
+        <p>CLIENTE COM O.S DE INSTALAÇÃO EM ABERTO</p>
+      </div>
+
+      <div class="consulta-item">
+        <span class="consulta-setor">UPGRADE</span>
+        <p>ASSUNTOS DO SETOR DE UPGRADE</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <script>
 /* ====== TAB / SIDEBAR CONTROL ====== */
