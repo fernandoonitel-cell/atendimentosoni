@@ -898,13 +898,10 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
         <h2>📅 Solicitação de Vaga</h2>
         <div class="forms-container" style="margin-top:12px;">
           <form id="form1" class="form-box">
-            <hr>
             <h2 style="font-size:18px;">Solicitar vaga</h2>
             <label>👤 Nome do Cliente:</label>
-            <hr>
             <input type="text" id="name" placeholder="Digite o nome do cliente">
             <label>📍 Localização:</label>
-            <hr>
             <input type="text" id="loc" placeholder="Digite a localização">
             <label>📅 Preferência de horário:</label>
             <select id="turno">
@@ -923,7 +920,6 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
               <option value="Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar">Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar.</option>
               <option value="Cliente deseja mudar fio da fibra de local">Cliente deseja mudar fio da fibra de local.</option>
             </select>
-            <hr>
             <label>📰 Observação:</label>
             <input type="text" id="obs" placeholder="Observação">
             <input type="button" value="Gerar Vaga e Copiar" onclick="gerarMensagem1()">
@@ -1211,7 +1207,7 @@ function gerarMensagem5() {
   const data = document.getElementById("data5").value;
   const prioridade = document.getElementById("prioridade5").value;
   const msgLivre = document.getElementById("msg5").value;
-  const msg = `✅ ID e nome do cliente: ${cliente}\n📅 Data do agendamento: ${data}\n⚠️ Prioridade: ${prioridade}\n📝 Mensagem / Horário: ${msgLivre}`;
+  const msg = `✅ ID e nome do cliente: ${cliente}\n📅 Data do agendamento: ${data}\n⚠️ Prioridade: ${prioridade}, ${msgLivre} .`;
   copiarResultadoTo('#result_enviar', msg);
 }
 
