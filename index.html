@@ -892,42 +892,54 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
       </div>
     </section>
 
-    <!-- === Solicitação de Vaga (Form 1) === -->
-    <section id="vaga" class="content" style="display:none;">
-      <div class="card">
-        <h2>📅 Solicitação de Vaga</h2>
-        <div class="forms-container" style="margin-top:12px;">
-          <form id="form1" class="form-box">
-            <h2 style="font-size:18px;">Solicitar vaga</h2>
-            <label>👤 Nome do Cliente:</label>
-            <input type="text" id="name" placeholder="Digite o nome do cliente">
-            <label>📍 Localização:</label>
-            <input type="text" id="loc" placeholder="Digite a localização">
-            <label>📅 Preferência de horário:</label>
-            <select id="turno">
-              <option value="O mais próximo">O mais próximo</option>
-              <option value="O mais próximo pela manhã">O mais próximo pela manhã</option>
-              <option value="O mais próximo pela tarde">O mais próximo pela tarde</option>
-              <option value="Cliente informou que só pode receber pela noite">Cliente informou que só pode receber pela noite</option>
-            </select>
-            <label>⚠️ Causa do agendamento:</label>
-            <select id="causa">
-              <option value="Loss | Fibra Rompida">Loss | Fibra Rompida</option>
-              <option value="Sem conexão, conectado sem internet.">Sem conexão, conectado sem internet.</option>
-              <option value="Luz de PON piscando, sem conexão.">Luz de PON piscando, sem conexão.</option>
-              <option value="Equipamento resetado">Equipamento resetado.</option>
-              <option value="Animal de estimação do cliente rompeu a fibra, sem conexão necessário agendar">Animal de estimação do cliente rompeu a fibra, sem conexão necessário agendar.</option>
-              <option value="Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar">Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar.</option>
-              <option value="Cliente deseja mudar fio da fibra de local">Cliente deseja mudar fio da fibra de local.</option>
-            </select>
-            <label>📰 Observação:</label>
-            <input type="text" id="obs" placeholder="Observação">
-            <button type="button" onclick="gerarMensagem1()">Gerar Vaga e Copiar</button>
-          </form>
-          <div class="result-box" id="result_vaga" style="display:none;"></div>
-        </div>
-      </div>
-    </section>
+<!-- === Solicitação de Vaga (Form 1) === -->
+<section id="vaga" class="content" style="display:none;">
+  <div class="card">
+    <h2>📅 Solicitação de Vaga</h2>
+    <div class="forms-container" style="margin-top:12px;">
+      <form id="form1" class="form-box">
+        <h2 style="font-size:18px;">Solicitar vaga</h2>
+
+        <label>🧑‍💻 Nome do Atendente:</label>
+        <input type="text" id="atendente1" placeholder="Digite o nome do atendente">
+
+        <label>👤 Nome do Cliente:</label>
+        <input type="text" id="name" placeholder="Digite o nome do cliente">
+
+        <label>📍 Localização:</label>
+        <input type="text" id="loc" placeholder="Digite a localização">
+
+        <label>📅 Preferência de horário:</label>
+        <select id="turno">
+          <option value="O mais próximo">O mais próximo</option>
+          <option value="O mais próximo pela manhã">O mais próximo pela manhã</option>
+          <option value="O mais próximo pela tarde">O mais próximo pela tarde</option>
+          <option value="Cliente informou que só pode receber pela noite">Cliente informou que só pode receber pela noite</option>
+        </select>
+
+        <label>⚠️ Causa do agendamento:</label>
+        <select id="causa">
+          <option value="Loss | Fibra Rompida">Loss | Fibra Rompida</option>
+          <option value="Sem conexão, conectado sem internet.">Sem conexão, conectado sem internet.</option>
+          <option value="Luz de PON piscando, sem conexão.">Luz de PON piscando, sem conexão.</option>
+          <option value="Oscilação">Cliente com oscilação de sinal, necessário agendar.</option>
+          <option value="Equipamento resetado">Equipamento resetado.</option>
+          <option value="Animal de estimação do cliente rompeu a fibra, sem conexão necessário agendar">Animal de estimação do cliente rompeu a fibra, sem conexão necessário agendar.</option>
+          <option value="Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar">Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar.</option>
+          <option value="Cliente deseja mudar fio da fibra de local">Cliente deseja mudar fio da fibra de local.</option>
+        </select>
+
+        <label>📰 Observação:</label>
+        <input type="text" id="obs" placeholder="Observação">
+
+        <button type="button" onclick="gerarMensagem1()">Gerar Vaga e Copiar</button>
+      </form>
+
+      <div class="result-box" id="result_vaga" style="display:none;"></div>
+    </div>
+  </div>
+</section>
+
 
     <!-- === Agendamentos sem monitoramento (Form 4) === -->
     <section id="agendamentos" class="content" style="display:none;">
@@ -1162,14 +1174,25 @@ function fallbackCopyText(txt){
 
 /* gerarMensagem1 - Solicitar vaga (Form1) */
 function gerarMensagem1() {
+  const atendente = document.getElementById("atendente1").value;
   const name = document.getElementById("name").value;
   const loc = document.getElementById("loc").value;
   const turno = document.getElementById("turno").value;
   const causa = document.getElementById("causa").value;
   const obs = document.getElementById("obs").value;
-  const msg = `MANUTENÇÃO\n👱 CLIENTE: ${name}\n📍 LOCALIZAÇÃO: ${loc}\n🕒 DATA: ${turno}\n⚠️ CAUSA: ${causa}\n📝 OBS: ${obs}`;
+
+  const msg = 
+`📅 *SOLICITAÇÃO DE VAGA*
+🧑‍💻 ATENDENTE: ${atendente}
+👱 CLIENTE: ${name}
+📍 LOCALIZAÇÃO: ${loc}
+🕒 DATA: ${turno}
+⚠️ CAUSA: ${causa}
+📝 OBS: ${obs}`;
+
   copiarResultadoTo('#result_vaga', msg);
 }
+
 
 /* gerarMensagem2 - Reporte Telefonia (Form2) */
 function gerarMensagem2() {
