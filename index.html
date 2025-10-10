@@ -1037,6 +1037,10 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
         <span class="consulta-setor">ADM</span>
         <p>MUDANÇA DE ENDEREÇO</p>
       </div>
+      <div class="consulta-item">
+        <span class="consulta-setor">ADM</span>
+        <p>QUER ACESSAR AS PLATAFORMAS DIGITAIS: ONITEL TV/PARAMOUNT/WATCH BRASIL/OUTROS</p>
+      </div>
 
       <div class="consulta-item">
         <span class="consulta-setor">COBRANÇA</span>
@@ -1269,12 +1273,12 @@ function gerarMensagem1() {
 
   const msg = 
 `MANUTENÇÃO
-🧑‍💻 ATENDENTE: ${atendente}
-👱 CLIENTE: ${name}
-📍 LOCALIZAÇÃO: ${loc}
-🕒 DATA: ${turno}
-⚠️ CAUSA: ${causa}
-📝 OBS: ${obs}`;
+🧑‍💻 Atendente: ${atendente}
+👱 Cliente: ${name}
+📍 Localização: ${loc}
+📅 Data: ${turno}
+⚠️ Causa: ${causa}
+📝 Observação: ${obs}`;
 
   copiarResultadoTo('#result_vaga', msg);
 }
