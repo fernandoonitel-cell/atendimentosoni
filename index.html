@@ -92,7 +92,7 @@
   
   /* === CONSULTA RÁPIDA - ESTILO === */
 .consulta-container {
-  max-width: 1000px;
+  max-width: 1300px;
   margin: 20px auto;
   background: #e6f3ff;
   padding: 20px;
@@ -118,7 +118,7 @@
 
 .coluna {
   flex: 1;
-  min-width: 400px;
+  min-width: 350px;
 }
 
 .consulta-item {
@@ -135,6 +135,19 @@
   font-weight: bold;
   color: #cc0000;
 }
+
+/* Responsivo — tablet e celular */
+@media (max-width: 1100px) {
+  .coluna {
+    min-width: 45%;
+  }
+}
+@media (max-width: 700px) {
+  .coluna {
+    min-width: 100%;
+  }
+}
+
 
 
 </style>
@@ -1062,41 +1075,40 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
     <div class="consulta-container">
       <h2>CONSULTA RÁPIDA - SETOR DE ENCAMINHAMENTO</h2>
 
-      <!-- 🔹 Dividindo em 2 colunas -->
       <div class="consulta-grid">
-        
+        <!-- 🟦 COLUNA 1 -->
         <div class="coluna">
           <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span><p>MUDANÇA DE ENDEREÇO</p></div>
-          <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span><p>QUER ACESSAR AS PLATAFORMAS DIGITAIS: ONITEL TV/PARAMOUNT/WATCH BRASIL/OUTROS</p></div>
+          <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span><p>PLATAFORMAS DIGITAIS: ONITEL TV, PARAMOUNT, WATCH BRASIL...</p></div>
           <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span><p>CLIENTE NEGATIVADO COM FATURA/BOLETO EM ABERTO</p></div>
           <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span><p>ENVIO DE FATURA/BOLETO/QRCODE PIX</p></div>
-          <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span><p>ASSUNTOS DO SETOR DE ADMINISTRATIVO/FINANCEIRO</p></div>          
+          <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span><p>ASSUNTOS DO SETOR ADMINISTRATIVO/FINANCEIRO</p></div>
           <div class="consulta-item"><span class="consulta-setor">VENDAS</span><p>ASSUNTOS DO SETOR DE VENDAS</p></div>
-         
-
-        </div>
-           <div class="coluna">    
-          <div class="consulta-item"><span class="consulta-setor">UPGRADE</span><p>NECESSÁRIO CRIAR NOVO CONTRATO (INCLUSIVE CONTRATO "NEGATIVO")</p></div>
-          <div class="consulta-item"><span class="consulta-setor">VENDAS</span><p>CLIENTE COM O.S DE INSTALAÇÃO EM ABERTO (AGENDADA OU AGUARDANDO ASSINATURA - AZUL)</p></div>
-          <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span><p>CONTRATO VERMELHO (1 FATURA MAIS DE 15 DIAS) OU CONTRATO BLOQUEADO</p></div>
-          <div class="consulta-item"><span class="consulta-setor">UPGRADE</span><p>ASSUNTOS DO SETOR DE UPGRADE (INCLUI PENDÊNCIAS E DÚVIDAS)</p></div>
-          <div class="consulta-item"><span class="consulta-setor">UPGRADE</span><p>CLIENTE COM CONTRATO "NEGATIVO" OU CONTRATO VERDE COM CONTRATO NEGATIVADO</p></div>
-          <div class="consulta-item"><span class="consulta-setor">SUPORTE (SETOR ATUAL)</span><p>CONTRATO AMARELO (1 FATURA VENCIDA ATÉ 15 DIAS) - SÓ ENCAMINHAR SE TIVER COM O IPV4 10.141</p></div>
-
         </div>
 
+        <!-- 🟩 COLUNA 2 -->
         <div class="coluna">
-          
-          <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO (VIA TELEFONE)</span><p>SOLICITAÇÃO OU INFORMAÇÕES SOBRE CANCELAMENTO</p></div>
-          <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span><p>TROCA DE TITULARIDADE</p></div>
-          <div class="consulta-item"><span class="consulta-setor">VENDAS - UPGRADE</span><p>ALTERAÇÃO DE PLANO (AUMENTO DE VELOCIDADE/VALOR) OU UPGRADE</p></div>
-          <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span><p>ALTERAÇÃO DE PLANO (REDUÇÃO DE VELOCIDADE/VALOR) OU DOWNGRADE (NÃO PERMITIDO - ENCAMINHAR PARA REVERSÃO DE CANCELAMENTO APÓS VALIDAÇÃO DA LIDERANÇA)</p></div>
+          <div class="consulta-item"><span class="consulta-setor">UPGRADE</span><p>NECESSÁRIO CRIAR NOVO CONTRATO (INCLUSIVE “NEGATIVO”)</p></div>
+          <div class="consulta-item"><span class="consulta-setor">VENDAS</span><p>CLIENTE COM O.S DE INSTALAÇÃO EM ABERTO (AGENDADA OU AGUARDANDO ASSINATURA)</p></div>
+          <div class="consulta-item"><span class="consulta-setor">UPGRADE</span><p>ASSUNTOS DO SETOR DE UPGRADE (INCLUI PENDÊNCIAS E DÚVIDAS)</p></div>
+          <div class="consulta-item"><span class="consulta-setor">UPGRADE</span><p>CLIENTE COM CONTRATO “NEGATIVO” OU CONTRATO VERDE COM CONTRATO NEGATIVADO</p></div>
+          <div class="consulta-item"><span class="consulta-setor">SUPORTE</span><p>CONTRATO AMARELO (1 FATURA VENCIDA ATÉ 15 DIAS) - IPV4 10.141</p></div>
         </div>
 
+        <!-- 🟨 COLUNA 3 -->
+        <div class="coluna">
+          <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span><p>CONTRATO VERMELHO (MAIS DE 15 DIAS) OU BLOQUEADO</p></div>
+          <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO (TELEFONE)</span><p>SOLICITAÇÃO OU INFORMAÇÕES SOBRE CANCELAMENTO</p></div>
+          <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span><p>TROCA DE TITULARIDADE</p></div>
+          <div class="consulta-item"><span class="consulta-setor">VENDAS - UPGRADE</span><p>ALTERAÇÃO DE PLANO (AUMENTO DE VELOCIDADE/VALOR)</p></div>
+          <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span><p>DOWNGRADE (NÃO PERMITIDO) — ENCAMINHAR PARA REVERSÃO</p></div>
+          <div class="consulta-item"><span class="consulta-setor">SUPORTE</span><p>O.S. DE MANUTENÇÃO 24H/48H</p></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
 
 
 <script>
