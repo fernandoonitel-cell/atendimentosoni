@@ -902,25 +902,36 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
     </section>
 
       <div class="card">
-        <h2 style="margin:0 0 10px 0;">Planilha de Atendimentos no telefone</h2>
-    <!-- === Planilha de Atendimentos (mantive suas funções) === -->
-    <section id="planilha" class="content" style="display:none;">
+      <h2 style="margin:0 0 10px 0;">Planilha de Atendimentos no Telefone</h2>
 
-        <table id="tabelaAtendimentos">
-          <thead>
-            <tr><th>Nº</th><th>Nome</th><th>CPF</th><th>Protocolo</th><th>Telefone</th><th>Situação</th></tr>
-          </thead>
-          <tbody></tbody>
-        <div style="display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;">
-          <button onclick="adicionarLinha()">➕ Adicionar Linha</button>
-          <button onclick="salvarDados()">💾 Salvar Dados</button>
-          <button onclick="carregarDados()">🔃 Carregar Dados</button>
-          <button onclick="baixarDados()">⬇️ Baixar Dados</button>
-          <button onclick="limparTabela()">🗑️ Limpar Dados</button>
-        </div>
-        </table>
-      </div>
-    </section>
+<section id="planilha" class="content" style="display:none;">
+  <div class="planilha-container">
+
+    <table id="tabelaAtendimentos">
+      <thead>
+        <tr>
+          <th>Nº</th>
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>Protocolo</th>
+          <th>Telefone</th>
+          <th>Situação</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- Botões apenas abaixo -->
+    <div class="planilha-botoes">
+      <button onclick="adicionarLinha()">➕ Adicionar Linha</button>
+      <button onclick="salvarDados()">💾 Salvar Dados</button>
+      <button onclick="carregarDados()">🔃 Carregar Dados</button>
+      <button onclick="baixarDados()">⬇️ Baixar Dados</button>
+      <button onclick="limparTabela()">🗑️ Limpar Dados</button>
+    </div>
+
+  </div>
+</section>
 
     <!-- === Reporte Telefonia (Form 2) === -->
     <section id="report_telefonia" class="content" style="display:none;">
