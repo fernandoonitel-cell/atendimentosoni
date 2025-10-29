@@ -903,6 +903,13 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
 
     <!-- === Planilha de Atendimentos (mantive suas funções) === -->
     <section id="planilha" class="content" style="display:none;">
+
+        <table id="tabelaAtendimentos">
+          <thead>
+            <tr><th>Nº</th><th>Nome</th><th>CPF</th><th>Protocolo</th><th>Telefone</th><th>Situação</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       <div class="card">
         <h2 style="margin:0 0 10px 0;">Planilha de Atendimentos no telefone</h2>
         <div style="display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;">
@@ -912,13 +919,6 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
           <button onclick="baixarDados()">⬇️ Baixar Dados</button>
           <button onclick="limparTabela()">🗑️ Limpar Dados</button>
         </div>
-
-        <table id="tabelaAtendimentos">
-          <thead>
-            <tr><th>Nº</th><th>Nome</th><th>CPF</th><th>Protocolo</th><th>Telefone</th><th>Situação</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
       </div>
     </section>
 
