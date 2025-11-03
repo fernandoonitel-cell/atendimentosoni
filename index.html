@@ -918,7 +918,7 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
           <th>CPF</th>
           <th>Protocolo</th>
           <th>Telefone</th>
-          <th>Situação</th>
+          <th>Observação</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -1230,7 +1230,7 @@ function carregarMensagensSalvas(){
 
 /* ==== Planilha functions (mantive sua lógica) ==== */
 let contador = 1;
-function adicionarLinha(nome = "", cpf = "", protocolo = "", telefone = "", situacao = "em progresso") {
+function adicionarLinha(nome = "", cpf = "", protocolo = "", telefone = "", observacao = "em progresso") {
   const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
   const novaLinha = tabela.insertRow();
   const celulaNumero = novaLinha.insertCell(0);
@@ -1238,21 +1238,13 @@ function adicionarLinha(nome = "", cpf = "", protocolo = "", telefone = "", situ
   const celulaCPF = novaLinha.insertCell(2);
   const celulaProtocolo = novaLinha.insertCell(3);
   const celulaTelefone = novaLinha.insertCell(4);
-  const celulaSituacao = novaLinha.insertCell(5);
+  const celulaObservacao = novaLinha.insertCell(5);
   celulaNumero.textContent = contador;
   celulaNome.innerHTML = `<input type="text" value="${nome}" placeholder="Nome">`;
   celulaCPF.innerHTML = `<input type="text" value="${cpf}" placeholder="CPF">`;
   celulaProtocolo.innerHTML = `<input type="text" value="${protocolo}" placeholder="Protocolo">`;
   celulaTelefone.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
-  celulaSituacao.innerHTML = `
-      <select>
-          <option value="em progresso" ${situacao === 'em progresso' ? 'selected' : ''}>Em Progresso</option>
-          <option value="pendente" ${situacao === 'pendente' ? 'selected' : ''}>Pendente</option>
-          <option value="transferido" ${situacao === 'transferido' ? 'selected' : ''}>Transferido</option>
-          <option value="lentidão" ${situacao === 'lentidão' ? 'selected' : ''}>Lentidão</option>
-          <option value="fibra rompida" ${situacao === 'fibra rompida' ? 'selected' : ''}>Fibra Rompida</option>
-          <option value="Finalizado" ${situacao === 'Finalizado' ? 'selected' : ''}>Finalizado</option>
-      </select>`;
+  celulaObservacao.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
   contador++;
 }
 function salvarDados() {
@@ -1268,7 +1260,7 @@ function salvarDados() {
       cpf: inputs[1]?.value || '',
       protocolo: inputs[2]?.value || '',
       telefone: inputs[3]?.value || '',
-      situacao: select?.value || ''
+      observacao: select?.value || ''
     });
   }
   localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
@@ -1282,7 +1274,7 @@ function carregarDados() {
     tabela.innerHTML = '';
     contador = 1;
     atendimentos.forEach(atendimento => {
-      adicionarLinha(atendimento.nome, atendimento.cpf, atendimento.protocolo, atendimento.telefone, atendimento.situacao);
+      adicionarLinha(atendimento.nome, atendimento.cpf, atendimento.protocolo, atendimento.telefone, atendimento.observacao);
     });
   } else {
     alert('Nenhum dado salvo encontrado!');
