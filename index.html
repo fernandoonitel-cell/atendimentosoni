@@ -1230,7 +1230,7 @@ function carregarMensagensSalvas(){
 
 /* ==== Planilha functions (mantive sua lógica) ==== */
 let contador = 1;
-function adicionarLinha(nome = "", cpf = "", protocolo = "", telefone = "", observacao = "em progresso") {
+function adicionarLinha(nome = "", cpf = "", protocolo = "", telefone = "",  observacao = "") {
   const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
   const novaLinha = tabela.insertRow();
   const celulaNumero = novaLinha.insertCell(0);
@@ -1244,7 +1244,7 @@ function adicionarLinha(nome = "", cpf = "", protocolo = "", telefone = "", obse
   celulaCPF.innerHTML = `<input type="text" value="${cpf}" placeholder="CPF">`;
   celulaProtocolo.innerHTML = `<input type="text" value="${protocolo}" placeholder="Protocolo">`;
   celulaTelefone.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
-  celulaObservacao.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
+  celulaObservacao.innerHTML = `<input type="text" value="${observacao}" placeholder="Observação">`;
   contador++;
 }
 function salvarDados() {
