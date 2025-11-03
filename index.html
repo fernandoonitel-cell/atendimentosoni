@@ -1397,41 +1397,49 @@ function gerarMensagem5() {
 function limparEndereco() {
     let texto = document.getElementById("entrada_endereco").value;
 
-    // remove linhas contendo Complemento, Condomínio, Apartamento ou Referência
+    // --- PADRÕES DE REMOÇÃO OTIMIZADOS ---
     const padroesRemover = [
-        /Complemento:[^\n]*/gi,
-        /Condom[ií]nio:[^\n]*/gi,
-        /Apartamento:[^\n]*/gi,
-        /Refer[êe]ncia:[^\n]*/gi
+        // 1. Remove "Apartamento: -" (ou qualquer conteúdo)
+        /Apartamento:[\s\S]*?/gi, 
+
+        // 2. Remove "Condomínio: " (ou qualquer conteúdo)
+        /Condom[íi]nio:[\s\S]*?/gi,
+
+        // 3. Remove "Referência: " (ou qualquer conteúdo)
+        /Refer[êe]ncia:[\s\S]*?/gi,
+
+        // 4. Remove "Complemento: " (ou qualquer conteúdo), se necessário.
+        // Já que você não pediu para remover Complemento, vou manter os da sua primeira regex
+        // Se precisar remover Complemento, use: /Complemento:[\s\S]*?/gi,
     ];
 
     padroesRemover.forEach(padrao => {
-        // A substituição por ' ' (espaço) em vez de '' (vazio) evita que 
-        // a linha seja tratada como vazia imediatamente, mantendo a estrutura.
+        // Substitui o padrão encontrado por uma string vazia
         texto = texto.replace(padrao, ' '); 
     });
 
-    // Remove espaços extras e linhas vazias, mas de forma mais cuidadosa
+    // --- REORGANIZAÇÃO E LIMPEZA FINAL ---
+
+    // 1. Remove "Número: XX" para limpar o número que fica solto no seu exemplo
+    texto = texto.replace(/Número:\s*\d+/gi, ' '); 
+
+    // 2. Garante que campos vazios ou soltos (como o que sobra do Apartamento/Referência) sejam eliminados
+    texto = texto.replace(/Condom[íi]nio:\s*-\s*/gi, ' ');
+    texto = texto.replace(/Apartamento:\s*-\s*/gi, ' ');
+    texto = texto.replace(/Refer[êe]ncia:\s*-\s*/gi, ' ');
+
+    // 3. Limpeza final: remove múltiplos espaços, tabs e novas linhas vazias
+    texto = texto.replace(/\s+/g, ' '); // Substitui múltiplos espaços por um único
+    texto = texto.trim(); // Remove espaços do início e fim
+
+    // 4. Formata de volta para quebras de linha para melhor visualização (opcional)
+    // Se o seu objetivo é manter tudo em uma linha, omita esta seção.
+    // Se a formatação original era multilinhas, vamos tentar mantê-la limpa:
     texto = texto.split('\n')
                  .map(l => l.trim())
-                 .filter(l => {
-                     // *** ALTERAÇÃO AQUI: PROTEGE LINHAS COM BAIRRO ou CIDADE ***
-                     const linhaLimpa = l.trim();
-                     if (linhaLimpa === '') {
-                         // Remove se estiver realmente vazia E não for uma linha que precisa ser mantida
-                         return false; 
-                     }
-                     // Se contiver Bairro ou Cidade, mantenha, mesmo que o filtro seja agressivo.
-                     if (linhaLimpa.toLowerCase().includes('bairro:') || 
-                         linhaLimpa.toLowerCase().includes('cidade:')) {
-                         return true; 
-                     }
-                     return true; // Mantém todas as outras linhas não vazias
-                 })
+                 .filter(l => l !== '')
                  .join('\n');
 
-    // Remove múltiplos espaços entre as linhas limpas
-    texto = texto.replace(/\n\s*\n/g, '\n');
 
     // exibe o resultado limpo
     const resultado = document.getElementById("resultado_endereco");
