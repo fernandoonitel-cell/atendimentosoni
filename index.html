@@ -914,7 +914,7 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
       <thead>
         <tr>
           <th>Nº</th>
-          <th>Nome</th>
+
           <th>CPF</th>
           <th>Protocolo</th>
           <th>Telefone</th>
@@ -1230,17 +1230,15 @@ function carregarMensagensSalvas(){
 
 /* ==== Planilha functions (mantive sua lógica) ==== */
 let contador = 1;
-function adicionarLinha(nome = "", cpf = "", protocolo = "", telefone = "",  observacao = "") {
+function adicionarLinha(cpf = "", protocolo = "", telefone = "",  observacao = "") {
   const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
   const novaLinha = tabela.insertRow();
   const celulaNumero = novaLinha.insertCell(0);
-  const celulaNome = novaLinha.insertCell(1);
   const celulaCPF = novaLinha.insertCell(2);
   const celulaProtocolo = novaLinha.insertCell(3);
   const celulaTelefone = novaLinha.insertCell(4);
   const celulaObservacao = novaLinha.insertCell(5);
   celulaNumero.textContent = contador;
-  celulaNome.innerHTML = `<input type="text" value="${nome}" placeholder="Nome">`;
   celulaCPF.innerHTML = `<input type="text" value="${cpf}" placeholder="CPF">`;
   celulaProtocolo.innerHTML = `<input type="text" value="${protocolo}" placeholder="Protocolo">`;
   celulaTelefone.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
@@ -1258,7 +1256,6 @@ function salvarDados() {
         
         atendimentos.push({
             numero: i + 1,
-            nome: inputs[0]?.value || '',
             cpf: inputs[1]?.value || '',
             protocolo: inputs[2]?.value || '',
             telefone: inputs[3]?.value || '',
@@ -1280,7 +1277,7 @@ function carregarDados() {
     tabela.innerHTML = '';
     contador = 1;
     atendimentos.forEach(atendimento => {
-      adicionarLinha(atendimento.nome, atendimento.cpf, atendimento.protocolo, atendimento.telefone, atendimento.observacao);
+      adicionarLinha(atendimento.cpf, atendimento.protocolo, atendimento.telefone, atendimento.observacao);
     });
   } else {
     alert('Nenhum dado salvo encontrado!');
