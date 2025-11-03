@@ -1393,11 +1393,12 @@ function gerarMensagem5() {
   copiarResultadoTo('#result_enviar', msg);
 }
 
-  function limparEndereco() {
+function limparEndereco() {
   let texto = document.getElementById("entrada_endereco").value;
 
-  // remove linhas contendo Complemento, Condomínio, Apartamento ou Referência
+  // Remove apenas campos indesejados
   const padroesRemover = [
+    /CEP:[^\n]*/gi,
     /Complemento:[^\n]*/gi,
     /Condom[ií]nio:[^\n]*/gi,
     /Apartamento:[^\n]*/gi,
@@ -1408,17 +1409,17 @@ function gerarMensagem5() {
     texto = texto.replace(padrao, '');
   });
 
-  // remove linhas vazias e espaços extras
+  // Remove linhas vazias e espaços extras
   texto = texto.split('\n')
                .map(l => l.trim())
                .filter(l => l !== '')
                .join('\n');
 
-  // exibe o resultado limpo
+  // Exibe o resultado limpo
   const resultado = document.getElementById("resultado_endereco");
   resultado.textContent = texto;
 
-  // copia automaticamente para a área de transferência
+  // Copia automaticamente para a área de transferência
   navigator.clipboard.writeText(texto)
     .then(() => alert("✅ Endereço limpo e copiado!"))
     .catch(() => alert("Endereço limpo, mas não foi possível copiar."));
