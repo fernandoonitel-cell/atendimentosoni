@@ -1229,21 +1229,26 @@ function carregarMensagensSalvas(){
 
 /* ==== Planilha functions (mantive sua lógica) ==== */
 let contador = 1;
-function adicionarLinha(cpf = "", protocolo = "", telefone = "",  observacao = "") {
-  const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
-  const novaLinha = tabela.insertRow();
-  const celulaNumero = novaLinha.insertCell(0);
-  const celulaCPF = novaLinha.insertCell(2);
-  const celulaProtocolo = novaLinha.insertCell(3);
-  const celulaTelefone = novaLinha.insertCell(4);
-  const celulaObservacao = novaLinha.insertCell(5);
-  celulaNumero.textContent = contador;
-  celulaCPF.innerHTML = `<input type="text" value="${cpf}" placeholder="CPF">`;
-  celulaProtocolo.innerHTML = `<input type="text" value="${protocolo}" placeholder="Protocolo">`;
-  celulaTelefone.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
-  celulaObservacao.innerHTML = `<input type="text" value="${observacao}" placeholder="Observação">`;
-  contador++;
+
+function adicionarLinha(cpf = "", protocolo = "", telefone = "", observacao = "") {
+    const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
+    const novaLinha = tabela.insertRow();
+    
+    const celulaNumero = novaLinha.insertCell(0);
+    const celulaCPF = novaLinha.insertCell(1);       
+    const celulaProtocolo = novaLinha.insertCell(2); 
+    const celulaTelefone = novaLinha.insertCell(3);
+    const celulaObservacao = novaLinha.insertCell(4);
+    
+    celulaNumero.textContent = contador;
+    celulaCPF.innerHTML = `<input type="text" value="${cpf}" placeholder="CPF">`;
+    celulaProtocolo.innerHTML = `<input type="text" value="${protocolo}" placeholder="Protocolo">`;
+    celulaTelefone.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
+    celulaObservacao.innerHTML = `<input type="text" value="${observacao}" placeholder="Observação">`;
+    
+    contador++;
 }
+
 function salvarDados() {
     const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
     const linhas = tabela.getElementsByTagName('tr');
@@ -1251,34 +1256,34 @@ function salvarDados() {
     
     for (let i = 0; i < linhas.length; i++) {
         const inputs = linhas[i].querySelectorAll('input');
-        const select = linhas[i].querySelector('select');
         
         atendimentos.push({
             numero: i + 1,
-            cpf: inputs[1]?.value || '',
-            protocolo: inputs[2]?.value || '',
-            telefone: inputs[3]?.value || '',
-            situacao:  inputs[3]?.value || ''
+            cpf: inputs[0]?.value || '',
+            protocolo: inputs[1]?.value || '',
+            telefone: inputs[2]?.value || '',
+            observacao: inputs[3]?.value || '' 
         });
     }
 
-    // Salva o JSON no localStorage (necessário para carregar depois)
     localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
     alert('Dados salvos com sucesso!');
 }
+
 function carregarDados() {
-  const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
-  const dadosSalvos = localStorage.getItem('atendimentos');
-  if (dadosSalvos) {
-    const atendimentos = JSON.parse(dadosSalvos);
-    tabela.innerHTML = '';
-    contador = 1;
-    atendimentos.forEach(atendimento => {
-      adicionarLinha(atendimento.cpf, atendimento.protocolo, atendimento.telefone, atendimento.observacao);
-    });
-  } else {
-    alert('Nenhum dado salvo encontrado!');
-  }
+    const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
+    const dadosSalvos = localStorage.getItem('atendimentos');
+    if (dadosSalvos) {
+        const atendimentos = JSON.parse(dadosSalvos);
+        tabela.innerHTML = '';
+        contador = 1;
+        atendimentos.forEach(atendimento => {
+            // CORRIGIDO: Passa 'observacao' para a função
+            adicionarLinha(atendimento.cpf, atendimento.protocolo, atendimento.telefone, atendimento.observacao);
+        });
+    } else {
+        alert('Nenhum dado salvo encontrado!');
+    }
 }
 function baixarDados() {
   const dadosSalvos = localStorage.getItem('atendimentos');
