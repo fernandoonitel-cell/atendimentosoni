@@ -1248,23 +1248,29 @@ function adicionarLinha(nome = "", cpf = "", protocolo = "", telefone = "",  obs
   contador++;
 }
 function salvarDados() {
-  const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
-  const linhas = tabela.getElementsByTagName('tr');
-  const atendimentos = [];
-  for (let i = 0; i < linhas.length; i++) {
-    const inputs = linhas[i].getElementsByTagName('input');
-    const select = linhas[i].getElementsByTagName('select')[0];
-    atendimentos.push({
-      numero: i + 1,
-      nome: inputs[0]?.value || '',
-      cpf: inputs[1]?.value || '',
-      protocolo: inputs[2]?.value || '',
-      telefone: inputs[3]?.value || '',
-      observacao: select?.value || ''
-    });
-  }
-  localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
-  alert('Dados salvos com sucesso!');
+    const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
+    const linhas = tabela.getElementsByTagName('tr');
+    const atendimentos = [];
+    
+    for (let i = 0; i < linhas.length; i++) {
+        const inputs = linhas[i].querySelectorAll('input');
+        const select = linhas[i].querySelector('select');
+        
+        atendimentos.push({
+            numero: i + 1,
+            nome: inputs[0]?.value || '',
+            cpf: inputs[1]?.value || '',
+            protocolo: inputs[2]?.value || '',
+            telefone: inputs[3]?.value || '',
+            // Assumo que o campo de situação (select) é a observação para o arquivo CSV
+            // Se você tiver um campo de observação dedicado na sua tabela, ajuste o índice do input aqui
+            situacao: select?.value || 'Não Informado' 
+        });
+    }
+
+    // Salva o JSON no localStorage (necessário para carregar depois)
+    localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
+    alert('Dados salvos com sucesso!');
 }
 function carregarDados() {
   const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
