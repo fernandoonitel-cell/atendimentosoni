@@ -1395,34 +1395,52 @@ function gerarMensagem5() {
 }
 
 function limparEndereco() {
-  let texto = document.getElementById("entrada_endereco").value;
+    let texto = document.getElementById("entrada_endereco").value;
 
-  // remove linhas contendo Complemento, Condomínio, Apartamento ou Referência
-  const padroesRemover = [
-    /Complemento:[^\n]*/gi,
-    /Condom[ií]nio:[^\n]*/gi,
-    /Apartamento:[^\n]*/gi,
-    /Refer[êe]ncia:[^\n]*/gi
-  ];
+    // remove linhas contendo Complemento, Condomínio, Apartamento ou Referência
+    const padroesRemover = [
+        /Complemento:[^\n]*/gi,
+        /Condom[ií]nio:[^\n]*/gi,
+        /Apartamento:[^\n]*/gi,
+        /Refer[êe]ncia:[^\n]*/gi
+    ];
 
-  padroesRemover.forEach(padrao => {
-    texto = texto.replace(padrao, '');
-  });
+    padroesRemover.forEach(padrao => {
+        // A substituição por ' ' (espaço) em vez de '' (vazio) evita que 
+        // a linha seja tratada como vazia imediatamente, mantendo a estrutura.
+        texto = texto.replace(padrao, ' '); 
+    });
 
-  // remove linhas vazias e espaços extras
-  texto = texto.split('\n')
-               .map(l => l.trim())
-               .filter(l => l !== '')
-               .join('\n');
+    // Remove espaços extras e linhas vazias, mas de forma mais cuidadosa
+    texto = texto.split('\n')
+                 .map(l => l.trim())
+                 .filter(l => {
+                     // *** ALTERAÇÃO AQUI: PROTEGE LINHAS COM BAIRRO ou CIDADE ***
+                     const linhaLimpa = l.trim();
+                     if (linhaLimpa === '') {
+                         // Remove se estiver realmente vazia E não for uma linha que precisa ser mantida
+                         return false; 
+                     }
+                     // Se contiver Bairro ou Cidade, mantenha, mesmo que o filtro seja agressivo.
+                     if (linhaLimpa.toLowerCase().includes('bairro:') || 
+                         linhaLimpa.toLowerCase().includes('cidade:')) {
+                         return true; 
+                     }
+                     return true; // Mantém todas as outras linhas não vazias
+                 })
+                 .join('\n');
 
-  // exibe o resultado limpo
-  const resultado = document.getElementById("resultado_endereco");
-  resultado.textContent = texto;
+    // Remove múltiplos espaços entre as linhas limpas
+    texto = texto.replace(/\n\s*\n/g, '\n');
 
-  // copia automaticamente para a área de transferência
-  navigator.clipboard.writeText(texto)
-    .then(() => alert("✅ Endereço limpo e copiado!"))
-    .catch(() => alert("Endereço limpo, mas não foi possível copiar."));
+    // exibe o resultado limpo
+    const resultado = document.getElementById("resultado_endereco");
+    resultado.textContent = texto;
+
+    // copia automaticamente para a área de transferência
+    navigator.clipboard.writeText(texto)
+        .then(() => alert("✅ Endereço limpo e copiado!"))
+        .catch(() => alert("Endereço limpo, mas não foi possível copiar."));
 }
 
 /* onload init */
