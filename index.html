@@ -914,7 +914,6 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
       <thead>
         <tr>
           <th>Nº</th>
-
           <th>CPF</th>
           <th>Protocolo</th>
           <th>Telefone</th>
@@ -1259,9 +1258,7 @@ function salvarDados() {
             cpf: inputs[1]?.value || '',
             protocolo: inputs[2]?.value || '',
             telefone: inputs[3]?.value || '',
-            // Assumo que o campo de situação (select) é a observação para o arquivo CSV
-            // Se você tiver um campo de observação dedicado na sua tabela, ajuste o índice do input aqui
-            situacao: select?.value || 'Não Informado' 
+            situacao:  inputs[3]?.value || ''
         });
     }
 
