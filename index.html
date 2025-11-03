@@ -509,7 +509,8 @@ Tire um print (foto) dessa tela mostrando a velocidade e nos envie.</textarea>
             </div>
           </div>
           <div class="body" id="msg17_body">
-            <textarea id="texto17" class="editable-text" readonly>Entendi! Só um instante, por favor. Vou realizar algumas configurações remotas no seu roteador para melhorar o sinal e reduzir possíveis interferências. Durante esse processo, a conexão pode oscilar ou cair por um momento. Aviso assim que finalizar! 😊</textarea>
+            <textarea id="texto17" class="editable-text" readonly>Entendi! Só um instante, por favor. Vou realizar algumas configurações remotas no seu roteador para melhorar o sinal e reduzir possíveis interferências. Durante esse processo, a conexão pode oscilar ou cair por um momento. Aviso assim que finalizar! 😊
+            POSSO REALIZAR ?</textarea>
           </div>
         </div>
 
@@ -1396,9 +1397,8 @@ function gerarMensagem5() {
 function limparEndereco() {
   let texto = document.getElementById("entrada_endereco").value;
 
-  // Remove apenas campos indesejados
+  // remove linhas contendo Complemento, Condomínio, Apartamento ou Referência
   const padroesRemover = [
-    /CEP:[^\n]*/gi,
     /Complemento:[^\n]*/gi,
     /Condom[ií]nio:[^\n]*/gi,
     /Apartamento:[^\n]*/gi,
@@ -1409,17 +1409,17 @@ function limparEndereco() {
     texto = texto.replace(padrao, '');
   });
 
-  // Remove linhas vazias e espaços extras
+  // remove linhas vazias e espaços extras
   texto = texto.split('\n')
                .map(l => l.trim())
                .filter(l => l !== '')
                .join('\n');
 
-  // Exibe o resultado limpo
+  // exibe o resultado limpo
   const resultado = document.getElementById("resultado_endereco");
   resultado.textContent = texto;
 
-  // Copia automaticamente para a área de transferência
+  // copia automaticamente para a área de transferência
   navigator.clipboard.writeText(texto)
     .then(() => alert("✅ Endereço limpo e copiado!"))
     .catch(() => alert("Endereço limpo, mas não foi possível copiar."));
