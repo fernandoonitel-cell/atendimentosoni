@@ -1022,7 +1022,7 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
         <input type="text" id="turnoCustom" placeholder="Digite manualmente o horário desejado" style="display:none;">
 
         <label>⚠️ Causa do agendamento:</label>
-        <select id="causa">
+        <select id="causa" onchange="toggleCausaInput()">
           <option value="Loss | Fibra Rompida">Loss | Fibra Rompida</option>
           <option value="Vaga para Reagendamento">Vaga para Reagendamento</option>
           <option value="Análise Técnica">Análise Técnica</option>
@@ -1030,11 +1030,16 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
           <option value="Luz de PON piscando, sem conexão.">Luz de PON piscando, sem conexão.</option>
           <option value="Cliente com oscilação de sinal, necessário agendar.">Cliente com oscilação de sinal, necessário agendar.</option>
           <option value="Equipamento resetado">Equipamento resetado.</option>
-          <option value="Drop Baixo/Caído">Drop Baixo/Caído.</option>
+          <option value="Drop Baixo/Caído">Drop Baixo/Caído</option>
           <option value="Animal de estimação do cliente rompeu a fibra, sem conexão necessário agendar">Animal de estimação do cliente rompeu a fibra, sem conexão necessário agendar.</option>
           <option value="Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar">Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar.</option>
           <option value="Cliente deseja mudar fio da fibra de local">Cliente deseja mudar fio da fibra de local.</option>
+          <option value="Outro">Outro (digitar manualmente)</option>
         </select>
+        
+        <!-- Input oculto, aparece só se escolher "Outro" -->
+        <input type="text" id="causaCustom" placeholder="Digite manualmente a causa" style="display:none;">
+
 
         <label>📰 Observação:</label>
         <input type="text" id="obs" placeholder="Observação">
@@ -1345,16 +1350,22 @@ function fallbackCopyText(txt){
 
 /* gerarMensagem1 - Solicitar vaga (Form1) */
 function gerarMensagem1() {
-  const tipo = document.getElementById("tipo").value || "MANUTENÇÃO";
   const atendente = document.getElementById("atendente1").value;
   const name = document.getElementById("name").value;
   const loc = document.getElementById("loc").value;
-  const turnoSelect = document.getElementById("turno").value;
-  const turnoCustom = document.getElementById("turnoCustom").value.trim();
-  const turno = turnoSelect === "Outro" && turnoCustom ? turnoCustom : turnoSelect;  const causa = document.getElementById("causa").value;
+
+  // Se estiver visível o input manual, usa ele
+  const turnoSelect = document.getElementById("turno");
+  const turnoInput = document.getElementById("turnoCustom");
+  const turno = turnoSelect.value === "Outro" && turnoInput.value.trim() ? turnoInput.value.trim() : turnoSelect.value;
+
+  const causaSelect = document.getElementById("causa");
+  const causaInput = document.getElementById("causaCustom");
+  const causa = causaSelect.value === "Outro" && causaInput.value.trim() ? causaInput.value.trim() : causaSelect.value;
+
   const obs = document.getElementById("obs").value;
 
-  const msg = 
+  const msg =
 `${tipo.toUpperCase()}
 🧑‍💻 Atendente: ${atendente}
 👱 Cliente: ${name}
@@ -1378,6 +1389,18 @@ function gerarMensagem1() {
     customInput.value = "";
   }
 }
+
+  function toggleCausaInput() {
+  const select = document.getElementById("causa");
+  const input = document.getElementById("causaCustom");
+  if (select.value === "Outro") {
+    input.style.display = "block";
+  } else {
+    input.style.display = "none";
+    input.value = "";
+  }
+}
+
 
   function calcularDias() {
   const dataInicio = document.getElementById("dataInicio").value;
