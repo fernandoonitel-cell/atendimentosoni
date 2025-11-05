@@ -985,6 +985,9 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
       <form id="form1" class="form-box">
         <h2 style="font-size:18px;">📅 Solicitação de Vaga no Monitoramento</h2>
 
+        <label>🧾 Tipo de Solicitação:</label>
+        <input type="text" id="tipo" placeholder="Ex: MANUTENÇÃO ou RETORNO DE MANUTENÇÃO" />
+
         <label>🧑‍💻 Nome do Atendente:</label>
         <input type="text" id="atendente1" placeholder="Digite o nome do atendente">
 
@@ -1004,8 +1007,9 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
 
         <label>⚠️ Causa do agendamento:</label>
         <select id="causa">
-          <option value="Loss | Fibra Rompida">Loss | Fibra Rompida</option> AGA PARA TECNICO - REAGENDAMENTO
+          <option value="Loss | Fibra Rompida">Loss | Fibra Rompida</option>
           <option value="Vaga para Reagendamento">Vaga para Reagendamento</option>
+          <option value="Análise Técnica">Análise Técnica</option>
           <option value="Sem conexão, conectado sem internet.">Sem conexão, conectado sem internet.</option>
           <option value="Luz de PON piscando, sem conexão.">Luz de PON piscando, sem conexão.</option>
           <option value="Cliente com oscilação de sinal, necessário agendar.">Cliente com oscilação de sinal, necessário agendar.</option>
@@ -1026,6 +1030,7 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
     </div>
   </div>
 </section>
+
 
 
     <!-- === Agendamentos sem monitoramento (Form 4) === -->
@@ -1324,6 +1329,7 @@ function fallbackCopyText(txt){
 
 /* gerarMensagem1 - Solicitar vaga (Form1) */
 function gerarMensagem1() {
+  const tipo = document.getElementById("tipo").value || "MANUTENÇÃO";
   const atendente = document.getElementById("atendente1").value;
   const name = document.getElementById("name").value;
   const loc = document.getElementById("loc").value;
@@ -1332,7 +1338,7 @@ function gerarMensagem1() {
   const obs = document.getElementById("obs").value;
 
   const msg = 
-`MANUTENÇÃO
+`${tipo.toUpperCase()}
 🧑‍💻 Atendente: ${atendente}
 👱 Cliente: ${name}
 📍 Localização: ${loc}
@@ -1342,6 +1348,7 @@ function gerarMensagem1() {
 
   copiarResultadoTo('#result_vaga', msg);
 }
+
 
 
 /* gerarMensagem2 - Reporte Telefonia (Form2) */
