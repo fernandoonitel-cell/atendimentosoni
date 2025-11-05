@@ -981,12 +981,23 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
 <!-- === Solicitação de Vaga (Form 1) === -->
 <section id="vaga" class="content" style="display:none;">
   <div class="card">
+
+    <!-- 🔢 Contador de Dias -->
+    <div class="contador-container" style="margin-bottom:15px; text-align:left;">
+      <h3>📆 Contador de Dias</h3>
+
+      <label>Data de Início:</label>
+      <input type="date" id="dataInicio" onchange="calcularDias()">
+
+      <label>Data de Fim:</label>
+      <input type="date" id="dataFim" onchange="calcularDias()">
+
+      <p id="resultadoDias" style="font-weight:bold; color:#004080; margin-top:8px;">Selecione as datas</p>
+    </div>
+
     <div class="forms-container" style="margin-top:12px;">
       <form id="form1" class="form-box">
         <h2 style="font-size:18px;">📅 Solicitação de Vaga no Monitoramento</h2>
-
-        <label>🧾 Tipo de Solicitação:</label>
-        <input type="text" id="tipo" placeholder="Ex: MANUTENÇÃO ou RETORNO DE MANUTENÇÃO" />
 
         <label>🧑‍💻 Nome do Atendente:</label>
         <input type="text" id="atendente1" placeholder="Digite o nome do atendente">
@@ -997,18 +1008,15 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
         <label>📍 Localização:</label>
         <input type="text" id="loc" placeholder="Digite a localização">
 
-       <label>📅 Preferência de horário:</label>
+        <label>📅 Preferência de horário:</label>
         <select id="turno" onchange="toggleTurnoInput()">
-        <option value="O mais próximo">O mais próximo</option>
-        <option value="O mais próximo pela manhã">O mais próximo pela manhã</option>
-        <option value="O mais próximo pela tarde">O mais próximo pela tarde</option>
-        <option value="Cliente informou que só pode receber pela noite">Cliente informou que só pode receber pela noite</option>
-        <option value="Outro">Outro (digitar manualmente)</option>
-</select>
-
-<!-- input escondido, aparece quando o usuário seleciona “Outro” -->
-<input type="text" id="turnoCustom" placeholder="Digite manualmente o horário desejado" style="display:none;">
-
+          <option value="O mais próximo">O mais próximo</option>
+          <option value="O mais próximo pela manhã">O mais próximo pela manhã</option>
+          <option value="O mais próximo pela tarde">O mais próximo pela tarde</option>
+          <option value="Cliente informou que só pode receber pela noite">Cliente informou que só pode receber pela noite</option>
+          <option value="Outro">Outro (digitar manualmente)</option>
+        </select>
+        <input type="text" id="turnoCustom" placeholder="Digite manualmente o horário desejado" style="display:none;">
 
         <label>⚠️ Causa do agendamento:</label>
         <select id="causa">
@@ -1367,6 +1375,32 @@ function gerarMensagem1() {
     customInput.value = "";
   }
 }
+
+  function calcularDias() {
+  const dataInicio = document.getElementById("dataInicio").value;
+  const dataFim = document.getElementById("dataFim").value;
+  const resultado = document.getElementById("resultadoDias");
+
+  if (!dataInicio || !dataFim) {
+    resultado.textContent = "Selecione as duas datas para calcular.";
+    resultado.style.color = "#004080";
+    return;
+  }
+
+  const inicio = new Date(dataInicio);
+  const fim = new Date(dataFim);
+  const diffTime = fim - inicio;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 0) {
+    resultado.textContent = "⚠️ A data final é anterior à data inicial!";
+    resultado.style.color = "#cc0000";
+  } else {
+    resultado.textContent = `📅 Diferença: ${diffDays} dias`;
+    resultado.style.color = diffDays > 60 ? "#cc0000" : "#007a00";
+  }
+}
+
 
 
 
