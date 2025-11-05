@@ -1000,7 +1000,7 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
         <h2 style="font-size:18px;">📅 Solicitação de Vaga no Monitoramento</h2>
 
         <label>🧾 Tipo de Solicitação:</label>
-        <input type="text" id="tipo" placeholder="Ex: MANUTENÇÃO ou RETORNO DE MANUTENÇÃO" />
+        <input type="text" id="tipoManutencao" placeholder="Ex: MANUTENÇÃO ou RETORNO DE MANUTENÇÃO">
 
         <label>🧑‍💻 Nome do Atendente:</label>
         <input type="text" id="atendente1" placeholder="Digite o nome do atendente">
@@ -1350,22 +1350,19 @@ function fallbackCopyText(txt){
 
 /* gerarMensagem1 - Solicitar vaga (Form1) */
 function gerarMensagem1() {
+  const tipo = document.getElementById("tipoManutencao").value || "MANUTENÇÃO";
   const atendente = document.getElementById("atendente1").value;
   const name = document.getElementById("name").value;
   const loc = document.getElementById("loc").value;
-
-  // Se estiver visível o input manual, usa ele
   const turnoSelect = document.getElementById("turno");
   const turnoInput = document.getElementById("turnoCustom");
   const turno = turnoSelect.value === "Outro" && turnoInput.value.trim() ? turnoInput.value.trim() : turnoSelect.value;
-
   const causaSelect = document.getElementById("causa");
   const causaInput = document.getElementById("causaCustom");
   const causa = causaSelect.value === "Outro" && causaInput.value.trim() ? causaInput.value.trim() : causaSelect.value;
-
   const obs = document.getElementById("obs").value;
 
-  const msg =
+  const msg = 
 `${tipo.toUpperCase()}
 🧑‍💻 Atendente: ${atendente}
 👱 Cliente: ${name}
@@ -1376,6 +1373,7 @@ function gerarMensagem1() {
 
   copiarResultadoTo('#result_vaga', msg);
 }
+
 
 
   function toggleTurnoInput() {
