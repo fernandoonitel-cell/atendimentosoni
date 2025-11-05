@@ -1366,7 +1366,7 @@ function gerarMensagem1() {
   const obs = document.getElementById("obs").value;
 
   const msg =
-`${tipo.toUpperCase()}
+`${causa.toUpperCase().includes('RETORNO') ? 'RETORNO DE MANUTENÇÃO' : 'MANUTENÇÃO'}
 🧑‍💻 Atendente: ${atendente}
 👱 Cliente: ${name}
 📍 Localização: ${loc}
@@ -1376,6 +1376,7 @@ function gerarMensagem1() {
 
   copiarResultadoTo('#result_vaga', msg);
 }
+
 
   function toggleTurnoInput() {
   const select = document.getElementById("turno");
