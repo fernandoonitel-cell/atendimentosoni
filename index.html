@@ -997,13 +997,18 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
         <label>📍 Localização:</label>
         <input type="text" id="loc" placeholder="Digite a localização">
 
-        <label>📅 Preferência de horário:</label>
-        <select id="turno">
-          <option value="O mais próximo">O mais próximo</option>
-          <option value="O mais próximo pela manhã">O mais próximo pela manhã</option>
-          <option value="O mais próximo pela tarde">O mais próximo pela tarde</option>
-          <option value="Cliente informou que só pode receber pela noite">Cliente informou que só pode receber pela noite</option>
-        </select>
+       <label>📅 Preferência de horário:</label>
+        <select id="turno" onchange="toggleTurnoInput()">
+        <option value="O mais próximo">O mais próximo</option>
+        <option value="O mais próximo pela manhã">O mais próximo pela manhã</option>
+        <option value="O mais próximo pela tarde">O mais próximo pela tarde</option>
+        <option value="Cliente informou que só pode receber pela noite">Cliente informou que só pode receber pela noite</option>
+        <option value="Outro">Outro (digitar manualmente)</option>
+</select>
+
+<!-- input escondido, aparece quando o usuário seleciona “Outro” -->
+<input type="text" id="turnoCustom" placeholder="Digite manualmente o horário desejado" style="display:none;">
+
 
         <label>⚠️ Causa do agendamento:</label>
         <select id="causa">
@@ -1333,8 +1338,9 @@ function gerarMensagem1() {
   const atendente = document.getElementById("atendente1").value;
   const name = document.getElementById("name").value;
   const loc = document.getElementById("loc").value;
-  const turno = document.getElementById("turno").value;
-  const causa = document.getElementById("causa").value;
+  const turnoSelect = document.getElementById("turno").value;
+  const turnoCustom = document.getElementById("turnoCustom").value.trim();
+  const turno = turnoSelect === "Outro" && turnoCustom ? turnoCustom : turnoSelect;  const causa = document.getElementById("causa").value;
   const obs = document.getElementById("obs").value;
 
   const msg = 
@@ -1348,6 +1354,20 @@ function gerarMensagem1() {
 
   copiarResultadoTo('#result_vaga', msg);
 }
+
+  function toggleTurnoInput() {
+  const select = document.getElementById("turno");
+  const customInput = document.getElementById("turnoCustom");
+
+  if (select.value === "Outro") {
+    customInput.style.display = "block";
+    customInput.focus();
+  } else {
+    customInput.style.display = "none";
+    customInput.value = "";
+  }
+}
+
 
 
 
