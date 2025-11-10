@@ -163,7 +163,6 @@
     <div class="tab" data-target="report_n2" onclick="openTab(event)">🛠 Reporte N2</div>
     <div class="tab" data-target="vaga" onclick="openTab(event)">📅 Solicitação de Vaga</div>
     <div class="tab" data-target="agendamentos" onclick="openTab(event)">⏱ Agendamentos sem monitoramento</div>
-    <div class="tab" data-target="enviar_lista" onclick="openTab(event)">📤 Enviar lista/dados de agendamentos ao grupo</div>
     <div class="tab" data-target="setor_encaminhamento" onclick="openTab(event)">🔍Consulta Rápida - Setor de Encaminhamento</div>
     <div class="tab" data-target="limpar_endereco" onclick="openTab(event)">💧 Filtar endereço</div>
 
@@ -1000,7 +999,16 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
         <h2 style="font-size:18px;">📅 Solicitação de Vaga no Monitoramento</h2>
 
         <label>🧾 Tipo de Solicitação:</label>
-        <input type="text" id="tipoManutencao" placeholder="Ex: MANUTENÇÃO ou RETORNO DE MANUTENÇÃO">
+          <select id="tipoManutencaoSelect" onchange="mostrarOutroTipo()">
+            <option value="MANUTENÇÃO">MANUTENÇÃO</option>
+            <option value="RETORNO DE MANUTENÇÃO">RETORNO DE MANUTENÇÃO</option>
+            <option value="RETORNO DE INSTALAÇÃO">RETORNO DE INSTALAÇÃO</option>
+            <option value="Outro">Outro (digitar manualmente)</option>
+          </select>
+
+        <!-- Este input só aparece quando escolhe "Outro" -->
+        <input type="text" id="tipoManutencaoCustom" placeholder="Digite o tipo de solicitação" style="display:none; margin-top:8px;">
+
 
         <label>🧑‍💻 Nome do Atendente:</label>
         <input type="text" id="atendente1" placeholder="Digite o nome do atendente">
@@ -1069,30 +1077,6 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
             <button type="button" onclick="gerarMensagem4()">Gerar e Copiar</button>
           </form>
           <div class="result-box" id="result_agendamentos" style="display:none;"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- === Enviar lista/dados de agendamentos ao grupo (Form 5) === -->
-    <section id="enviar_lista" class="content" style="display:none;">
-      <div class="card">
-        <div class="forms-container" style="margin-top:12px;">
-          <form id="form5" class="form-box">
-            <h2 style="font-size:18px;">📤 Enviar lista/dados de agendamentos ao grupo</h2>
-            <label>✅ ID e nome do cliente:</label>
-            <input type="text" id="cliente5" placeholder="Digite ID e nome do cliente">
-            <label>📅 Data do agendamento:</label>
-            <input type="text" id="data5" placeholder="Digite a data do agendamento">
-            <label>⚠️ Prioridade:</label>
-            <select id="prioridade5">
-              <option value="SIM">SIM</option>
-              <option value="NÃO">NÃO</option>
-            </select>
-            <label>📝 Mensagem / Horário:</label>
-            <input type="text" id="msg5" placeholder="Insira mensagem ou horário">
-            <button type="button" onclick="gerarMensagem5()">Gerar e Copiar</button>
-          </form>
-          <div class="result-box" id="result_enviar" style="display:none;"></div>
         </div>
       </div>
     </section>
@@ -1347,22 +1331,42 @@ function fallbackCopyText(txt){
   try{ document.execCommand('copy'); alert('Mensagem copiada (fallback)!'); }catch(e){ alert('Erro ao copiar'); }
   document.body.removeChild(ta);
 }
+  
+  function mostrarOutroTipo() {
+  const select = document.getElementById("tipoManutencaoSelect");
+  const customInput = document.getElementById("tipoManutencaoCustom");
+  if (select.value === "Outro") {
+    customInput.style.display = "block";
+  } else {
+    customInput.style.display = "none";
+    customInput.value = "";
+  }
+}
 
-/* gerarMensagem1 - Solicitar vaga (Form1) */
+
 function gerarMensagem1() {
-  const tipo = document.getElementById("tipoManutencao").value || "MANUTENÇÃO";
+  const tipoSelect = document.getElementById("tipoManutencaoSelect");
+  const tipoCustom = document.getElementById("tipoManutencaoCustom");
+  const tipo = tipoSelect.value === "Outro" && tipoCustom.value.trim()
+    ? tipoCustom.value.trim()
+    : tipoSelect.value;
+
   const atendente = document.getElementById("atendente1").value;
   const name = document.getElementById("name").value;
   const loc = document.getElementById("loc").value;
   const turnoSelect = document.getElementById("turno");
   const turnoInput = document.getElementById("turnoCustom");
-  const turno = turnoSelect.value === "Outro" && turnoInput.value.trim() ? turnoInput.value.trim() : turnoSelect.value;
+  const turno = turnoSelect.value === "Outro" && turnoInput.value.trim()
+    ? turnoInput.value.trim()
+    : turnoSelect.value;
   const causaSelect = document.getElementById("causa");
   const causaInput = document.getElementById("causaCustom");
-  const causa = causaSelect.value === "Outro" && causaInput.value.trim() ? causaInput.value.trim() : causaSelect.value;
+  const causa = causaSelect.value === "Outro" && causaInput.value.trim()
+    ? causaInput.value.trim()
+    : causaSelect.value;
   const obs = document.getElementById("obs").value;
 
-  const msg = 
+  const msg =
 `${tipo.toUpperCase()}
 🧑‍💻 Atendente: ${atendente}
 👱 Cliente: ${name}
@@ -1373,6 +1377,7 @@ function gerarMensagem1() {
 
   copiarResultadoTo('#result_vaga', msg);
 }
+
 
 
 
@@ -1460,15 +1465,7 @@ function gerarMensagem4() {
   copiarResultadoTo('#result_agendamentos', msg);
 }
 
-/* gerarMensagem5 - Enviar lista/dados (Form5) */
-function gerarMensagem5() {
-  const cliente = document.getElementById("cliente5").value;
-  const data = document.getElementById("data5").value;
-  const prioridade = document.getElementById("prioridade5").value;
-  const msgLivre = document.getElementById("msg5").value;
-  const msg = `✅ ID e nome do cliente: ${cliente}\n📅 Data do agendamento: ${data}\n⚠️ Prioridade: ${prioridade}, ${msgLivre} .`;
-  copiarResultadoTo('#result_enviar', msg);
-}
+
 
 function limparEndereco() {
     let texto = document.getElementById("entrada_endereco").value;
