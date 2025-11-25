@@ -1235,13 +1235,15 @@ function carregarMensagensSalvas(){
   });
 }
 
-/* ==== Planilha functions (mantive sua lógica) ==== */
+/* ==== Planilha functions ==== */
 let contador = 1;
 
 function adicionarLinha(cpf = "", protocolo = "", telefone = "", observacao = "") {
     const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
-    const novaLinha = tabela.insertRow();
     
+    // INSERE NO TOPO AGORA
+    const novaLinha = tabela.insertRow(0);
+
     const celulaNumero = novaLinha.insertCell(0);
     const celulaCPF = novaLinha.insertCell(1);       
     const celulaProtocolo = novaLinha.insertCell(2); 
@@ -1253,7 +1255,7 @@ function adicionarLinha(cpf = "", protocolo = "", telefone = "", observacao = ""
     celulaProtocolo.innerHTML = `<input type="text" value="${protocolo}" placeholder="Protocolo">`;
     celulaTelefone.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
     celulaObservacao.innerHTML = `<input type="text" value="${observacao}" placeholder="Observação">`;
-    
+
     contador++;
 }
 
@@ -1261,16 +1263,16 @@ function salvarDados() {
     const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
     const linhas = tabela.getElementsByTagName('tr');
     const atendimentos = [];
-    
+
     for (let i = 0; i < linhas.length; i++) {
         const inputs = linhas[i].querySelectorAll('input');
-        
+
         atendimentos.push({
-            numero: i + 1,
+            numero: (linhas.length - i), 
             cpf: inputs[0]?.value || '',
             protocolo: inputs[1]?.value || '',
             telefone: inputs[2]?.value || '',
-            observacao: inputs[3]?.value || '' 
+            observacao: inputs[3]?.value || ''
         });
     }
 
@@ -1281,18 +1283,22 @@ function salvarDados() {
 function carregarDados() {
     const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
     const dadosSalvos = localStorage.getItem('atendimentos');
+
     if (dadosSalvos) {
         const atendimentos = JSON.parse(dadosSalvos);
+
         tabela.innerHTML = '';
         contador = 1;
-        atendimentos.forEach(atendimento => {
-            // CORRIGIDO: Passa 'observacao' para a função
-            adicionarLinha(atendimento.cpf, atendimento.protocolo, atendimento.telefone, atendimento.observacao);
+
+        // REINSERE mantendo o TOPO primeiro
+        atendimentos.reverse().forEach(a => {
+            adicionarLinha(a.cpf, a.protocolo, a.telefone, a.observacao);
         });
     } else {
         alert('Nenhum dado salvo encontrado!');
     }
 }
+
 function baixarDados() {
   const dadosSalvos = localStorage.getItem('atendimentos');
   if (!dadosSalvos) { alert("Nenhum dado para baixar!"); return; }
