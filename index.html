@@ -1125,34 +1125,6 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
   </div>
 </section>
 
-
-<!-- === Limpar Endereço === -->
-<section id="limpar_endereco" class="content" style="display:none;">
-  <div class="card">
-    <h2>🧹 Limpar Endereço</h2>
-    <p style="color:#004080; font-weight:bold; margin-bottom:10px;">
-      Cole abaixo o endereço completo e clique em "Limpar Endereço".
-    </p>
-
-    <textarea id="entrada_endereco" 
-      placeholder="Cole aqui o endereço completo..."
-      style="width:100%; min-height:140px; font-size:15px; border-radius:8px; border:1px solid #007acc; padding:10px; margin-bottom:15px;">
-    </textarea>
-
-    <button type="button" 
-      style="background-color:#007acc; color:white; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; font-weight:bold; width:100%;"
-      onclick="limparEndereco()">
-      Limpar Endereço e Copiar
-    </button>
-
-    <div id="resultado_endereco" 
-      style="margin-top:15px; background:white; border:1px solid #007acc; border-radius:8px; padding:10px; white-space:pre-line;">
-    </div>
-  </div>
-</section>
-
-
-
 <script>
 /* ====== TAB / SIDEBAR CONTROL ====== */
 function openTab(evt){
@@ -1478,62 +1450,6 @@ function gerarMensagem4() {
 
 
 
-function limparEndereco() {
-    let texto = document.getElementById("entrada_endereco").value;
-
-    // --- PADRÕES DE REMOÇÃO OTIMIZADOS ---
-    const padroesRemover = [
-        // 1. Remove "Apartamento: -" (ou qualquer conteúdo)
-        /Apartamento:[\s\S]*?/gi, 
-
-        // 2. Remove "Condomínio: " (ou qualquer conteúdo)
-        /Condom[íi]nio:[\s\S]*?/gi,
-
-        // 3. Remove "Referência: " (ou qualquer conteúdo)
-        /Refer[êe]ncia:[\s\S]*?/gi,
-
-        // 4. Remove "Complemento: " (ou qualquer conteúdo), se necessário.
-        // Já que você não pediu para remover Complemento, vou manter os da sua primeira regex
-        // Se precisar remover Complemento, use: /Complemento:[\s\S]*?/gi,
-    ];
-
-    padroesRemover.forEach(padrao => {
-        // Substitui o padrão encontrado por uma string vazia
-        texto = texto.replace(padrao, ' '); 
-    });
-
-    // --- REORGANIZAÇÃO E LIMPEZA FINAL ---
-
-    // 1. Remove "Número: XX" para limpar o número que fica solto no seu exemplo
-    texto = texto.replace(/Número:\s*\d+/gi, ' '); 
-
-    // 2. Garante que campos vazios ou soltos (como o que sobra do Apartamento/Referência) sejam eliminados
-    texto = texto.replace(/Condom[íi]nio:\s*-\s*/gi, ' ');
-    texto = texto.replace(/Apartamento:\s*-\s*/gi, ' ');
-    texto = texto.replace(/Refer[êe]ncia:\s*-\s*/gi, ' ');
-
-    // 3. Limpeza final: remove múltiplos espaços, tabs e novas linhas vazias
-    texto = texto.replace(/\s+/g, ' '); // Substitui múltiplos espaços por um único
-    texto = texto.trim(); // Remove espaços do início e fim
-
-    // 4. Formata de volta para quebras de linha para melhor visualização (opcional)
-    // Se o seu objetivo é manter tudo em uma linha, omita esta seção.
-    // Se a formatação original era multilinhas, vamos tentar mantê-la limpa:
-    texto = texto.split('\n')
-                 .map(l => l.trim())
-                 .filter(l => l !== '')
-                 .join('\n');
-
-
-    // exibe o resultado limpo
-    const resultado = document.getElementById("resultado_endereco");
-    resultado.textContent = texto;
-
-    // copia automaticamente para a área de transferência
-    navigator.clipboard.writeText(texto)
-        .then(() => alert("✅ Endereço limpo e copiado!"))
-        .catch(() => alert("Endereço limpo, mas não foi possível copiar."));
-}
 
 /* onload init */
 window.addEventListener('DOMContentLoaded', () => {
