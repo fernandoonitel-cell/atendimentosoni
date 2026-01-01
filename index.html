@@ -10,7 +10,7 @@
     --sidebar-bg:#0d1b2a;
     --sidebar-accent:#00aaff;
     --main-bg:#f0f8ff;
-    --card-bg:#fff;Mensagem copiada!
+    --card-bg:#fff;
     --blue:#007acc;
     --blue-dark:#005f99;
   }
@@ -1166,18 +1166,28 @@ function toggleCardBody(msgId){
 /* ==== Mensagens: copy/edit/save/excluir ==== */
 function copiarTexto(textareaId){
   const ta = document.getElementById(textareaId);
-  if(!ta) return alert('Texto não encontrado');
+  if(!ta) return;
+
   const value = ta.value;
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(value).then(()=>{ alert('Mensagem copiada!'); }).catch(()=>{ fallbackCopy(ta); });
-  } else fallbackCopy(ta);
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(value).catch(() => {
+      fallbackCopy(ta);
+    });
+  } else {
+    fallbackCopy(ta);
+  }
 }
+
 function fallbackCopy(ta){
   ta.select();
-  try{
+  try {
     document.execCommand('copy');
-  }catch(e){ alert('Não foi possível copiar'); }
+  } catch(e) {
+    console.error('Não foi possível copiar');
+  }
 }
+  
 function editarMensagem(textareaId){
   const ta = document.getElementById(textareaId);
   if(!ta) return;
