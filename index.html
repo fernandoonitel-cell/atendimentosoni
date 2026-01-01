@@ -147,11 +147,31 @@
     min-width: 100%;
   }
 }
+  .toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #007acc;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
 
-
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 </style>
 </head>
+  <div id="toastCopiado" class="toast">✅ Mensagem copiada com sucesso</div>
+
 <body>
 <div class="app">
   <!-- SIDEBAR -->
@@ -1171,21 +1191,30 @@ function copiarTexto(textareaId){
   const value = ta.value;
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(value).catch(() => {
+    navigator.clipboard.writeText(value).then(() => {
+      mostrarToast();
+    }).catch(() => {
       fallbackCopy(ta);
+      mostrarToast();
     });
   } else {
     fallbackCopy(ta);
+    mostrarToast();
   }
 }
 
 function fallbackCopy(ta){
   ta.select();
-  try {
-    document.execCommand('copy');
-  } catch(e) {
-    console.error('Não foi possível copiar');
-  }
+  document.execCommand('copy');
+}
+
+function mostrarToast(){
+  const toast = document.getElementById("toastCopiado");
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 1500);
 }
   
 function editarMensagem(textareaId){
@@ -1368,9 +1397,6 @@ function gerarMensagem1() {
   copiarResultadoTo('#result_vaga', msg);
 }
 
-
-
-
   function toggleTurnoInput() {
   const select = document.getElementById("turno");
   const customInput = document.getElementById("turnoCustom");
@@ -1394,7 +1420,6 @@ function gerarMensagem1() {
     input.value = "";
   }
 }
-
 
   function calcularDias() {
   const dataInicio = document.getElementById("dataInicio").value;
@@ -1420,10 +1445,6 @@ function gerarMensagem1() {
     resultado.style.color = diffDays > 60 ? "#cc0000" : "#007a00";
   }
 }
-
-
-
-
 
 /* gerarMensagem2 - Reporte Telefonia (Form2) */
 function gerarMensagem2() {
