@@ -184,6 +184,8 @@
     <div class="tab" data-target="setor_encaminhamento" onclick="openTab(event)">🔍Consulta Rápida - Setor de Encaminhamento</div>
     <div class="tab" data-target="report_telefonia" onclick="openTab(event)">📡 Reporte Telefonia</div>
     <div class="tab" data-target="report_n2" onclick="openTab(event)">🛠 Reporte N2</div>
+    <div class="tab" data-target="setor_mensagens" onclick="openTab(event)">🔍 Caminho Rápido</div>
+
 
   </aside>
 
@@ -1256,6 +1258,151 @@ As redes Wi-Fi 2.4GHz e 5GHz possuem características diferentes:
 
          
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section id="setor_mensagens" class="content" style="display:none;">
+  <div class="card">
+    <div class="consulta-container">
+      <h2>MODELOS DE MENSAGENS – SUPORTE ONITEL</h2>
+
+      <div class="consulta-grid">
+
+        <!-- 🟦 COLUNA 1 -->
+        <div class="coluna">
+
+          
+          <div class="consulta-item">
+            <span class="consulta-setor">LENTIDÃO</span>
+            <p>
+              Cliente relatou lentidão. Foram realizadas alterações no roteador e o cliente informou que a conexão foi normalizada.
+            </p>
+          </div>
+
+          <div class="consulta-item">
+            <span class="consulta-setor">LENTIDÃO</span>
+            <p>
+              Cliente relatou lentidão. Foram realizadas alterações no roteador, porém durante o atendimento o cliente parou de responder.
+            </p>
+          </div>
+
+          <div class="consulta-item">
+            <span class="consulta-setor">LENTIDÃO</span>
+            <p>
+              Cliente relatou lentidão. Foram solicitadas evidências e informações sobre onde ocorria a falha, porém o cliente parou de responder.
+            </p>
+          </div>
+
+          <div class="consulta-item">
+            <span class="consulta-setor">LENTIDÃO</span>
+            <p>
+              Cliente relatou lentidão. Foi configurado o DNS, canais e reinicia o roteador e o cliente informou que a conexão foi normalizada.
+            </p>
+          </div>
+
+          
+          <div class="consulta-item">
+            <span class="consulta-setor">WIFI</span>
+            <p>
+              Cliente solicitou a senha do Wi-Fi. Após confirmação dos dados, a senha foi informada.
+            </p>
+          </div>   
+
+
+          <div class="consulta-item">
+            <span class="consulta-setor">WIFI</span>
+            <p>
+              Cliente informou que o Wi-Fi não estava aparecendo. Verificado que estava desativado. Foi ativado e o cliente informou que foi normalizado.
+            </p>
+          </div>
+
+          <div class="consulta-item">
+            <span class="consulta-setor">CANCELAMENTO</span>
+            <p>
+              Cliente entrou em contato solicitando cancelamento. Foi oferecido suporte, porém não aceitou. Informado que o setor funciona de segunda a sexta, das 08h às 18h.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- 🟩 COLUNA 2 -->
+        <div class="coluna">
+
+          <div class="consulta-item">
+            <span class="consulta-setor">SUPORTE</span>
+            <p>
+              Foi verificado a falta de conexão do cliente e ele não respondeu mais, logo foi necessário realizar um agendamento de uma visita técnica para resolver o problema.
+            </p>
+          </div>
+
+          <div class="consulta-item">
+            <span class="consulta-setor">SEM CONEXÃO</span>
+            <p>
+              Cliente estava com IP de bloqueio. Foi realizada a limpeza de MAC e desconexão do login. Logo, conexão normalizou!
+            </p>
+          </div>
+
+          <div class="consulta-item">
+            <span class="consulta-setor">SEM CONEXÃO</span>
+            <p>
+              Cliente relatou estar sem conexão, porém constava como ONLINE no sistema. Foi realizada a limpeza de MAC e desconexão do login. Cliente informou que foi normalizado.
+            </p>
+          </div>
+
+          <div class="consulta-item">
+            <span class="consulta-setor">SEM CONEXÃO</span>
+            <p>
+              Cliente relatou estar sem conexão. Verificado que o login estava desativado por falta de pagamento. Após o pagamento, a conexão foi restabelecida.
+            </p>
+          </div>
+
+          <div class="consulta-item">
+            <span class="consulta-setor">SEM CONEXÃO</span>
+            <p>
+              Cliente relatou estar sem conexão. Identificado equipamento travado. Foi orientado a desligar da tomada por 10 minutos. Após o procedimento, a conexão foi normalizada.
+            </p>
+          </div>
+
+          <div class="consulta-item">
+            <span class="consulta-setor">SEM CONEXÃO</span>
+            <p>
+              Cliente relatou estar sem conexão. Foi pedido para ele inverter as pontas do cabo de rede que vai na ONU até o ROTEADOR e tirar por 10 minutos. Após o procedimento, a conexão foi normalizada.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- 🟨 COLUNA 3 -->
+        <div class="coluna">
+          
+
+          <div class="consulta-item">
+            <span class="consulta-setor">FIBRA / LOS</span>
+            <p>
+              Cliente relatou estar sem conexão, com luz LOS piscando. Verificado no SmartOLT que somente este cliente estava sem conexão. Necessário agendamento de visita técnica.
+            </p>
+          </div>
+
+          <div class="consulta-item">
+            <span class="consulta-setor">INFRA / AGENDAMENTO</span>
+            <p>
+              Cliente estava com OS em aberto. Verificado que se trata de chamado para a infraestrutura, possivelmente relacionado à caixa de atendimento. Cliente foi informado.
+            </p>
+          </div>          
+
+          <div class="consulta-item">
+            <span class="consulta-setor">ROTEADOR RESETADO</span>
+            <p>
+              Senhor(a), identifiquei pelo print que o equipamento roteador foi resetado, nesse caso podemos juntos tentar configurar remotamente daqui, conforme minhas instruções o senhor(a) executa para que assim sua conexão possa retornar, caso não seja possível, será cobrado a taxa de visita técnica de R$ 40,00 que virá incluso a sua fatura de internet.
+              Por favor, conecte-se a rede wi-fi resetada com a senha que vem padrão embaixo do roteador, depois abra seu navegador e digite: 192.168.1.1 ou 192.168.0.1 precisamos abrir o roteador para acessar ele e conseguirmos configurar.
+            
+            </p>
+          </div>
+
+        </div>
+
       </div>
     </div>
   </div>
