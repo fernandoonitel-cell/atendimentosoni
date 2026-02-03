@@ -225,7 +225,7 @@
           <button class="btn-inicio" onclick="scrollToCard('msg26_card','texto26')">Expediente Findou</button>
           <button class="btn-dados" onclick="scrollToCard('msg27_card','texto27')">Enviar ao Cliente que quer senha do ROTEADOR</button>
           <button class="btn-financeiro" onclick="scrollToCard('msg28_card','texto28')">Cliente que quer contratar IP FIXO</button>
-          <button class="btn-alerta" onclick="scrollToCard('msg29_card','texto29')">Encerrar por palavras de baixo calão)</button>
+          <button class="btn-alerta" onclick="scrollToCard('msg29_card','texto29')">Encerrar por palavras de baixo calão</button>
           <button class="btn-avaliacao" onclick="scrollToCard('msg30_card','texto30')">Agradecer Cliente Avaliação Google</button>
           <button class="btn-acao" onclick="scrollToCard('msg12_card','texto12')">Desculpas Alto Fluxo</button>
           <button class="btn-dados" onclick="scrollToCard('msg32_card','texto32')">Confirmar Dados para Trocar SENHA</button>
@@ -927,7 +927,18 @@ Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU�
           </div>
         </div>
 
-        <div class="body" id="msg39_body">
+        <!-- msg39 -->
+<div class="msg-card" id="msg39_card">
+  <div class="header" onclick="toggleCardBody('msg39')">
+    <h3>Analisar Se Roteador Liga</h3>
+    <div class="controls">
+      <button onclick="event.stopPropagation(); copiarTexto('texto39')">Copiar</button>
+      <button onclick="event.stopPropagation(); editarMensagem('texto39')">Editar</button>
+      <button onclick="event.stopPropagation(); salvarTexto('texto39')">Salvar</button>
+      <button onclick="event.stopPropagation(); excluirMensagemCard('msg39_card')">Excluir</button>
+    </div>
+  </div>
+  <div class="body" id="msg39_body">
     <textarea id="texto39" class="editable-text" readonly>
 Senhor(a), por gentileza, nos envie um vídeo do roteador conectado à tomada, demonstrando se ele liga ou não.
 
@@ -1030,9 +1041,8 @@ As redes Wi-Fi 2.4GHz e 5GHz possuem características diferentes:
 </div> <!-- end messages-list -->
 </section>
 
-      
+<div class="card">     
 
-      <div class="card">
 
 <section id="planilha" class="content" style="display:none;">
   <div class="planilha-container">
