@@ -1,395 +1,662 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="icon" type="image/png" href="./icone.png">
-<title>Atendimentos - Sistema Completo</title>
-<style>
-  :root{
-    --sidebar-bg:#0d1b2a;
-    --sidebar-accent:#00aaff;
-    --main-bg:#f0f8ff;
-    --card-bg:#fff;
-    --blue:#007acc;
-    --blue-dark:#005f99;
-  }
-  html,body{height:100%;margin:0;font-family:Arial, sans-serif;background:var(--main-bg);color:#222;}
-  .app { display:flex; min-height:100vh; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="./icone.png">
+  <title>Atendimentos - Sistema Completo</title>
+  <style>
+    :root {
+      --sidebar-bg: #0d1b2a;
+      --sidebar-accent: #00aaff;
+      --main-bg: #f0f8ff;
+      --card-bg: #fff;
+      --blue: #007acc;
+      --blue-dark: #005f99;
+    }
 
-  /* SIDEBAR */
-  .sidebar {
-    width: 250px;
-    background:var(--sidebar-bg);
-    color:#e6f7ff;
-    padding:18px 12px;
-    box-shadow:2px 0 10px rgba(0,0,0,0.15);
-    display:flex;
-    flex-direction:column;
-  }
-  .sidebar h2{ color:var(--sidebar-accent); margin:6px 0 18px; text-align:center; font-size:18px; }
-  .sidebar .tab{ padding:10px 12px; border-radius:8px; cursor:pointer; color:#e6f7ff; margin:6px 0; display:flex; align-items:center; gap:10px; transition:.18s; font-size:14px;}
-  .sidebar .tab:hover{ background:#12314b; }
-  .sidebar .tab.active{ background:#0f3460; font-weight:700; }
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--main-bg);
+      color: #222;
+    }
 
-  /* MAIN */
-  .main { flex:1; padding:18px; overflow:auto; }
-  .header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
-  .header h1{ margin:0; color:#004080; font-size:22px; }
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
 
-  /* GENERAL CARDS / UI */
-  .card { background:var(--card-bg); padding:14px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.06); margin-bottom:14px; }
-  .small { font-size:13px; color:#555; }
+    /* SIDEBAR */
+    .sidebar {
+      width: 250px;
+      background: var(--sidebar-bg);
+      color: #e6f7ff;
+      padding: 18px 12px;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+    }
 
-  /* Planilha table */
-  table { width:100%; border-collapse: collapse; border-radius:8px; overflow:hidden; background:#fff; }
-  th,td{ padding:10px; border:1px solid #c9e0f7; text-align:left; }
-  th{ background:var(--blue); color:#fff; }
+    .sidebar h2 {
+      color: var(--sidebar-accent);
+      margin: 6px 0 18px;
+      text-align: center;
+      font-size: 18px;
+    }
 
-  /* Buttons grid used in Mensagens */
-  .botoes-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:10px; margin:12px 0 8px; }
+    .sidebar .tab {
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #e6f7ff;
+      margin: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: .18s;
+      font-size: 14px;
+    }
 
-  button { background:var(--blue); color:#fff; border:none; padding:10px 12px; border-radius:8px; cursor:pointer; font-size:14px; transition:.14s; }
-  button:hover{ background:var(--blue-dark); }
+    .sidebar .tab:hover {
+      background: #12314b;
+    }
 
-  textarea, input[type="text"], select { width:100%; padding:8px; border-radius:6px; border:1px solid #c7dff3; font-size:14px; box-sizing:border-box; background:#fff; color:#222; }
-  textarea { min-height:100px; resize:vertical; }
+    .sidebar .tab.active {
+      background: #0f3460;
+      font-weight: 700;
+    }
 
-  /* Collapsible messages cards */
-  .msg-card { border:1px solid #dfeffb; border-left:6px solid var(--blue); border-radius:8px; background:#fff; overflow:hidden; margin-bottom:10px; }
-  .msg-card .header { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:#f7fbff; cursor:pointer; }
-  .msg-card .header h3 { margin:0; font-size:15px; color:#004080; }
-  .msg-card .header .controls { display:flex; gap:8px; align-items:center; }
-  .msg-card .body { padding:12px; display:none; }
-  .msg-card .body.active { display:block; }
+    /* MAIN */
+    .main {
+      flex: 1;
+      padding: 18px;
+      overflow: auto;
+    }
 
-  .msg-cta { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
-  .msg-cta button { padding:8px 10px; font-size:13px; }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
 
-  /* specific color classes (kept from your original) */
-  .btn-lentidao { background-color: #28a745; } /* verde */
-  .btn-rompida  { background-color: #dc3545; } /* vermelho */
-  .btn-inicio, .btn-fim { background-color: #007acc; } /* azul */
-  .btn-avaliacao { background-color: #ffc107; color: black; } /* amarelo */
-  .btn-dados { background-color: #fd7e14; } /* laranja */
-  .btn-financeiro { background-color: #6f42c1; } /* roxo */
-  .btn-tv { background-color: #6c757d; } /* cinza */
-  .btn-acao, .btn-informativo, .btn-tecnicos { background-color: #17a2b8; } /* ciano */
-  .btn-alerta { background-color: #ff5733; } /* laranja forte/vermelho */
+    .header h1 {
+      margin: 0;
+      color: #004080;
+      font-size: 22px;
+    }
 
-  /* layout responsive adjustments */
-  @media(max-width:900px){
-    .sidebar{ width:70px; padding:8px; }
-    .sidebar h2{ display:none; }
-    .sidebar .tab { font-size:12px; justify-content:center; padding:10px 6px; }
-    .main{ padding:12px; }
-  }
-  /* Forms styling similar to your form style */
-  .forms-container { display:flex; gap:20px; flex-wrap:wrap; justify-content:flex-start; }
-  form.form-box { flex:1; min-width:280px; max-width:520px; background:#fff; padding:16px; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.08); text-align:left; }
-  form.form-box h2{ margin-top:0; color:#004080; }
-  .result-box { margin-top:12px; white-space:pre-line; background:#fff; padding:12px; border-radius:8px; border:1px solid #c7dff3; max-width:800px; }
-  
-  /* === CONSULTA RÁPIDA - ESTILO === */
-.consulta-container {
-  max-width: 1300px;
-  margin: 20px auto;
-  background: #e6f3ff;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid #007acc;
-  box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
-}
+    /* GENERAL CARDS / UI */
+    .card {
+      background: var(--card-bg);
+      padding: 14px;
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      margin-bottom: 14px;
+    }
 
-.consulta-container h2 {
-  color: #004080;
-  font-size: 22px;
-  border-bottom: 2px solid #007acc;
-  padding-bottom: 5px;
-  margin-bottom: 15px;
-  text-align: center;
-}
+    .small {
+      font-size: 13px;
+      color: #555;
+    }
 
-.consulta-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
+    /* Planilha table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
 
-.coluna {
-  flex: 1;
-  min-width: 350px;
-}
+    th,
+    td {
+      padding: 10px;
+      border: 1px solid #c9e0f7;
+      text-align: left;
+    }
 
-.consulta-item {
-  background: white;
-  border-left: 4px solid #007acc;
-  border-radius: 5px;
-  padding: 8px 10px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 3px rgba(0,0,0,0.05);
-}
+    th {
+      background: var(--blue);
+      color: #fff;
+    }
 
-.consulta-setor {
-  float: right;
-  font-weight: bold;
-  color: #cc0000;
-}
+    /* Buttons grid used in Mensagens */
+    .botoes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+      margin: 12px 0 8px;
+    }
 
-/* Responsivo — tablet e celular */
-@media (max-width: 1100px) {
-  .coluna {
-    min-width: 45%;
-  }
-}
-@media (max-width: 700px) {
-  .coluna {
-    min-width: 100%;
-  }
-}
-  .toast {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #007acc;
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.3s ease;
-  z-index: 9999;
-}
+    button {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: .14s;
+    }
 
-.toast.show {
-  opacity: 1;
-  transform: translateY(0);
-}
+    button:hover {
+      background: var(--blue-dark);
+    }
 
-</style>
+    textarea,
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #c7dff3;
+      font-size: 14px;
+      box-sizing: border-box;
+      background: #fff;
+      color: #222;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    /* Collapsible messages cards */
+    .msg-card {
+      border: 1px solid #dfeffb;
+      border-left: 6px solid var(--blue);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .msg-card .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: #f7fbff;
+      cursor: pointer;
+    }
+
+    .msg-card .header h3 {
+      margin: 0;
+      font-size: 15px;
+      color: #004080;
+    }
+
+    .msg-card .header .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .msg-card .body {
+      padding: 12px;
+      display: none;
+    }
+
+    .msg-card .body.active {
+      display: block;
+    }
+
+    .msg-cta {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .msg-cta button {
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    /* specific color classes (kept from your original) */
+    .btn-lentidao {
+      background-color: #28a745;
+    }
+
+    /* verde */
+    .btn-rompida {
+      background-color: #dc3545;
+    }
+
+    /* vermelho */
+    .btn-inicio,
+    .btn-fim {
+      background-color: #007acc;
+    }
+
+    /* azul */
+    .btn-avaliacao {
+      background-color: #ffc107;
+      color: black;
+    }
+
+    /* amarelo */
+    .btn-dados {
+      background-color: #fd7e14;
+    }
+
+    /* laranja */
+    .btn-financeiro {
+      background-color: #6f42c1;
+    }
+
+    /* roxo */
+    .btn-tv {
+      background-color: #6c757d;
+    }
+
+    /* cinza */
+    .btn-acao,
+    .btn-informativo,
+    .btn-tecnicos {
+      background-color: #17a2b8;
+    }
+
+    /* ciano */
+    .btn-alerta {
+      background-color: #ff5733;
+    }
+
+    /* laranja forte/vermelho */
+
+    /* layout responsive adjustments */
+    @media(max-width:900px) {
+      .sidebar {
+        width: 70px;
+        padding: 8px;
+      }
+
+      .sidebar h2 {
+        display: none;
+      }
+
+      .sidebar .tab {
+        font-size: 12px;
+        justify-content: center;
+        padding: 10px 6px;
+      }
+
+      .main {
+        padding: 12px;
+      }
+    }
+
+    /* Forms styling similar to your form style */
+    .forms-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+
+    form.form-box {
+      flex: 1;
+      min-width: 280px;
+      max-width: 520px;
+      background: #fff;
+      padding: 16px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      text-align: left;
+    }
+
+    form.form-box h2 {
+      margin-top: 0;
+      color: #004080;
+    }
+
+    .result-box {
+      margin-top: 12px;
+      white-space: pre-line;
+      background: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #c7dff3;
+      max-width: 800px;
+    }
+
+    /* === CONSULTA RÁPIDA - ESTILO === */
+    .consulta-container {
+      max-width: 1300px;
+      margin: 20px auto;
+      background: #e6f3ff;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #007acc;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .consulta-container h2 {
+      color: #004080;
+      font-size: 22px;
+      border-bottom: 2px solid #007acc;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .consulta-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .coluna {
+      flex: 1;
+      min-width: 350px;
+    }
+
+    .consulta-item {
+      background: white;
+      border-left: 4px solid #007acc;
+      border-radius: 5px;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .consulta-setor {
+      float: right;
+      font-weight: bold;
+      color: #cc0000;
+    }
+
+    /* Responsivo — tablet e celular */
+    @media (max-width: 1100px) {
+      .coluna {
+        min-width: 45%;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .coluna {
+        min-width: 100%;
+      }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #007acc;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      z-index: 9999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
-  <div id="toastCopiado" class="toast">✅ Mensagem copiada com sucesso</div>
+<div id="toastCopiado" class="toast">✅ Mensagem copiada com sucesso</div>
 
 <body>
-<div class="app">
-  <!-- SIDEBAR -->
-  <aside class="sidebar" role="navigation">
-    <h2>Atendimentos</h2>
-    <div class="tab active" data-target="mensagens" onclick="openTab(event)">💬 Mensagens prontas</div>
-    <div class="tab" data-target="planilha" onclick="openTab(event)">📋 Planilha de Atendimentos no telefone</div>
-    <div class="tab" data-target="vaga" onclick="openTab(event)">📅 Solicitação de Vaga</div>
-    <div class="tab" data-target="agendamentos" onclick="openTab(event)">⏱ Agendamentos sem monitoramento</div>
-    <div class="tab" data-target="setor_encaminhamento" onclick="openTab(event)">🔍Consulta Rápida - Setor de Encaminhamento</div>
-    <div class="tab" data-target="report_telefonia" onclick="openTab(event)">📡 Reporte Telefonia</div>
-    <div class="tab" data-target="report_n2" onclick="openTab(event)">🛠 Reporte N2</div>
-    <div class="tab" data-target="setor_mensagens" onclick="openTab(event)">🔍 Caminho Rápido</div>
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation">
+      <h2>Atendimentos</h2>
+      <div class="tab active" data-target="mensagens" onclick="openTab(event)">💬 Mensagens prontas</div>
+      <div class="tab" data-target="planilha" onclick="openTab(event)">📋 Planilha de Atendimentos no telefone</div>
+      <div class="tab" data-target="vaga" onclick="openTab(event)">📅 Solicitação de Vaga</div>
+      <div class="tab" data-target="agendamentos" onclick="openTab(event)">⏱ Agendamentos sem monitoramento</div>
+      <div class="tab" data-target="setor_encaminhamento" onclick="openTab(event)">🔍Consulta Rápida - Setor de
+        Encaminhamento e Horários</div>
+      <div class="tab" data-target="report_telefonia" onclick="openTab(event)">📡 Reporte Telefonia</div>
+      <div class="tab" data-target="report_n2" onclick="openTab(event)">🛠 Reporte N2</div>
+      <div class="tab" data-target="setor_mensagens" onclick="openTab(event)">🔍 Caminho Rápido</div>
 
 
-  </aside>
+    </aside>
 
-  <!-- MAIN -->
-  <main class="main">
-    <div class="header">
-    </div>
-
-    <!-- === Mensagens prontas (cards colapsáveis) === -->
-    <section id="mensagens" class="content">
-      <div class="card">
-        <h2 style="margin:0 0 8px 0;">Mensagens Prontas</h2>
-        <div class="botoes-grid">
-          <!-- Buttons that open & copy the message immediately -->
-          <button class="btn-inicio" onclick="scrollToCard('msg3_card','texto3')">Iniciar Atendimento</button>
-          <button class="btn-fim" onclick="scrollToCard('msg4_card','texto4')">Finalizar Atendimento</button>
-          <button class="btn-avaliacao" onclick="scrollToCard('msg10_card','texto10')">Avaliação do Google</button>
-          <button class="btn-dados" onclick="scrollToCard('msg21_card','texto21')">Confirmar Endereço | Dados</button>
-          <button class="btn-acao" onclick="scrollToCard('msg19_card','texto19')">Tirar da Tomada Roteador</button>
-          <button class="btn-rompida" onclick="scrollToCard('msg8_card','texto8')">Informar Rompimento Massivo</button>
-          <button class="btn-tecnicos" onclick="scrollToCard('msg11_card','texto11')">Informar Agendamento</button>
-          <button class="btn-falha" onclick="scrollToCard('msg9_card','texto9')">Encerrar por Falta de Interação</button>
-          <button class="btn-rompida" onclick="scrollToCard('msg31_card','texto31')">Analisar LOSS no Roteador</button>
-          <button class="btn-financeiro" onclick="scrollToCard('msg13_card','texto13')">Cobrar Taxa de Visita R$40,00</button>
-          <button class="btn-teste" onclick="scrollToCard('msg14_card','texto14')">Testar Velocidade</button>
-          <button class="btn-tv" onclick="scrollToCard('msg5_card','texto5')">Sugerir Cabo ao TVBOX</button>
-          <button class="btn-lentidao" onclick="scrollToCard('msg6_card','texto6')">Investigar Onde Ocorre Lentidão</button>
-          <button class="btn-lentidao" onclick="scrollToCard('msg15_card','texto15')">Analisar Lentidão</button>
-          <button class="btn-lentidao" onclick="scrollToCard('msg36_card','texto36')">Analisar Lentidão na TV</button>
-          <button class="btn-tv" onclick="scrollToCard('msg7_card','texto7')">TV/CELULAR não pega 5G.</button>
-          <button class="btn-lentidao" onclick="scrollToCard('msg16_card','texto16')">Investigar Lentidão no PC</button>
-          <button class="btn-lentidao" onclick="scrollToCard('msg17_card','texto17')">Iniciar Ações de Lentidão</button>
-          <button class="btn-lentidao" onclick="scrollToCard('msg18_card','texto18')">Finalizar Ações de Lentidão</button>
-          <button class="btn-informativo" onclick="scrollToCard('msg20_card','texto20')">Explicar Como Verificar Velocidade Contratada</button>
-          <button class="btn-rompida" onclick="scrollToCard('msg22_card','texto22')">Explicar Sinal LOSS</button>
-          <button class="btn-rompida" onclick="scrollToCard('msg23_card','texto23')">Pedir para cliente aguardar, verificando rompimento massivo</button>
-          <button class="btn-rompida" onclick="scrollToCard('msg24_card','texto24')">Explicar luz PON piscando</button>
-          <button class="btn-tv" onclick="scrollToCard('msg25_card','texto25')">Testar YT no celular em caso de TVBOX</button>
-          <button class="btn-inicio" onclick="scrollToCard('msg26_card','texto26')">Expediente Findou</button>
-          <button class="btn-dados" onclick="scrollToCard('msg27_card','texto27')">Enviar ao Cliente que quer senha do ROTEADOR</button>
-          <button class="btn-financeiro" onclick="scrollToCard('msg28_card','texto28')">Cliente que quer contratar IP FIXO</button>
-          <button class="btn-alerta" onclick="scrollToCard('msg29_card','texto29')">Encerrar por palavras de baixo calão</button>
-          <button class="btn-avaliacao" onclick="scrollToCard('msg30_card','texto30')">Agradecer Cliente Avaliação Google</button>
-          <button class="btn-acao" onclick="scrollToCard('msg12_card','texto12')">Desculpas Alto Fluxo</button>
-          <button class="btn-dados" onclick="scrollToCard('msg32_card','texto32')">Confirmar Dados para Trocar SENHA</button>
-          <button class="btn-dados" onclick="scrollToCard('msg33_card','texto33')">Solicitar PRINT da redes Wi-fi</button>
-          <button class="btn-financeiro" onclick="scrollToCard('msg34_card','texto34')">Enviar MSG para cliente S/ conexão que foi agendado</button>
-          <button class="btn-informativo" onclick="scrollToCard('msg35_card','texto35')">Solicitar Print Site MeuIp</button>
-          <button class="btn-lentidao" onclick="scrollToCard('msg37_card','texto37')">Inserir em Lentidão</button>
-          <button class="btn-financeiro" onclick="scrollToCard('msg38_card','texto38')">Liberar Conexão</button>
-          <button class="btn-rompida" onclick="scrollToCard('msg39_card','texto39')">Analisar Se Roteador Liga</button>
-          <button class="btn-tecnicos" onclick="scrollToCard('msg40_card','texto40')">Informar agendamento Sem Cliente Responder</button>
-          <button class="btn-rompida" onclick="scrollToCard('msg41_card','texto41')">Enviar mensagem para Inverter Pontas ONU/Roteador</button>
-          <button class="btn-tecnicos" onclick="scrollToCard('msg42_card','texto42')">Explicar sobre Infra 48h</button>
-          <button class="btn-tv" onclick="scrollToCard('msg43_card','texto43')">Explicar sobre Diferenças rede 2.4G e 5G</button>
-          
-        </div>
+    <!-- MAIN -->
+    <main class="main">
+      <div class="header">
       </div>
 
-      <!-- Messages List (cards) -->
-      <div id="messages-list">
-        <!-- Each card keeps the same structure; clicking header toggles body.
+      <!-- === Mensagens prontas (cards colapsáveis) === -->
+      <section id="mensagens" class="content">
+        <div class="card">
+          <h2 style="margin:0 0 8px 0;">Mensagens Prontas</h2>
+          <div class="botoes-grid">
+            <!-- Buttons that open & copy the message immediately -->
+            <button class="btn-inicio" onclick="scrollToCard('msg3_card','texto3')">Iniciar Atendimento</button>
+            <button class="btn-fim" onclick="scrollToCard('msg4_card','texto4')">Finalizar Atendimento</button>
+            <button class="btn-avaliacao" onclick="scrollToCard('msg10_card','texto10')">Avaliação do Google</button>
+            <button class="btn-dados" onclick="scrollToCard('msg21_card','texto21')">Confirmar Endereço | Dados</button>
+            <button class="btn-acao" onclick="scrollToCard('msg19_card','texto19')">Tirar da Tomada Roteador</button>
+            <button class="btn-rompida" onclick="scrollToCard('msg8_card','texto8')">Informar Rompimento
+              Massivo</button>
+            <button class="btn-tecnicos" onclick="scrollToCard('msg11_card','texto11')">Informar Agendamento</button>
+            <button class="btn-falha" onclick="scrollToCard('msg9_card','texto9')">Encerrar por Falta de
+              Interação</button>
+            <button class="btn-rompida" onclick="scrollToCard('msg31_card','texto31')">Analisar LOSS no
+              Roteador</button>
+            <button class="btn-financeiro" onclick="scrollToCard('msg13_card','texto13')">Cobrar Taxa de Visita
+              R$40,00</button>
+            <button class="btn-teste" onclick="scrollToCard('msg14_card','texto14')">Testar Velocidade</button>
+            <button class="btn-tv" onclick="scrollToCard('msg5_card','texto5')">Sugerir Cabo ao TVBOX</button>
+            <button class="btn-lentidao" onclick="scrollToCard('msg6_card','texto6')">Investigar Onde Ocorre
+              Lentidão</button>
+            <button class="btn-lentidao" onclick="scrollToCard('msg15_card','texto15')">Analisar Lentidão</button>
+            <button class="btn-lentidao" onclick="scrollToCard('msg36_card','texto36')">Analisar Lentidão na TV</button>
+            <button class="btn-tv" onclick="scrollToCard('msg7_card','texto7')">TV/CELULAR não pega 5G.</button>
+            <button class="btn-lentidao" onclick="scrollToCard('msg16_card','texto16')">Investigar Lentidão no
+              PC</button>
+            <button class="btn-lentidao" onclick="scrollToCard('msg17_card','texto17')">Iniciar Ações de
+              Lentidão</button>
+            <button class="btn-lentidao" onclick="scrollToCard('msg18_card','texto18')">Finalizar Ações de
+              Lentidão</button>
+            <button class="btn-informativo" onclick="scrollToCard('msg20_card','texto20')">Explicar Como Verificar
+              Velocidade Contratada</button>
+            <button class="btn-rompida" onclick="scrollToCard('msg22_card','texto22')">Explicar Sinal LOSS</button>
+            <button class="btn-rompida" onclick="scrollToCard('msg23_card','texto23')">Pedir para cliente aguardar,
+              verificando rompimento massivo</button>
+            <button class="btn-rompida" onclick="scrollToCard('msg24_card','texto24')">Explicar luz PON
+              piscando</button>
+            <button class="btn-tv" onclick="scrollToCard('msg25_card','texto25')">Testar YT no celular em caso de
+              TVBOX</button>
+            <button class="btn-inicio" onclick="scrollToCard('msg26_card','texto26')">Expediente Findou</button>
+            <button class="btn-dados" onclick="scrollToCard('msg27_card','texto27')">Enviar ao Cliente que quer senha do
+              ROTEADOR</button>
+            <button class="btn-financeiro" onclick="scrollToCard('msg28_card','texto28')">Cliente que quer contratar IP
+              FIXO</button>
+            <button class="btn-alerta" onclick="scrollToCard('msg29_card','texto29')">Encerrar por palavras de baixo
+              calão</button>
+            <button class="btn-avaliacao" onclick="scrollToCard('msg30_card','texto30')">Agradecer Cliente Avaliação
+              Google</button>
+            <button class="btn-acao" onclick="scrollToCard('msg12_card','texto12')">Desculpas Alto Fluxo</button>
+            <button class="btn-dados" onclick="scrollToCard('msg32_card','texto32')">Confirmar Dados para Trocar
+              SENHA</button>
+            <button class="btn-dados" onclick="scrollToCard('msg33_card','texto33')">Solicitar PRINT da redes
+              Wi-fi</button>
+            <button class="btn-financeiro" onclick="scrollToCard('msg34_card','texto34')">Enviar MSG para cliente S/
+              conexão que foi agendado</button>
+            <button class="btn-informativo" onclick="scrollToCard('msg35_card','texto35')">Solicitar Print Site
+              MeuIp</button>
+            <button class="btn-lentidao" onclick="scrollToCard('msg37_card','texto37')">Inserir em Lentidão</button>
+            <button class="btn-financeiro" onclick="scrollToCard('msg38_card','texto38')">Liberar Conexão</button>
+            <button class="btn-rompida" onclick="scrollToCard('msg39_card','texto39')">Analisar Se Roteador
+              Liga</button>
+            <button class="btn-tecnicos" onclick="scrollToCard('msg40_card','texto40')">Informar agendamento Sem Cliente
+              Responder</button>
+            <button class="btn-rompida" onclick="scrollToCard('msg41_card','texto41')">Enviar mensagem para Inverter
+              Pontas ONU/Roteador</button>
+            <button class="btn-tecnicos" onclick="scrollToCard('msg42_card','texto42')">Explicar sobre Infra
+              48h</button>
+            <button class="btn-tv" onclick="scrollToCard('msg43_card','texto43')">Explicar sobre Diferenças rede 2.4G e
+              5G</button>
+
+          </div>
+        </div>
+
+        <!-- Messages List (cards) -->
+        <div id="messages-list">
+          <!-- Each card keeps the same structure; clicking header toggles body.
              Buttons inside: Copiar (copies immediately), Editar (removes readonly),
              Salvar (saves to localStorage), Excluir (removes card). -->
 
-        <!-- msg3 -->
-        <div class="msg-card" id="msg3_card">
-          <div class="header" onclick="toggleCardBody('msg3')">
-            <h3>Início de Atendimento</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto3')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto3')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto3')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg3_card')">Excluir</button>
+          <!-- msg3 -->
+          <div class="msg-card" id="msg3_card">
+            <div class="header" onclick="toggleCardBody('msg3')">
+              <h3>Início de Atendimento</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto3')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto3')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto3')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg3_card')">Excluir</button>
+              </div>
             </div>
-          </div>
-          <div class="body" id="msg3_body">
-            <textarea id="texto3" class="editable-text" readonly>Suporte Técnico Onitel, Boa noite!
+            <div class="body" id="msg3_body">
+              <textarea id="texto3" class="editable-text" readonly>Suporte Técnico Onitel, Boa noite!
 Tudo bem?
 Por gentileza, me envie o CPF ou CNPJ do titular da internet para localizarmos o cadastro.
               
 E já aproveita e me conta com o que posso te ajudar, assim posso agilizar seu atendimento. 😉!</textarea>
-          </div>
-        </div>
-
-        <!-- msg4 -->
-        <div class="msg-card" id="msg4_card">
-          <div class="header" onclick="toggleCardBody('msg4')">
-            <h3>Final de Atendimento</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto4')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto4')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto4')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg4_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg4_body">
-            <textarea id="texto4" class="editable-text" readonly>Se meu atendimento te ajudou, deixa sua nota 5 (ÓTIMO)⭐, é rapidinho e faz toda a diferença pra eu continuar te atendendo cada vez melhor e me ajuda no trabalho!
+
+          <!-- msg4 -->
+          <div class="msg-card" id="msg4_card">
+            <div class="header" onclick="toggleCardBody('msg4')">
+              <h3>Final de Atendimento</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto4')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto4')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto4')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg4_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg4_body">
+              <textarea id="texto4" class="editable-text" readonly>Se meu atendimento te ajudou, deixa sua nota 5 (ÓTIMO)⭐, é rapidinho e faz toda a diferença pra eu continuar te atendendo cada vez melhor e me ajuda no trabalho!
 Tenha uma excelente noite! 🌙</textarea>
-          </div>
-        </div>
-
-        <!-- msg5 -->
-        <div class="msg-card" id="msg5_card">
-          <div class="header" onclick="toggleCardBody('msg5')">
-            <h3>TV Box</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto5')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto5')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto5')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg5_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg5_body">
-            <textarea id="texto5" class="editable-text" readonly>Gostaria de lhe dar uma dica em relação à TV Box/IPTV. O(a) senhor(a) pode adquirir um cabo de rede (barra 1000) em uma loja de informática e conectar o aparelho da TV Box diretamente no roteador. Isso pode melhorar a sua conexão.</textarea>
-          </div>
-        </div>
 
-        <!-- msg6 -->
-        <div class="msg-card" id="msg6_card">
-          <div class="header" onclick="toggleCardBody('msg6')">
-            <h3>Lentidão Rede 5G</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto6')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto6')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto6')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg6_card')">Excluir</button>
+          <!-- msg5 -->
+          <div class="msg-card" id="msg5_card">
+            <div class="header" onclick="toggleCardBody('msg5')">
+              <h3>TV Box</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto5')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto5')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto5')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg5_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg5_body">
+              <textarea id="texto5" class="editable-text"
+                readonly>Gostaria de lhe dar uma dica em relação à TV Box/IPTV. O(a) senhor(a) pode adquirir um cabo de rede (barra 1000) em uma loja de informática e conectar o aparelho da TV Box diretamente no roteador. Isso pode melhorar a sua conexão.</textarea>
             </div>
           </div>
-          <div class="body" id="msg6_body">
-            <textarea id="texto6" class="editable-text" readonly>Poderia me informar quais dispositivos estão apresentando problemas na conexão? Seria o celular, TV ou o computador? Além disso, em qual rede o senhor(a) está conectado no dispositivo: 5G ou 2.4G?</textarea>
-          </div>
-        </div>
 
-        <!-- msg7 -->
-        <div class="msg-card" id="msg7_card">
-          <div class="header" onclick="toggleCardBody('msg7')">
-            <h3>TV/Celular não pega 5G</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto7')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto7')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto7')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg7_card')">Excluir</button>
+          <!-- msg6 -->
+          <div class="msg-card" id="msg6_card">
+            <div class="header" onclick="toggleCardBody('msg6')">
+              <h3>Lentidão Rede 5G</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto6')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto6')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto6')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg6_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg6_body">
+              <textarea id="texto6" class="editable-text"
+                readonly>Poderia me informar quais dispositivos estão apresentando problemas na conexão? Seria o celular, TV ou o computador? Além disso, em qual rede o senhor(a) está conectado no dispositivo: 5G ou 2.4G?</textarea>
             </div>
           </div>
-          <div class="body" id="msg7_body">
-            <textarea id="texto7" class="editable-text" readonly>Gostaríamos de esclarecer que algumas TVs, especialmente modelos mais antigos ou de entrada, não são compatíveis com redes Wi-Fi de 5GHz. Isso acontece porque esses modelos vêm equipados apenas com receptor Wi-Fi de 2.4GHz, que é uma frequência mais comum.
+
+          <!-- msg7 -->
+          <div class="msg-card" id="msg7_card">
+            <div class="header" onclick="toggleCardBody('msg7')">
+              <h3>TV/Celular não pega 5G</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto7')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto7')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto7')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg7_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg7_body">
+              <textarea id="texto7" class="editable-text"
+                readonly>Gostaríamos de esclarecer que algumas TVs, especialmente modelos mais antigos ou de entrada, não são compatíveis com redes Wi-Fi de 5GHz. Isso acontece porque esses modelos vêm equipados apenas com receptor Wi-Fi de 2.4GHz, que é uma frequência mais comum.
 A frequência de 5GHz é mais rápida e tem menos interferência, mas possui alcance menor e só pode ser utilizada por dispositivos que tenham hardware compatível com essa tecnologia.
 Caso a sua TV não esteja encontrando a rede 5G do seu roteador, isso indica que ela provavelmente funciona apenas na faixa de 2.4GHz. Para contornar essa limitação.</textarea>
-          </div>
-        </div>
-
-        <!-- msg8 -->
-        <div class="msg-card" id="msg8_card">
-          <div class="header" onclick="toggleCardBody('msg8')">
-            <h3>Rompimento Massivo</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto8')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto8')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto8')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg8_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg8_body">
-            <textarea id="texto8" class="editable-text" readonly>Gostaríamos de informá-lo(a) que houve um rompimento na fibra óptica em sua região, o que pode estar afetando o seu serviço de internet. Desejamos tranquilizá-lo(a) informando que uma equipe técnica já foi deslocada para resolver a situação com a máxima urgência.
+
+          <!-- msg8 -->
+          <div class="msg-card" id="msg8_card">
+            <div class="header" onclick="toggleCardBody('msg8')">
+              <h3>Rompimento Massivo</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto8')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto8')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto8')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg8_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg8_body">
+              <textarea id="texto8" class="editable-text" readonly>Gostaríamos de informá-lo(a) que houve um rompimento na fibra óptica em sua região, o que pode estar afetando o seu serviço de internet. Desejamos tranquilizá-lo(a) informando que uma equipe técnica já foi deslocada para resolver a situação com a máxima urgência.
 
 Pedimos sinceras desculpas pelo inconveniente e agradecemos profundamente sua paciência e compreensão enquanto trabalhamos para restaurar completamente os serviços.
 
 Atenciosamente,
 Equipe Onitel 💙</textarea>
-          </div>
-        </div>
-
-        <!-- msg9 -->
-        <div class="msg-card" id="msg9_card">
-          <div class="header" onclick="toggleCardBody('msg9')">
-            <h3>Falta de Comunicação</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto9')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto9')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto9')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg9_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg9_body">
-            <textarea id="texto9" class="editable-text" readonly>Como não tivemos mais interações, entenderei que sua conexão foi restabelecida. Caso o problema de falta de conexão persista, fique à vontade para entrar em contato novamente — estamos à disposição 24 horas por dia.
+
+          <!-- msg9 -->
+          <div class="msg-card" id="msg9_card">
+            <div class="header" onclick="toggleCardBody('msg9')">
+              <h3>Falta de Comunicação</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto9')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto9')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto9')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg9_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg9_body">
+              <textarea id="texto9" class="editable-text"
+                readonly>Como não tivemos mais interações, entenderei que sua conexão foi restabelecida. Caso o problema de falta de conexão persista, fique à vontade para entrar em contato novamente — estamos à disposição 24 horas por dia.
 Por favor, não deixe de avaliar nosso atendimento com 5 (CINCO) ESTRELAS ⭐️⭐️⭐️⭐️⭐️ isso me ajuda a continuar oferecendo um serviço cada vez melhor!
 Se precisar de algo, você pode entrar em contato comigo ou com nosso time de suporte a qualquer momento. Estamos sempre aqui para ajudar!</textarea>
-          </div>
-        </div>
-
-        <!-- msg10 -->
-        <div class="msg-card" id="msg10_card">
-          <div class="header" onclick="toggleCardBody('msg10')">
-            <h3>Avaliação Google</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto10')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto10')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto10')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg10_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg10_body">
-            <textarea id="texto10" class="editable-text" readonly>Se for possível, gostaria de pedir sua gentileza para deixar uma avaliação com ⭐⭐⭐⭐⭐ no Google mencionando meu nome (FERNANDO). Isso contribui muito para o meu trabalho!
+
+          <!-- msg10 -->
+          <div class="msg-card" id="msg10_card">
+            <div class="header" onclick="toggleCardBody('msg10')">
+              <h3>Avaliação Google</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto10')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto10')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto10')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg10_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg10_body">
+              <textarea id="texto10" class="editable-text" readonly>Se for possível, gostaria de pedir sua gentileza para deixar uma avaliação com ⭐⭐⭐⭐⭐ no Google mencionando meu nome (FERNANDO). Isso contribui muito para o meu trabalho!
 
 👉 Basta clicar neste link: https://g.co/kgs/MmGpTYD
 
@@ -399,115 +666,118 @@ Se precisar de algo, você pode entrar em contato comigo ou com nosso time de su
 📸 Se puder, me envie um print da avaliação após concluir. Isso me ajuda a registrar e acompanhar os atendimentos.
 
 Desde já, agradeço imensamente pelo seu tempo e apoio! 🙏</textarea>
-          </div>
-        </div>
-
-        <!-- msg11 -->
-        <div class="msg-card" id="msg11_card">
-          <div class="header" onclick="toggleCardBody('msg11')">
-            <h3>Horário dos Técnicos</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto11')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto11')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto11')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg11_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg11_body">
-            <textarea id="texto11" class="editable-text" readonly>Nossos técnicos atuam de 8h até 18h. Não tenho como informar um horário fixo, porque eles atuam por rota. Assim que ele estiver saindo, ele vai entrar em contato. Tudo bem?
+
+          <!-- msg11 -->
+          <div class="msg-card" id="msg11_card">
+            <div class="header" onclick="toggleCardBody('msg11')">
+              <h3>Horário dos Técnicos</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto11')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto11')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto11')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg11_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg11_body">
+              <textarea id="texto11" class="editable-text"
+                readonly>Nossos técnicos atuam de 8h até 18h. Não tenho como informar um horário fixo, porque eles atuam por rota. Assim que ele estiver saindo, ele vai entrar em contato. Tudo bem?
 
 Senhor(a). Informamos que o agendamento está realizado para (dia). Pedimos, por gentileza, que haja um adulto presente no local para receber o técnico. Pode confirmar por favor?</textarea>
-          </div>
-        </div>
-
-        <!-- msg12 -->
-        <div class="msg-card" id="msg12_card">
-          <div class="header" onclick="toggleCardBody('msg12')">
-            <h3>Alta Demanda / Desculpas</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto12')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto12')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto12')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg12_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg12_body">
-            <textarea id="texto12" class="editable-text" readonly>Peço desculpas pela demora no atendimento estamos com um alto fluxo de cliente no momento que pode estar impactando no tempo de atendimento. Mas fique tranquilo(a), sua solicitação está na aqui na minha fila e será atendida o mais breve possível. Agradeço muito pela paciência e compreensão! 💙</textarea>
-          </div>
-        </div>
 
-        <!-- msg13 -->
-        <div class="msg-card" id="msg13_card">
-          <div class="header" onclick="toggleCardBody('msg13')">
-            <h3>Cobrança taxa de visita R$40</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto13')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto13')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto13')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg13_card')">Excluir</button>
+          <!-- msg12 -->
+          <div class="msg-card" id="msg12_card">
+            <div class="header" onclick="toggleCardBody('msg12')">
+              <h3>Alta Demanda / Desculpas</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto12')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto12')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto12')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg12_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg12_body">
+              <textarea id="texto12" class="editable-text"
+                readonly>Peço desculpas pela demora no atendimento estamos com um alto fluxo de cliente no momento que pode estar impactando no tempo de atendimento. Mas fique tranquilo(a), sua solicitação está na aqui na minha fila e será atendida o mais breve possível. Agradeço muito pela paciência e compreensão! 💙</textarea>
             </div>
           </div>
-          <div class="body" id="msg13_body">
-            <textarea id="texto13" class="editable-text" readonly>Senhor(a), constatei que a ruptura da fibra ou a desconfiguração do equipamento (roteador ou ONU), fornecido em regime de comodato (empréstimo), foi causada por mau uso.
+
+          <!-- msg13 -->
+          <div class="msg-card" id="msg13_card">
+            <div class="header" onclick="toggleCardBody('msg13')">
+              <h3>Cobrança taxa de visita R$40</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto13')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto13')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto13')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg13_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg13_body">
+              <textarea id="texto13" class="editable-text" readonly>Senhor(a), constatei que a ruptura da fibra ou a desconfiguração do equipamento (roteador ou ONU), fornecido em regime de comodato (empréstimo), foi causada por mau uso.
 
 Conforme previsto em nossos procedimentos, nesses casos é aplicada uma taxa de R$ 40,00 referente à visita técnica para reparo e manutenção, necessária para restabelecer sua conexão.
 
 Essa cobrança será incluída em sua próxima fatura.
 
 Podemos agendar a visita técnica para realizar o serviço?</textarea>
-          </div>
-        </div>
-
-        <!-- msg14 -->
-        <div class="msg-card" id="msg14_card">
-          <div class="header" onclick="toggleCardBody('msg14')">
-            <h3>Teste de Conexão</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto14')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto14')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto14')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg14_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg14_body">
-            <textarea id="texto14" class="editable-text" readonly>Vou pedir pra você, de preferência, realizar o teste no computador, conectando-o à rede via cabo de rede e garantindo que a placa de rede tenha suporte para a velocidade máxima.
+
+          <!-- msg14 -->
+          <div class="msg-card" id="msg14_card">
+            <div class="header" onclick="toggleCardBody('msg14')">
+              <h3>Teste de Conexão</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto14')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto14')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto14')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg14_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg14_body">
+              <textarea id="texto14" class="editable-text" readonly>Vou pedir pra você, de preferência, realizar o teste no computador, conectando-o à rede via cabo de rede e garantindo que a placa de rede tenha suporte para a velocidade máxima.
 
 Caso não tenha um computador disponível, você pode realizar o teste no celular. Para isso, conecte seu celular à rede Wi-Fi (5G), acesse os sites abaixo, realize os testes de conexão e, em seguida, tire prints de cada um e me envie aqui:
 
 https://fast.com/pt/
 https://www.speedtest.net/</textarea>
-          </div>
-        </div>
-
-        <!-- msg15 -->
-        <div class="msg-card" id="msg15_card">
-          <div class="header" onclick="toggleCardBody('msg15')">
-            <h3>Lentidão Investigação</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto15')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto15')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto15')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg15_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg15_body">
-            <textarea id="texto15" class="editable-text" readonly>O que o senhor(a) está tentando acessar que apresentou lentidão?</textarea>
-          </div>
-        </div>
 
-        <!-- msg16 -->
-        <div class="msg-card" id="msg16_card">
-          <div class="header" onclick="toggleCardBody('msg16')">
-            <h3>Lentidão no PC — instruções</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto16')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto16')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto16')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg16_card')">Excluir</button>
+          <!-- msg15 -->
+          <div class="msg-card" id="msg15_card">
+            <div class="header" onclick="toggleCardBody('msg15')">
+              <h3>Lentidão Investigação</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto15')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto15')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto15')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg15_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg15_body">
+              <textarea id="texto15" class="editable-text"
+                readonly>O que o senhor(a) está tentando acessar que apresentou lentidão?</textarea>
             </div>
           </div>
-          <div class="body" id="msg16_body">
-            <textarea id="texto16" class="editable-text" readonly>Favor, me envie um print (foto) das Propriedades de rede em seu PC, precisamos verificar sobre a velocidade de (Recepção/Transmissão) em seu computador. 
+
+          <!-- msg16 -->
+          <div class="msg-card" id="msg16_card">
+            <div class="header" onclick="toggleCardBody('msg16')">
+              <h3>Lentidão no PC — instruções</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto16')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto16')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto16')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg16_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg16_body">
+              <textarea id="texto16" class="editable-text" readonly>Favor, me envie um print (foto) das Propriedades de rede em seu PC, precisamos verificar sobre a velocidade de (Recepção/Transmissão) em seu computador. 
 
 🖥️ PASSOS NO COMPUTADOR (Windows 10 ou 11):
 Clique com o botão direito do mouse no ícone de Wi-Fi ou rede no canto inferior direito da tela (barra de tarefas).
@@ -518,430 +788,444 @@ Na nova janela, clique em:
 Role a tela até encontrar a seção chamada:
 "Velocidade de Link (Recepção/Transmissão)" ou "Velocidade de conexão".
 Tire um print (foto) dessa tela mostrando a velocidade e nos envie.</textarea>
-          </div>
-        </div>
-
-        <!-- msg17 -->
-        <div class="msg-card" id="msg17_card">
-          <div class="header" onclick="toggleCardBody('msg17')">
-            <h3>Início das Ações sobre Lentidão</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto17')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto17')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto17')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg17_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg17_body">
-            <textarea id="texto17" class="editable-text" readonly>Entendi! Só um instante, por favor. Vou realizar algumas configurações remotas no seu roteador para melhorar o sinal e reduzir possíveis interferências. Durante esse processo, a conexão pode oscilar ou cair por um momento. Aviso assim que finalizar! 😊
+
+          <!-- msg17 -->
+          <div class="msg-card" id="msg17_card">
+            <div class="header" onclick="toggleCardBody('msg17')">
+              <h3>Início das Ações sobre Lentidão</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto17')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto17')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto17')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg17_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg17_body">
+              <textarea id="texto17" class="editable-text" readonly>Entendi! Só um instante, por favor. Vou realizar algumas configurações remotas no seu roteador para melhorar o sinal e reduzir possíveis interferências. Durante esse processo, a conexão pode oscilar ou cair por um momento. Aviso assim que finalizar! 😊
 IREI REALIZAR !</textarea>
-          </div>
-        </div>
-
-        <!-- msg18 -->
-        <div class="msg-card" id="msg18_card">
-          <div class="header" onclick="toggleCardBody('msg18')">
-            <h3>Fim das Ações sobre Lentidão</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto18')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto18')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto18')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg18_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg18_body">
-            <textarea id="texto18" class="editable-text" readonly>Pronto! Fiz as configurações e reiniciei seu equipamento. 😉
+
+          <!-- msg18 -->
+          <div class="msg-card" id="msg18_card">
+            <div class="header" onclick="toggleCardBody('msg18')">
+              <h3>Fim das Ações sobre Lentidão</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto18')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto18')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto18')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg18_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg18_body">
+              <textarea id="texto18" class="editable-text" readonly>Pronto! Fiz as configurações e reiniciei seu equipamento. 😉
 A conexão pode cair por uns 2 a 3 minutinhos, mas logo volta.
 Quando retornar, testa aí e me avisa se ficou tudo certinho, tá bom?
 Aproveitando, posso te ajudar em mais alguma coisa? 💙</textarea>
-          </div>
-        </div>
-
-        <!-- msg19 -->
-        <div class="msg-card" id="msg19_card">
-          <div class="header" onclick="toggleCardBody('msg19')">
-            <h3>Ações Variadas</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto19')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto19')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto19')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg19_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg19_body">
-            <textarea id="texto19" class="editable-text" readonly>Peço que desligue o equipamento da tomada e aguarde 10 minutos. Depois, religue e verifique se a conexão voltou, por favor.
+
+          <!-- msg19 -->
+          <div class="msg-card" id="msg19_card">
+            <div class="header" onclick="toggleCardBody('msg19')">
+              <h3>Ações Variadas</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto19')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto19')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto19')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg19_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg19_body">
+              <textarea id="texto19" class="editable-text"
+                readonly>Peço que desligue o equipamento da tomada e aguarde 10 minutos. Depois, religue e verifique se a conexão voltou, por favor.
 Assim que fizer o teste, me confirme aqui se funcionou ou não, para que eu possa dar continuidade no atendimento.</textarea>
-          </div>
-        </div>
-
-        <!-- msg20 -->
-        <div class="msg-card" id="msg20_card">
-          <div class="header" onclick="toggleCardBody('msg20')">
-            <h3>Explicação CAT6 / Velocidade</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto20')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto20')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto20')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg20_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg20_body">
-            <textarea id="texto20" class="editable-text" readonly>Para verificar corretamente a velocidade máxima da sua conexão, é necessário realizar o teste de velocidade em um computador conectado diretamente via cabo de rede CAT6 (categoria 6), padrão 1000 Mbps (1 Gbps).
+
+          <!-- msg20 -->
+          <div class="msg-card" id="msg20_card">
+            <div class="header" onclick="toggleCardBody('msg20')">
+              <h3>Explicação CAT6 / Velocidade</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto20')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto20')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto20')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg20_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg20_body">
+              <textarea id="texto20" class="editable-text"
+                readonly>Para verificar corretamente a velocidade máxima da sua conexão, é necessário realizar o teste de velocidade em um computador conectado diretamente via cabo de rede CAT6 (categoria 6), padrão 1000 Mbps (1 Gbps).
 
 Ressaltamos que testes realizados via celular ou Wi-Fi podem apresentar variações devido a interferências e limitações do próprio dispositivo, e por isso não refletem com precisão a velocidade contratada.</textarea>
-          </div>
-        </div>
-
-        <!-- msg21 -->
-        <div class="msg-card" id="msg21_card">
-          <div class="header" onclick="toggleCardBody('msg21')">
-            <h3>Pedir confirmação de dados</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto21')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto21')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto21')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg21_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg21_body">
-            <textarea id="texto21" class="editable-text" readonly>POR FAVOR, ME ENVIA  O ENDEREÇO COMPLETO, CASO SEJA NECESSÁRIO ALGUM AGENDAMENTO:
+
+          <!-- msg21 -->
+          <div class="msg-card" id="msg21_card">
+            <div class="header" onclick="toggleCardBody('msg21')">
+              <h3>Pedir confirmação de dados</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto21')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto21')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto21')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg21_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg21_body">
+              <textarea id="texto21" class="editable-text" readonly>POR FAVOR, ME ENVIA  O ENDEREÇO COMPLETO, CASO SEJA NECESSÁRIO ALGUM AGENDAMENTO:
 - Endereço:
 - CEP:
 - Bairro:
 - Localização fixa do endereço:
 - Telefone para contato:</textarea>
-          </div>
-        </div>
-
-        <!-- msg22 -->
-        <div class="msg-card" id="msg22_card">
-          <div class="header" onclick="toggleCardBody('msg22')">
-            <h3>Explicação LOSS / Fibra Rompida</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto22')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto22')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto22')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg22_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg22_body">
-            <textarea id="texto22" class="editable-text" readonly>Entendi, nesse caso, que a luz vermelha é sinal de fibra rompida. Será necessário agendar uma visita com um técnico para realizar a manutenção presencial e restabelecer a sua conexão.
+
+          <!-- msg22 -->
+          <div class="msg-card" id="msg22_card">
+            <div class="header" onclick="toggleCardBody('msg22')">
+              <h3>Explicação LOSS / Fibra Rompida</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto22')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto22')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto22')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg22_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg22_body">
+              <textarea id="texto22" class="editable-text" readonly>Entendi, nesse caso, que a luz vermelha é sinal de fibra rompida. Será necessário agendar uma visita com um técnico para realizar a manutenção presencial e restabelecer a sua conexão.
 
 Peço que aguarde um momento enquanto preencho os dados e realizo o agendamento.</textarea>
-          </div>
-        </div>
-
-        <!-- msg23 -->
-        <div class="msg-card" id="msg23_card">
-          <div class="header" onclick="toggleCardBody('msg23')">
-            <h3>LOSS com Massivo</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto23')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto23')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto23')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg23_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg23_body">
-            <textarea id="texto23" class="editable-text" readonly>Só um momento, por gentileza. No momento, estamos aguardando a verificação técnica para confirmar se houve um rompimento massivo na região, com múltiplos clientes sem conexão devido ao rompimento da fibra. O setor especializado já está analisando a situação e, assim que tivermos uma atualização oficial, retornarei imediatamente com as informações.</textarea>
-          </div>
-        </div>
 
-        <!-- msg24 -->
-        <div class="msg-card" id="msg24_card">
-          <div class="header" onclick="toggleCardBody('msg24')">
-            <h3>PON Piscando</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto24')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto24')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto24')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg24_card')">Excluir</button>
+          <!-- msg23 -->
+          <div class="msg-card" id="msg23_card">
+            <div class="header" onclick="toggleCardBody('msg23')">
+              <h3>LOSS com Massivo</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto23')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto23')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto23')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg23_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg23_body">
+              <textarea id="texto23" class="editable-text"
+                readonly>Só um momento, por gentileza. No momento, estamos aguardando a verificação técnica para confirmar se houve um rompimento massivo na região, com múltiplos clientes sem conexão devido ao rompimento da fibra. O setor especializado já está analisando a situação e, assim que tivermos uma atualização oficial, retornarei imediatamente com as informações.</textarea>
             </div>
           </div>
-          <div class="body" id="msg24_body">
-            <textarea id="texto24" class="editable-text" readonly>Entendi, nesse caso, que a luz de PON está piscando é sinal de oscilação, o que causa o rompimento da conexão. Será necessário agendar uma visita com um técnico para realizar a manutenção presencial e restabelecer a sua conexão. Peço que aguarde um momento enquanto preencho os dados e realizo o agendamento.</textarea>
-          </div>
-        </div>
 
-        <!-- msg25 -->
-        <div class="msg-card" id="msg25_card">
-          <div class="header" onclick="toggleCardBody('msg25')">
-            <h3>Teste TVBox / YouTube</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto25')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto25')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto25')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg25_card')">Excluir</button>
+          <!-- msg24 -->
+          <div class="msg-card" id="msg24_card">
+            <div class="header" onclick="toggleCardBody('msg24')">
+              <h3>PON Piscando</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto24')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto24')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto24')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg24_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg24_body">
+              <textarea id="texto24" class="editable-text"
+                readonly>Entendi, nesse caso, que a luz de PON está piscando é sinal de oscilação, o que causa o rompimento da conexão. Será necessário agendar uma visita com um técnico para realizar a manutenção presencial e restabelecer a sua conexão. Peço que aguarde um momento enquanto preencho os dados e realizo o agendamento.</textarea>
             </div>
           </div>
-          <div class="body" id="msg25_body">
-            <textarea id="texto25" class="editable-text" readonly>Para verificar se a lentidão está realmente no seu TV BOX ou IPTV, sugerimos realizar o seguinte teste:
+
+          <!-- msg25 -->
+          <div class="msg-card" id="msg25_card">
+            <div class="header" onclick="toggleCardBody('msg25')">
+              <h3>Teste TVBox / YouTube</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto25')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto25')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto25')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg25_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg25_body">
+              <textarea id="texto25" class="editable-text"
+                readonly>Para verificar se a lentidão está realmente no seu TV BOX ou IPTV, sugerimos realizar o seguinte teste:
 No exato momento em que notar a lentidão no TV Box / IPTV, abra o YouTube em seu celular, conectado na mesma rede Wi-Fi.
 Se o YouTube funcionar normalmente no celular, o problema está restrito ao TV Box/IPTV.
 
 Como informado anteriormente, não prestamos suporte técnico para TV Box/IPTV, pois esse tipo de equipamento não é homologado pela Anatel.</textarea>
-          </div>
-        </div>
-
-        <!-- msg26 -->
-        <div class="msg-card" id="msg26_card">
-          <div class="header" onclick="toggleCardBody('msg26')">
-            <h3>Expediente Findando</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto26')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto26')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto26')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg26_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg26_body">
-            <textarea id="texto26" class="editable-text" readonly>No momento meu expediente está acabando, mas fique tranquilo que outro atendente irá dar continuidade no atendimento. Obrigado pela compreensão!</textarea>
-          </div>
-        </div>
 
-        <!-- msg27 -->
-        <div class="msg-card" id="msg27_card">
-          <div class="header" onclick="toggleCardBody('msg27')">
-            <h3>Cliente solicita senha roteador</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto27')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto27')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto27')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg27_card')">Excluir</button>
+          <!-- msg26 -->
+          <div class="msg-card" id="msg26_card">
+            <div class="header" onclick="toggleCardBody('msg26')">
+              <h3>Expediente Findando</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto26')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto26')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto26')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg26_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg26_body">
+              <textarea id="texto26" class="editable-text"
+                readonly>No momento meu expediente está acabando, mas fique tranquilo que outro atendente irá dar continuidade no atendimento. Obrigado pela compreensão!</textarea>
             </div>
           </div>
-          <div class="body" id="msg27_body">
-            <textarea id="texto27" class="editable-text" readonly>Informamos que, caso o(a) senhor(a) opte por receber o usuário e senha de acesso ao roteador, qualquer alteração realizada nas configurações será de inteira responsabilidade sua. E não prestamos suporte, devido ao acesso estar em sua responsabilidade.
+
+          <!-- msg27 -->
+          <div class="msg-card" id="msg27_card">
+            <div class="header" onclick="toggleCardBody('msg27')">
+              <h3>Cliente solicita senha roteador</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto27')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto27')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto27')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg27_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg27_body">
+              <textarea id="texto27" class="editable-text" readonly>Informamos que, caso o(a) senhor(a) opte por receber o usuário e senha de acesso ao roteador, qualquer alteração realizada nas configurações será de inteira responsabilidade sua. E não prestamos suporte, devido ao acesso estar em sua responsabilidade.
 
 Em situações de lentidão, perda de conexão ou desconfiguração do equipamento por manuseio indevido, o suporte remoto poderá ser limitado.
 
 Caso seja necessária a visita de um técnico para configuração do roteador, será cobrada uma taxa de R$ 40,00 referente à visita técnica presencial.
 
 Deseja prosseguir com a solicitação do usuário e senha de acesso ao roteador?</textarea>
-          </div>
-        </div>
-
-        <!-- msg28 -->
-        <div class="msg-card" id="msg28_card">
-          <div class="header" onclick="toggleCardBody('msg28')">
-            <h3>Contratação IP Fixo</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto28')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto28')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto28')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg28_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg28_body">
-            <textarea id="texto28" class="editable-text" readonly>Senhor(a), sua conexão hoje utiliza um sistema chamado CGNAT, que é uma tecnologia que compartilha IP entre vários usuários. Isso funciona perfeitamente para navegação, vídeos, redes sociais e a maioria dos serviços.
+
+          <!-- msg28 -->
+          <div class="msg-card" id="msg28_card">
+            <div class="header" onclick="toggleCardBody('msg28')">
+              <h3>Contratação IP Fixo</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto28')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto28')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto28')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg28_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg28_body">
+              <textarea id="texto28" class="editable-text"
+                readonly>Senhor(a), sua conexão hoje utiliza um sistema chamado CGNAT, que é uma tecnologia que compartilha IP entre vários usuários. Isso funciona perfeitamente para navegação, vídeos, redes sociais e a maioria dos serviços.
 
 Porém, alguns serviços específicos, como jogos online — principalmente Xbox, PS5 e alguns servidores de PC — precisam de um IP exclusivo para liberar totalmente as portas e conseguir o NAT Aberto, que é o ideal para jogar sem restrições.
 
 Por isso, quando o senhor(a) vê “NAT Moderado” no console, significa que há limitações na comunicação direta com outros jogadores, e isso pode afetar partidas, chats ou conexões P2P.
 
 A solução nesse caso é a contratação de um IP Público dedicado, que libera essas restrições e permite o NAT Aberto. Esse serviço tem uma taxa de R$ 50,00 mensais, porque o IP Público é um recurso limitado e com custo adicional para nós, provedores.</textarea>
-          </div>
-        </div>
-
-        <!-- msg29 -->
-        <div class="msg-card" id="msg29_card">
-          <div class="header" onclick="toggleCardBody('msg29')">
-            <h3>Encerramento por baixo calão</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto29')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto29')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto29')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg29_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg29_body">
-            <textarea id="texto29" class="editable-text" readonly>Informamos que, devido ao uso contínuo de palavras inadequadas e de baixo calão durante o atendimento, podemos não dar seguimento à interação. Nosso compromisso é oferecer um atendimento respeitoso e cordial.</textarea>
-          </div>
-        </div>
 
-        <!-- msg30 -->
-        <div class="msg-card" id="msg30_card">
-          <div class="header" onclick="toggleCardBody('msg30')">
-            <h3>Gratidão / Avaliação</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto30')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto30')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto30')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg30_card')">Excluir</button>
+          <!-- msg29 -->
+          <div class="msg-card" id="msg29_card">
+            <div class="header" onclick="toggleCardBody('msg29')">
+              <h3>Encerramento por baixo calão</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto29')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto29')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto29')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg29_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg29_body">
+              <textarea id="texto29" class="editable-text"
+                readonly>Informamos que, devido ao uso contínuo de palavras inadequadas e de baixo calão durante o atendimento, podemos não dar seguimento à interação. Nosso compromisso é oferecer um atendimento respeitoso e cordial.</textarea>
             </div>
           </div>
-          <div class="body" id="msg30_body">
-            <textarea id="texto30" class="editable-text" readonly>Muito obrigado pela avaliação de 5 estrelas! Sua confiança e carinho significam muito para mim. É uma alegria enorme ter clientes tão especiais como você!
+
+          <!-- msg30 -->
+          <div class="msg-card" id="msg30_card">
+            <div class="header" onclick="toggleCardBody('msg30')">
+              <h3>Gratidão / Avaliação</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto30')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto30')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto30')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg30_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg30_body">
+              <textarea id="texto30" class="editable-text"
+                readonly>Muito obrigado pela avaliação de 5 estrelas! Sua confiança e carinho significam muito para mim. É uma alegria enorme ter clientes tão especiais como você!
 
 Desejo que sua vida seja sempre iluminada por muitas bênçãos, felicidade e sucesso em todos os caminhos que escolher trilhar. Que você tenha uma noite maravilhosa e uma semana cheia de boas energias, realizações e paz.</textarea>
-          </div>
-        </div>
-
-        <!-- msg31 -->
-        <div class="msg-card" id="msg31_card">
-          <div class="header" onclick="toggleCardBody('msg31')">
-            <h3>Tem luz vermelha?</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto31')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto31')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto31')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg31_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg31_body">
-            <textarea id="texto31" class="editable-text" readonly>Tem uma luz vermelha piscando no roteador?
+
+          <!-- msg31 -->
+          <div class="msg-card" id="msg31_card">
+            <div class="header" onclick="toggleCardBody('msg31')">
+              <h3>Tem luz vermelha?</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto31')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto31')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto31')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg31_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg31_body">
+              <textarea id="texto31" class="editable-text"
+                readonly>Tem uma luz vermelha piscando no roteador?
 Por favor, envie um vídeo do roteador e uma foto nítida da parte de baixo do roteador. Preciso de alguns números que ficam nessa região para verificar no sistema sobre sua conexão. 
 E também um print (captura de tela) das redes Wi-Fi que aparecem no seu celular, preciso verificar se aparece: conectado sem internet!</textarea>
-          </div>
-        </div>
-
-        <!-- msg32 -->
-        <div class="msg-card" id="msg32_card">
-          <div class="header" onclick="toggleCardBody('msg32')">
-            <h3>Troca de senha / rede</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto32')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto32')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto32')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg32_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg32_body">
-            <textarea id="texto32" class="editable-text" readonly>Por motivos de segurança, solicitamos a confirmação dos dados abaixo:
+
+          <!-- msg32 -->
+          <div class="msg-card" id="msg32_card">
+            <div class="header" onclick="toggleCardBody('msg32')">
+              <h3>Troca de senha / rede</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto32')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto32')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto32')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg32_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg32_body">
+              <textarea id="texto32" class="editable-text"
+                readonly>Por motivos de segurança, solicitamos a confirmação dos dados abaixo:
 Telefone:
 Endereço:
 E-mail:
 
 Após a confirmação, por favor, informe a nova senha da rede Wi-Fi ou o novo nome da rede (SSID), com no mínimo 8 caracteres.</textarea>
-          </div>
-        </div>
-
-        <!-- msg33 -->
-        <div class="msg-card" id="msg33_card">
-          <div class="header" onclick="toggleCardBody('msg33')">
-            <h3>Print da rede Wi-Fi</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto33')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto33')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto33')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg33_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg33_body">
-            <textarea id="texto33" class="editable-text" readonly>Por gentileza, poderia me enviar um print (captura de tela) das redes Wi-Fi que aparecem no seu celular?</textarea>
-          </div>
-        </div>
 
-        <!-- msg34 -->
-        <div class="msg-card" id="msg34_card">
-          <div class="header" onclick="toggleCardBody('msg34')">
-            <h3>MSG CLIENTE S CONEXÃO</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto34')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto34')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto34')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg34_card')">Excluir</button>
+          <!-- msg33 -->
+          <div class="msg-card" id="msg33_card">
+            <div class="header" onclick="toggleCardBody('msg33')">
+              <h3>Print da rede Wi-Fi</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto33')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto33')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto33')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg33_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg33_body">
+              <textarea id="texto33" class="editable-text"
+                readonly>Por gentileza, poderia me enviar um print (captura de tela) das redes Wi-Fi que aparecem no seu celular?</textarea>
             </div>
           </div>
-          <div class="body" id="msg34_body">
-            <textarea id="texto34" class="editable-text" readonly>Prezado(a) cliente,
+
+          <!-- msg34 -->
+          <div class="msg-card" id="msg34_card">
+            <div class="header" onclick="toggleCardBody('msg34')">
+              <h3>MSG CLIENTE S CONEXÃO</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto34')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto34')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto34')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg34_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg34_body">
+              <textarea id="texto34" class="editable-text"
+                readonly>Prezado(a) cliente,
 
 Identificamos que o seu serviço está sem conexão.
 Após realizarmos os procedimentos remotos, não foi possível restabelecer o sinal.
 Dessa forma, será agendada uma visita técnica presencial para que o problema seja verificado e solucionado no local, no dia data.
 Caso a conexão normalize antes da visita, pedimos a gentileza de nos informar o mais rápido possível, para que possamos atualizar o agendamento.</textarea>
-          </div>
-        </div>
-
-        <!-- msg35 -->
-        <div class="msg-card" id="msg35_card">
-          <div class="header" onclick="toggleCardBody('msg35')">
-            <h3>Site Meu IP</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto35')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto35')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto35')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg35_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg35_body">
-            <textarea id="texto35" class="editable-text" readonly>Olá! 
+
+          <!-- msg35 -->
+          <div class="msg-card" id="msg35_card">
+            <div class="header" onclick="toggleCardBody('msg35')">
+              <h3>Site Meu IP</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto35')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto35')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto35')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg35_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg35_body">
+              <textarea id="texto35" class="editable-text" readonly>Olá! 
 Para que eu possa verificar possíveis anomalias no sistema, por favor, acesse o link abaixo usando a internet da Onitel:
 
 https://meuip.com/
 
 Assim que a página abrir, envie um print da tela mostrando o que aparecer, por gentileza. 📸</textarea>
-          </div>
-        </div>
-
-        <!-- msg36 -->
-        <div class="msg-card" id="msg36_card">
-          <div class="header" onclick="toggleCardBody('msg36')">
-            <h3>Lentidão TV</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto36')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto36')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto36')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg36_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg36_body">
-            <textarea id="texto36" class="editable-text" readonly>Entendi. Sua TV está conectada à internet via cabo de rede ou via Wi-Fi (como no celular)?
+
+          <!-- msg36 -->
+          <div class="msg-card" id="msg36_card">
+            <div class="header" onclick="toggleCardBody('msg36')">
+              <h3>Lentidão TV</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto36')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto36')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto36')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg36_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg36_body">
+              <textarea id="texto36" class="editable-text" readonly>Entendi. Sua TV está conectada à internet via cabo de rede ou via Wi-Fi (como no celular)?
 
 SUA TV É UMA TVBOX OU IPTV ?</textarea>
-          </div>
-        </div>
-
-        <!-- msg37 -->
-        <div class="msg-card" id="msg37_card">
-          <div class="header" onclick="toggleCardBody('msg37')">
-            <h3>Inserir em Lentidão</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto37')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto37')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto37')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg37_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg37_body">
-            <textarea id="texto37" class="editable-text" readonly>Foi configurado no roteador: o SNTP, canais do roteador, largura de banda, DHCP e reiniciado.
+
+          <!-- msg37 -->
+          <div class="msg-card" id="msg37_card">
+            <div class="header" onclick="toggleCardBody('msg37')">
+              <h3>Inserir em Lentidão</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto37')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto37')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto37')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg37_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg37_body">
+              <textarea id="texto37" class="editable-text" readonly>Foi configurado no roteador: o SNTP, canais do roteador, largura de banda, DHCP e reiniciado.
 Inclusive pedido evidências de lentidão ao cliente como testes de velocidade e onde ocorria o problema.</textarea>
-          </div>
-        </div>
-
-        <!-- msg38 -->
-        <div class="msg-card" id="msg38_card">
-          <div class="header" onclick="toggleCardBody('msg38')">
-            <h3>Liberar Conexão.</h3>
-            <div class="controls">
-              <button onclick="event.stopPropagation(); copiarTexto('texto38')">Copiar</button>
-              <button onclick="event.stopPropagation(); editarMensagem('texto38')">Editar</button>
-              <button onclick="event.stopPropagation(); salvarTexto('texto38')">Salvar</button>
-              <button onclick="event.stopPropagation(); excluirMensagemCard('msg38_card')">Excluir</button>
             </div>
           </div>
-          <div class="body" id="msg38_body">
-            <textarea id="texto38" class="editable-text" readonly>Realizei algumas configurações agora. Peço que desligue o equipamento da tomada e aguarde 5 minutos. Depois, religue e verifique se a conexão voltou.
+
+          <!-- msg38 -->
+          <div class="msg-card" id="msg38_card">
+            <div class="header" onclick="toggleCardBody('msg38')">
+              <h3>Liberar Conexão.</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto38')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto38')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto38')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg38_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg38_body">
+              <textarea id="texto38" class="editable-text"
+                readonly>Realizei algumas configurações agora. Peço que desligue o equipamento da tomada e aguarde 5 minutos. Depois, religue e verifique se a conexão voltou.
 
 É importante também que verifique se seus aparelhos, como celular, estão conectados corretamente na rede Wi-Fi.
 
 Assim que concluir o teste, me confirme aqui respondendo com “CONEXÃO VOLTOU” (caso funcione) ou informando que ainda não voltou, para que eu possa dar continuidade no atendimento.</textarea>
+            </div>
           </div>
-        </div>
 
-        <!-- msg39 -->
-<div class="msg-card" id="msg39_card">
-  <div class="header" onclick="toggleCardBody('msg39')">
-    <h3>Analisar Se Roteador Liga</h3>
-    <div class="controls">
-      <button onclick="event.stopPropagation(); copiarTexto('texto39')">Copiar</button>
-      <button onclick="event.stopPropagation(); editarMensagem('texto39')">Editar</button>
-      <button onclick="event.stopPropagation(); salvarTexto('texto39')">Salvar</button>
-      <button onclick="event.stopPropagation(); excluirMensagemCard('msg39_card')">Excluir</button>
-    </div>
-  </div>
-  <div class="body" id="msg39_body">
-    <textarea id="texto39" class="editable-text" readonly>
+          <!-- msg39 -->
+          <div class="msg-card" id="msg39_card">
+            <div class="header" onclick="toggleCardBody('msg39')">
+              <h3>Analisar Se Roteador Liga</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto39')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto39')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto39')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg39_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg39_body">
+              <textarea id="texto39" class="editable-text" readonly>
 Senhor(a), por gentileza, nos envie um vídeo do roteador conectado à tomada, demonstrando se ele liga ou não.
 
 Além disso, pedimos que faça um teste na tomada para verificar se há energia elétrica — pode ser utilizando um carregador de celular, por exemplo, para confirmar se está funcionando.
@@ -950,63 +1234,63 @@ Caso o roteador possua um botão vermelho, por favor, pressione-o e inclua esse 
 
 O envio desse vídeo é necessário como evidência para darmos continuidade ao atendimento. Desde já, agradecemos a colaboração.
     </textarea>
-  </div>
-</div>
+            </div>
+          </div>
 
-<!-- msg40 -->
-<div class="msg-card" id="msg40_card">
-  <div class="header" onclick="toggleCardBody('msg40')">
-    <h3>Informar Agendamento Sem Cliente Responder</h3>
-    <div class="controls">
-      <button onclick="event.stopPropagation(); copiarTexto('texto40')">Copiar</button>
-      <button onclick="event.stopPropagation(); editarMensagem('texto40')">Editar</button>
-      <button onclick="event.stopPropagation(); salvarTexto('texto40')">Salvar</button>
-      <button onclick="event.stopPropagation(); excluirMensagemCard('msg40_card')">Excluir</button>
-    </div>
-  </div>
-  <div class="body" id="msg40_body">
-    <textarea id="texto40" class="editable-text" readonly>
+          <!-- msg40 -->
+          <div class="msg-card" id="msg40_card">
+            <div class="header" onclick="toggleCardBody('msg40')">
+              <h3>Informar Agendamento Sem Cliente Responder</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto40')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto40')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto40')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg40_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg40_body">
+              <textarea id="texto40" class="editable-text" readonly>
 Senhor(a), agendei sua visita técnica para DATA: XXXXXX no endereço do cadastro XXXXXXXX.
 
 Caso alguma informação esteja divergente ou seja necessário alterar o dia, solicito que entre em contato o mais rápido possível para nos informar.
     </textarea>
-  </div>
-</div>
+            </div>
+          </div>
 
-<!-- msg41 -->
-<div class="msg-card" id="msg41_card">
-  <div class="header" onclick="toggleCardBody('msg41')">
-    <h3>Inverter Pontas ONU / Roteador</h3>
-    <div class="controls">
-      <button onclick="event.stopPropagation(); copiarTexto('texto41')">Copiar</button>
-      <button onclick="event.stopPropagation(); editarMensagem('texto41')">Editar</button>
-      <button onclick="event.stopPropagation(); salvarTexto('texto41')">Salvar</button>
-      <button onclick="event.stopPropagation(); excluirMensagemCard('msg41_card')">Excluir</button>
-    </div>
-  </div>
-  <div class="body" id="msg41_body">
-    <textarea id="texto41" class="editable-text" readonly>
+          <!-- msg41 -->
+          <div class="msg-card" id="msg41_card">
+            <div class="header" onclick="toggleCardBody('msg41')">
+              <h3>Inverter Pontas ONU / Roteador</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto41')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto41')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto41')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg41_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg41_body">
+              <textarea id="texto41" class="editable-text" readonly>
 Por favor, INVERTA as pontas do cabo de rede entre o ROTEADOR PEQUENO (ONU) e o ROTEADOR GRANDE, mantendo na mesma entrada.
 
 Depois, desligue os dois EQUIPAMENTOS da tomada por 5 minutos.  
 Em seguida, ligue novamente e aguarde as luzes estabilizarem para que possamos verificar se a conexão retorna.
     </textarea>
-  </div>
-</div>
+            </div>
+          </div>
 
-<!-- msg42 -->
-<div class="msg-card" id="msg42_card">
-  <div class="header" onclick="toggleCardBody('msg42')">
-    <h3>Explicar Infraestrutura 48h</h3>
-    <div class="controls">
-      <button onclick="event.stopPropagation(); copiarTexto('texto42')">Copiar</button>
-      <button onclick="event.stopPropagation(); editarMensagem('texto42')">Editar</button>
-      <button onclick="event.stopPropagation(); salvarTexto('texto42')">Salvar</button>
-      <button onclick="event.stopPropagation(); excluirMensagemCard('msg42_card')">Excluir</button>
-    </div>
-  </div>
-  <div class="body" id="msg42_body">
-    <textarea id="texto42" class="editable-text" readonly>
+          <!-- msg42 -->
+          <div class="msg-card" id="msg42_card">
+            <div class="header" onclick="toggleCardBody('msg42')">
+              <h3>Explicar Infraestrutura 48h</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto42')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto42')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto42')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg42_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg42_body">
+              <textarea id="texto42" class="editable-text" readonly>
 Senhor(a), pedimos sinceras desculpas pelo transtorno e agradecemos sua paciência.
 
 Sua conexão encontra-se em manutenção pelo nosso setor de infraestrutura, que atua na CAIXA de distribuição (CTO) responsável pelo sinal até sua residência.
@@ -1015,643 +1299,751 @@ Seu chamado já está registrado no sistema e dentro do prazo técnico para norm
 
 Seguimos acompanhando seu atendimento e, assim que houver atualização, estaremos à disposição para ajudar.
     </textarea>
-  </div>
-</div>
+            </div>
+          </div>
 
-<!-- msg43 -->
-<div class="msg-card" id="msg43_card">
-  <div class="header" onclick="toggleCardBody('msg43')">
-    <h3>Diferenças Wi-Fi 2.4GHz e 5GHz</h3>
-    <div class="controls">
-      <button onclick="event.stopPropagation(); copiarTexto('texto43')">Copiar</button>
-      <button onclick="event.stopPropagation(); editarMensagem('texto43')">Editar</button>
-      <button onclick="event.stopPropagation(); salvarTexto('texto43')">Salvar</button>
-      <button onclick="event.stopPropagation(); excluirMensagemCard('msg43_card')">Excluir</button>
-    </div>
-  </div>
-  <div class="body" id="msg43_body">
-    <textarea id="texto43" class="editable-text" readonly>
+          <!-- msg43 -->
+          <div class="msg-card" id="msg43_card">
+            <div class="header" onclick="toggleCardBody('msg43')">
+              <h3>Diferenças Wi-Fi 2.4GHz e 5GHz</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto43')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto43')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto43')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg43_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg43_body">
+              <textarea id="texto43" class="editable-text" readonly>
 As redes Wi-Fi 2.4GHz e 5GHz possuem características diferentes:
 
 2.4GHz: oferece maior alcance, funcionando melhor em distâncias maiores ou em locais com muitas paredes e obstáculos. Porém, sua velocidade é menor e pode sofrer mais interferência, pois é uma frequência utilizada por diversos dispositivos.
 
 5GHz: proporciona velocidades mais altas, ideal para streaming, jogos online e transferências de arquivos. Em contrapartida, seu alcance é menor e o sinal pode ser bloqueado com mais facilidade por paredes e barreiras físicas.
     </textarea>
-  </div>
-</div>
+            </div>
+          </div>
 
-</div> <!-- end messages-list -->
-</section>
+        </div> <!-- end messages-list -->
+      </section>
 
-<div class="card">     
-
-
-<section id="planilha" class="content" style="display:none;">
-  <div class="planilha-container">
-
-    <!-- Botões apenas abaixo -->
-    <div class="planilha-botoes">
-      <button onclick="adicionarLinha()">➕ Adicionar Linha</button>
-      <button onclick="salvarDados()">💾 Salvar Dados</button>
-      <button onclick="carregarDados()">🔃 Carregar Dados</button>
-      <button onclick="baixarDados()">⬇️ Baixar Dados</button>
-      <button onclick="limparTabela()">🗑️ Limpar Dados</button>
-    </div>
-    <table id="tabelaAtendimentos">
-      <thead>
-        <tr>
-          <th>Nº</th>
-          <th>CPF</th>
-          <th>Protocolo</th>
-          <th>Telefone</th>
-          <th>Observação</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-
-
-  </div>
-</section>
-
-    <!-- === Reporte Telefonia (Form 2) === -->
-    <section id="report_telefonia" class="content" style="display:none;">
       <div class="card">
-        <div class="forms-container" style="margin-top:12px;">
-          <form id="form2" class="form-box">
-            <h2 style="font-size:18px;">📡 Reporte de Telefonia</h2>
-            <label>👱 Cliente:</label>
-            <input type="text" id="cliente" placeholder="Digite o nome do cliente">
-            <label>📞 Número:</label>
-            <input type="text" id="numero" placeholder="Digite o número do cliente">
-            <label>⚠️ Descrição do problema:</label>
-            <textarea id="problema" placeholder="Descreva o problema"></textarea>
-            <label>⚙️ Tratativas realizadas:</label>
-            <textarea id="tratativas" placeholder="Descreva as tratativas"></textarea>
-            <label>👷 Atendente:</label>
-            <input type="text" id="atendente" placeholder="Digite o nome do atendente">
-            <button type="button" onclick="gerarMensagem2()">Gerar e Copiar</button>
-          </form>
-          <div class="result-box" id="result_report2" style="display:none;"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- === Reporte N2 (Form 3) === -->
-    <section id="report_n2" class="content" style="display:none;">
-      <div class="card">
-        <div class="forms-container" style="margin-top:12px;">
-          <form id="form3" class="form-box">
-            <h2 style="font-size:18px;">🛠 Reporte N2</h2>
-            <label>👷 Cliente:</label>
-            <input type="text" id="cliente2" placeholder="Digite o nome do cliente">
-            <label>⚠️ Descrição do problema:</label>
-            <textarea id="problema2" placeholder="Descreva o problema"></textarea>
-            <label>📄 Protocolo no IXC:</label>
-            <input type="text" id="ixc" placeholder="Digite o protocolo no IXC">
-            <label>📄 Protocolo no OPA:</label>
-            <input type="text" id="opa" placeholder="Digite o protocolo no OPA">
-            <button type="button" onclick="gerarMensagem3()">Gerar e Copiar</button>
-          </form>
-          <div class="result-box" id="result_report3" style="display:none;"></div>
-        </div>
-      </div>
-    </section>
-
-<!-- === Solicitação de Vaga (Form 1) === -->
-<section id="vaga" class="content" style="display:none;">
-  <div class="card">
-
-    <!-- 🔢 Contador de Dias -->
-    <div class="contador-container" style="margin-bottom:15px; text-align:left;">
-      <h3>📆 Contador de Dias</h3>
-
-      <label>Data de Início:</label>
-      <input type="date" id="dataInicio" onchange="calcularDias()">
-
-      <label>Data de Fim:</label>
-      <input type="date" id="dataFim" onchange="calcularDias()">
-
-      <p id="resultadoDias" style="font-weight:bold; color:#004080; margin-top:8px;">Selecione as datas</p>
-    </div>
-
-    <div class="forms-container" style="margin-top:12px;">
-      <form id="form1" class="form-box">
-        <h2 style="font-size:18px;">📅 Solicitação de Vaga no Monitoramento</h2>
-
-        <label>🧾 Tipo de Solicitação:</label>
-          <select id="tipoManutencaoSelect" onchange="mostrarOutroTipo()">
-            <option value="MANUTENÇÃO">MANUTENÇÃO</option>
-            <option value="RETORNO DE MANUTENÇÃO">RETORNO DE MANUTENÇÃO</option>
-            <option value="RETORNO DE INSTALAÇÃO">RETORNO DE INSTALAÇÃO</option>
-            <option value="Outro">Outro (digitar manualmente)</option>
-          </select>
-
-        <!-- Este input só aparece quando escolhe "Outro" -->
-        <input type="text" id="tipoManutencaoCustom" placeholder="Digite o tipo de solicitação" style="display:none; margin-top:8px;">
 
 
-        <label>🧑‍💻 Nome do Atendente:</label>
-        <input type="text" id="atendente1" placeholder="Digite o nome do atendente">
+        <section id="planilha" class="content" style="display:none;">
+          <div class="planilha-container">
 
-        <label>👤 Nome do Cliente:</label>
-        <input type="text" id="name" placeholder="Digite o nome do cliente">
-
-        <label>📍 Localização:</label>
-        <input type="text" id="loc" placeholder="Digite a localização">
-
-        <label>📅 Preferência de horário:</label>
-        <select id="turno" onchange="toggleTurnoInput()">
-          <option value="O mais próximo">O mais próximo</option>
-          <option value="O mais próximo pela manhã">O mais próximo pela manhã</option>
-          <option value="O mais próximo pela tarde">O mais próximo pela tarde</option>
-          <option value="Cliente informou que só pode receber pela noite">Cliente informou que só pode receber pela noite</option>
-          <option value="Outro">Outro (digitar manualmente)</option>
-        </select>
-        <input type="text" id="turnoCustom" placeholder="Digite manualmente o horário desejado" style="display:none;">
-
-        <label>⚠️ Causa do agendamento:</label>
-        <select id="causa" onchange="toggleCausaInput()">
-          <option value="Loss | Fibra Rompida">Loss | Fibra Rompida</option>
-          <option value="Vaga para Reagendamento">Vaga para Reagendamento</option>
-          <option value="Análise Técnica">Análise Técnica</option>
-          <option value="Sem conexão, conectado sem internet.">Sem conexão, conectado sem internet.</option>
-          <option value="Luz de PON piscando, sem conexão.">Luz de PON piscando, sem conexão.</option>
-          <option value="Cliente com oscilação de sinal, necessário agendar.">Cliente com oscilação de sinal, necessário agendar.</option>
-          <option value="Equipamento resetado">Equipamento resetado.</option>
-          <option value="Drop Baixo/Caído">Drop Baixo/Caído</option>
-          <option value="Animal de estimação do cliente rompeu a fibra, sem conexão necessário agendar">Animal de estimação do cliente rompeu a fibra, sem conexão necessário agendar.</option>
-          <option value="Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar">Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar.</option>
-          <option value="Cliente deseja mudar fio da fibra de local">Cliente deseja mudar fio da fibra de local.</option>
-          <option value="Outro">Outro (digitar manualmente)</option>
-        </select>
-        
-        <!-- Input oculto, aparece só se escolher "Outro" -->
-        <input type="text" id="causaCustom" placeholder="Digite manualmente a causa" style="display:none;">
+            <!-- Botões apenas abaixo -->
+            <div class="planilha-botoes">
+              <button onclick="adicionarLinha()">➕ Adicionar Linha</button>
+              <button onclick="salvarDados()">💾 Salvar Dados</button>
+              <button onclick="carregarDados()">🔃 Carregar Dados</button>
+              <button onclick="baixarDados()">⬇️ Baixar Dados</button>
+              <button onclick="limparTabela()">🗑️ Limpar Dados</button>
+            </div>
+            <table id="tabelaAtendimentos">
+              <thead>
+                <tr>
+                  <th>Nº</th>
+                  <th>CPF</th>
+                  <th>Protocolo</th>
+                  <th>Telefone</th>
+                  <th>Observação</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
 
 
-        <label>📰 Observação:</label>
-        <input type="text" id="obs" placeholder="Observação">
-
-        <button type="button" onclick="gerarMensagem1()">Gerar Vaga e Copiar</button>
-      </form>
-
-      <div class="result-box" id="result_vaga" style="display:none;"></div>
-    </div>
-  </div>
-</section>
-
-
-
-    <!-- === Agendamentos sem monitoramento (Form 4) === -->
-    <section id="agendamentos" class="content" style="display:none;">
-      <div class="card">
-        <div class="forms-container" style="margin-top:12px;">
-          <form id="form4" class="form-box">
-            <h2 style="font-size:18px;">⏱ Agendamentos sem monitoramento</h2>
-            <label>👱 Cliente:</label>
-            <input type="text" id="cliente4" placeholder="Nome do cliente">
-            <label>👷 Técnico:</label>
-            <input type="text" id="tecnico" placeholder="Nome do técnico agendado">
-            <label>📅 Dia do Agendamento:</label>
-            <input type="text" id="diaAgendamento" placeholder="Ex: amanhã (08/10)">
-            <button type="button" onclick="gerarMensagem4()">Gerar e Copiar</button>
-          </form>
-          <div class="result-box" id="result_agendamentos" style="display:none;"></div>
-        </div>
-      </div>
-    </section>
-
-<section id="setor_encaminhamento" class="content" style="display:none;">
-  <div class="card">
-    <div class="consulta-container">
-      <h2>CONSULTA RÁPIDA - SETOR DE ENCAMINHAMENTO</h2>
-
-      <div class="consulta-grid">
-        <!-- 🟦 COLUNA 1 -->
-        <div class="coluna">
-           <div class="consulta-item"><span class="consulta-setor">SUPORTE</span><p>Foi verificado a falta de conexão do cliente e ele não respondeu mais, logo foi necessário realizar um agendamento de uma visita técnica para resolver o problema.</p></div>
-          <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span><p>MUDANÇA DE ENDEREÇO</p></div>
-          <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span><p>PLATAFORMAS DIGITAIS: ONITEL TV, PARAMOUNT, WATCH BRASIL...</p></div>
-          <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span><p>CLIENTE NEGATIVADO COM FATURA/BOLETO EM ABERTO</p></div>
-          <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span><p>ENVIO DE FATURA/BOLETO/QRCODE PIX</p></div>
-          <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span><p>ASSUNTOS DO SETOR ADMINISTRATIVO/FINANCEIRO</p></div>
-        </div>
-
-        <!-- 🟩 COLUNA 2 -->
-        <div class="coluna">
-          <div class="consulta-item"><span class="consulta-setor">UPGRADE</span><p>NECESSÁRIO CRIAR NOVO CONTRATO (INCLUSIVE “NEGATIVO”)</p></div>
-          <div class="consulta-item"><span class="consulta-setor">VENDAS</span><p>CLIENTE COM O.S DE INSTALAÇÃO EM ABERTO (AGENDADA OU AGUARDANDO ASSINATURA)</p></div>
-          <div class="consulta-item"><span class="consulta-setor">UPGRADE</span><p>ASSUNTOS DO SETOR DE UPGRADE (INCLUI PENDÊNCIAS E DÚVIDAS)</p></div>
-          <div class="consulta-item"><span class="consulta-setor">UPGRADE</span><p>CLIENTE COM CONTRATO “NEGATIVO” OU CONTRATO VERDE COM CONTRATO NEGATIVADO</p></div>
-          <div class="consulta-item"><span class="consulta-setor">SUPORTE</span><p>CONTRATO AMARELO (1 FATURA VENCIDA ATÉ 15 DIAS) - IPV4 10.141</p></div>
-        </div>
-
-        <!-- 🟨 COLUNA 3 -->
-        <div class="coluna">
-          <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span><p>CONTRATO VERMELHO OU BLOQUEADO</p></div>
-          <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO (TELEFONE)</span><p>SOLICITAÇÃO OU INFORMAÇÕES SOBRE CANCELAMENTO</p></div>
-          <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span><p>TROCA DE TITULARIDADE</p></div>
-          <div class="consulta-item"><span class="consulta-setor">VENDAS - UPGRADE</span><p>ALTERAÇÃO DE PLANO (AUMENTO DE VELOCIDADE/VALOR)</p></div>
-          <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span><p>DOWNGRADE (NÃO PERMITIDO) — ENCAMINHAR PARA REVERSÃO</p></div>
-          <div class="consulta-item"><span class="consulta-setor">VENDAS</span><p>ASSUNTOS DO SETOR DE VENDAS</p></div>
-
-         
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <section id="setor_mensagens" class="content" style="display:none;">
-  <div class="card">
-    <div class="consulta-container">
-      <h2>MODELOS DE MENSAGENS – SUPORTE ONITEL</h2>
-
-      <div class="consulta-grid">
-
-        <!-- 🟦 COLUNA 1 -->
-        <div class="coluna">
-
-          
-          <div class="consulta-item">
-            <span class="consulta-setor">LENTIDÃO</span>
-            <p>
-              Cliente relatou lentidão. Foram realizadas alterações no roteador e o cliente informou que a conexão foi normalizada.
-            </p>
           </div>
+        </section>
 
-          <div class="consulta-item">
-            <span class="consulta-setor">LENTIDÃO</span>
-            <p>
-              Cliente relatou lentidão. Foram realizadas alterações no roteador, porém durante o atendimento o cliente parou de responder.
-            </p>
+        <!-- === Reporte Telefonia (Form 2) === -->
+        <section id="report_telefonia" class="content" style="display:none;">
+          <div class="card">
+            <div class="forms-container" style="margin-top:12px;">
+              <form id="form2" class="form-box">
+                <h2 style="font-size:18px;">📡 Reporte de Telefonia</h2>
+                <label>👱 Cliente:</label>
+                <input type="text" id="cliente" placeholder="Digite o nome do cliente">
+                <label>📞 Número:</label>
+                <input type="text" id="numero" placeholder="Digite o número do cliente">
+                <label>⚠️ Descrição do problema:</label>
+                <textarea id="problema" placeholder="Descreva o problema"></textarea>
+                <label>⚙️ Tratativas realizadas:</label>
+                <textarea id="tratativas" placeholder="Descreva as tratativas"></textarea>
+                <label>👷 Atendente:</label>
+                <input type="text" id="atendente" placeholder="Digite o nome do atendente">
+                <button type="button" onclick="gerarMensagem2()">Gerar e Copiar</button>
+              </form>
+              <div class="result-box" id="result_report2" style="display:none;"></div>
+            </div>
           </div>
+        </section>
 
-          <div class="consulta-item">
-            <span class="consulta-setor">LENTIDÃO</span>
-            <p>
-              Cliente relatou lentidão. Foram solicitadas evidências e informações sobre onde ocorria a falha, porém o cliente parou de responder.
-            </p>
+        <!-- === Reporte N2 (Form 3) === -->
+        <section id="report_n2" class="content" style="display:none;">
+          <div class="card">
+            <div class="forms-container" style="margin-top:12px;">
+              <form id="form3" class="form-box">
+                <h2 style="font-size:18px;">🛠 Reporte N2</h2>
+                <label>👷 Cliente:</label>
+                <input type="text" id="cliente2" placeholder="Digite o nome do cliente">
+                <label>⚠️ Descrição do problema:</label>
+                <textarea id="problema2" placeholder="Descreva o problema"></textarea>
+                <label>📄 Protocolo no IXC:</label>
+                <input type="text" id="ixc" placeholder="Digite o protocolo no IXC">
+                <label>📄 Protocolo no OPA:</label>
+                <input type="text" id="opa" placeholder="Digite o protocolo no OPA">
+                <button type="button" onclick="gerarMensagem3()">Gerar e Copiar</button>
+              </form>
+              <div class="result-box" id="result_report3" style="display:none;"></div>
+            </div>
           </div>
+        </section>
 
-          <div class="consulta-item">
-            <span class="consulta-setor">LENTIDÃO</span>
-            <p>
-              Cliente relatou lentidão. Foi configurado o DNS, canais e reinicia o roteador e o cliente informou que a conexão foi normalizada.
-            </p>
+        <!-- === Solicitação de Vaga (Form 1) === -->
+        <section id="vaga" class="content" style="display:none;">
+          <div class="card">
+
+            <!-- 🔢 Contador de Dias -->
+            <div class="contador-container" style="margin-bottom:15px; text-align:left;">
+              <h3>📆 Contador de Dias</h3>
+
+              <label>Data de Início:</label>
+              <input type="date" id="dataInicio" onchange="calcularDias()">
+
+              <label>Data de Fim:</label>
+              <input type="date" id="dataFim" onchange="calcularDias()">
+
+              <p id="resultadoDias" style="font-weight:bold; color:#004080; margin-top:8px;">Selecione as datas</p>
+            </div>
+
+            <div class="forms-container" style="margin-top:12px;">
+              <form id="form1" class="form-box">
+                <h2 style="font-size:18px;">📅 Solicitação de Vaga no Monitoramento</h2>
+
+                <label>🧾 Tipo de Solicitação:</label>
+                <select id="tipoManutencaoSelect" onchange="mostrarOutroTipo()">
+                  <option value="MANUTENÇÃO">MANUTENÇÃO</option>
+                  <option value="RETORNO DE MANUTENÇÃO">RETORNO DE MANUTENÇÃO</option>
+                  <option value="RETORNO DE INSTALAÇÃO">RETORNO DE INSTALAÇÃO</option>
+                  <option value="Outro">Outro (digitar manualmente)</option>
+                </select>
+
+                <!-- Este input só aparece quando escolhe "Outro" -->
+                <input type="text" id="tipoManutencaoCustom" placeholder="Digite o tipo de solicitação"
+                  style="display:none; margin-top:8px;">
+
+
+                <label>🧑‍💻 Nome do Atendente:</label>
+                <input type="text" id="atendente1" placeholder="Digite o nome do atendente">
+
+                <label>👤 Nome do Cliente:</label>
+                <input type="text" id="name" placeholder="Digite o nome do cliente">
+
+                <label>📍 Localização:</label>
+                <input type="text" id="loc" placeholder="Digite a localização">
+
+                <label>📅 Preferência de horário:</label>
+                <select id="turno" onchange="toggleTurnoInput()">
+                  <option value="O mais próximo">O mais próximo</option>
+                  <option value="O mais próximo pela manhã">O mais próximo pela manhã</option>
+                  <option value="O mais próximo pela tarde">O mais próximo pela tarde</option>
+                  <option value="Cliente informou que só pode receber pela noite">Cliente informou que só pode receber
+                    pela noite</option>
+                  <option value="Outro">Outro (digitar manualmente)</option>
+                </select>
+                <input type="text" id="turnoCustom" placeholder="Digite manualmente o horário desejado"
+                  style="display:none;">
+
+                <label>⚠️ Causa do agendamento:</label>
+                <select id="causa" onchange="toggleCausaInput()">
+                  <option value="Loss | Fibra Rompida">Loss | Fibra Rompida</option>
+                  <option value="Vaga para Reagendamento">Vaga para Reagendamento</option>
+                  <option value="Análise Técnica">Análise Técnica</option>
+                  <option value="Sem conexão, conectado sem internet.">Sem conexão, conectado sem internet.</option>
+                  <option value="Luz de PON piscando, sem conexão.">Luz de PON piscando, sem conexão.</option>
+                  <option value="Cliente com oscilação de sinal, necessário agendar.">Cliente com oscilação de sinal,
+                    necessário agendar.</option>
+                  <option value="Equipamento resetado">Equipamento resetado.</option>
+                  <option value="Drop Baixo/Caído">Drop Baixo/Caído</option>
+                  <option value="Animal de estimação do cliente rompeu a fibra, sem conexão necessário agendar">Animal
+                    de estimação do cliente rompeu a fibra, sem conexão necessário agendar.</option>
+                  <option value="Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar">
+                    Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar.</option>
+                  <option value="Cliente deseja mudar fio da fibra de local">Cliente deseja mudar fio da fibra de local.
+                  </option>
+                  <option value="Outro">Outro (digitar manualmente)</option>
+                </select>
+
+                <!-- Input oculto, aparece só se escolher "Outro" -->
+                <input type="text" id="causaCustom" placeholder="Digite manualmente a causa" style="display:none;">
+
+
+                <label>📰 Observação:</label>
+                <input type="text" id="obs" placeholder="Observação">
+
+                <button type="button" onclick="gerarMensagem1()">Gerar Vaga e Copiar</button>
+              </form>
+
+              <div class="result-box" id="result_vaga" style="display:none;"></div>
+            </div>
           </div>
-
-          
-          <div class="consulta-item">
-            <span class="consulta-setor">WIFI</span>
-            <p>
-              Cliente solicitou a senha do Wi-Fi. Após confirmação dos dados, a senha foi informada.
-            </p>
-          </div>   
+        </section>
 
 
-          <div class="consulta-item">
-            <span class="consulta-setor">WIFI</span>
-            <p>
-              Cliente informou que o Wi-Fi não estava aparecendo. Verificado que estava desativado. Foi ativado e o cliente informou que foi normalizado.
-            </p>
+
+        <!-- === Agendamentos sem monitoramento (Form 4) === -->
+        <section id="agendamentos" class="content" style="display:none;">
+          <div class="card">
+            <div class="forms-container" style="margin-top:12px;">
+              <form id="form4" class="form-box">
+                <h2 style="font-size:18px;">⏱ Agendamentos sem monitoramento</h2>
+                <label>👱 Cliente:</label>
+                <input type="text" id="cliente4" placeholder="Nome do cliente">
+                <label>👷 Técnico:</label>
+                <input type="text" id="tecnico" placeholder="Nome do técnico agendado">
+                <label>📅 Dia do Agendamento:</label>
+                <input type="text" id="diaAgendamento" placeholder="Ex: amanhã (08/10)">
+                <button type="button" onclick="gerarMensagem4()">Gerar e Copiar</button>
+              </form>
+              <div class="result-box" id="result_agendamentos" style="display:none;"></div>
+            </div>
           </div>
+        </section>
 
-          <div class="consulta-item">
-            <span class="consulta-setor">CANCELAMENTO</span>
-            <p>
-              Cliente entrou em contato solicitando cancelamento. Foi oferecido suporte, porém não aceitou. Informado que o setor funciona de segunda a sexta, das 08h às 18h.
-            </p>
+        <section id="setor_encaminhamento" class="content" style="display:none;">
+          <div class="card">
+            <div class="consulta-container">
+              <h2>CONSULTA RÁPIDA - SETOR DE ENCAMINHAMENTO</h2>
+
+              <div class="consulta-grid">
+                <!-- 🟦 COLUNA 1 -->
+                <div class="coluna">
+                  <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span>
+                    <p>MUDANÇA DE ENDEREÇO</p>
+                  </div>
+                  <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span>
+                    <p>MUDANÇA DE LOCAL DE EQUIPAMENTO</p>
+                  </div>
+                  <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span>
+                    <p>PLATAFORMAS DIGITAIS: ONITEL TV, PARAMOUNT, WATCH BRASIL...</p>
+                  </div>
+                  <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span>
+                    <p>ENVIO DE FATURA/BOLETO/QRCODE PIX</p>
+                  </div>
+                  <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span>
+                    <p> CONTRATO VERMELHO 🟥 (ATRASO COM MAIS DE 7 DIAS) ➝ ENCAMINHAR PARA COBRANÇA</p>
+                  </div>
+
+                </div>
+
+                <!-- 🟩 COLUNA 2 -->
+                <div class="coluna">
+                  <div class="consulta-item"><span class="consulta-setor">VENDAS</span>
+                    <p>CLIENTE COM O.S DE INSTALAÇÃO EM ABERTO ("O.S "AGENDADA 🟦 OU ENCAMINHADA 🟧)</p>
+                  </div>
+                  <div class="consulta-item"><span class="consulta-setor">VENDAS</span>
+                    <p>CLIENTE COM CONTRATO EM AZUL 🟦 (AGUARDANDO ASSINATURA) ➝ ENCAMINHAR PARA VENDAS </p>
+                  </div>
+                  <div class="consulta-item"><span class="consulta-setor">UPGRADE</span>
+                    <p>ASSUNTOS DO SETOR DE UPGRADE (COMO AUMENTAR O PLANO E SOBRE VALORES)</p>
+                  </div>
+                  <div class="consulta-item"><span class="consulta-setor">SUPORTE</span>
+                    <p>CONTRATO AMARELO 🟨 (1 FATURA VENCIDA ATÉ 15 DIAS) - IPV4 10.141...</p>
+                  </div>
+                </div>
+
+                <!-- 🟨 COLUNA 3 -->
+                <div class="coluna">
+                  <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span>
+                    <p>CONTRATO VERMELHO 🟥 OU BLOQUEADO</p>
+                  </div>
+                  <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO (TELEFONE)</span>
+                    <p>SOLICITAÇÃO OU INFORMAÇÕES SOBRE CANCELAMENTO ➝ ENCAMINHAR SOMENTE POR TELEFONE</p>
+                  </div>
+                  <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span>
+                    <p>TROCA DE TITULARIDADE ➝ ENCAMINHAR PARA CANCELAMENTO</p>
+                  </div>
+                  <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span>
+                    <p>DOWNGRADE (NÃO PERMITIDO) ➝ ENCAMINHAR PARA REVERSÃO</p>
+                  </div>
+                  <div class="consulta-item"><span class="consulta-setor">UPGRADE</span>
+                    <p>NECESSÁRIO CRIAR NOVO CONTRATO (INCLUSIVE “CLIENTE NEGATIVADO 🟥”)</p>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
           </div>
+          <div>
 
-        </div>
+            <div class="card">
+              <div class="consulta-container">
+                <h2>CONSULTA HORÁRIOS </h2>
 
-        <!-- 🟩 COLUNA 2 -->
-        <div class="coluna">
+                <div class="consulta-grid">
+                  <!-- 🟦 COLUNA 1 -->
+                  <div class="coluna">
+                    <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span>
+                      <p>Segunda á sexta: 08:00 ás 22:00 <br> Sábado : 08:00 ás 18:00</p>
+                    </div>
+                    <div class="consulta-item"><span class="consulta-setor">UPGRADE</span>
+                      <p> Segunda á sexta: 08:00 ás 22:00 <br> Sábado : 08:00 ás 20:00</p>
+                    </div>
 
-          <div class="consulta-item">
-            <span class="consulta-setor">SUPORTE</span>
-            <p>
-              Foi verificado a falta de conexão do cliente e ele não respondeu mais, logo foi necessário realizar um agendamento de uma visita técnica para resolver o problema.
-            </p>
+
+                  </div>
+
+                  <!-- 🟩 COLUNA 2 -->
+                  <div class="coluna">
+                     <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span>
+                      <p>Segunda á sexta: 08:00 ás 18:00<br>Sábado: 08:00 ás 12:00 (apenas reversão e demanda administrativa)</p>
+                    </div>
+                    <div class="consulta-item"><span class="consulta-setor">VENDAS</span>
+                      <p>Segunda á sábado: 08:00 ás 22:00</p>
+                    </div>
+                    
+                  </div>
+                  
+                  <!-- 🟨 COLUNA 3 -->
+                  <div class="coluna">
+                    <div class="consulta-item"><span class="consulta-setor">MONITORAMENTO MANUTENÇÃO</span>
+                      <p>Segunda á sábado: 08:00 ás 20:00<br>Domingo: 08:00 ás 17:00</p>
+                    </div>
+                    <div class="consulta-item"><span class="consulta-setor">MONITORAMENTO MUDANÇA DE ENDEREÇO</span>
+                      <p>Segunda á sexta: 08:00 ás 22:00<br>Sábado: 08:00 ás 20:00<br>Domingo: 08:00 ás 18:00</p>
+                    </div>
+                    
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+        </section>
+
+        <section id="setor_mensagens" class="content" style="display:none;">
+          <div class="card">
+            <div class="consulta-container">
+              <h2>MODELOS DE MENSAGENS – SUPORTE ONITEL</h2>
+
+              <div class="consulta-grid">
+
+                <!-- 🟦 COLUNA 1 -->
+                <div class="coluna">
+                  <div class="consulta-item"><span class="consulta-setor">SUPORTE</span>
+                    <p>Foi verificado a falta de conexão do cliente e ele não respondeu mais, logo foi necessário
+                      realizar um agendamento de uma visita técnica para resolver o problema.</p>
+                  </div>
+
+                  <div class="consulta-item">
+                    <span class="consulta-setor">LENTIDÃO</span>
+                    <p>
+                      Cliente relatou lentidão. Foi configurado o DNS, canais e reinicia o roteador e o cliente informou
+                      que a conexão foi normalizada.
+                    </p>
+                  </div>
+
+                  <div class="consulta-item">
+                    <span class="consulta-setor">LENTIDÃO</span>
+                    <p>
+                      Cliente relatou lentidão. Foram realizadas alterações no roteador, porém durante o atendimento o
+                      cliente parou de responder.
+                    </p>
+                  </div>
+
+                  <div class="consulta-item">
+                    <span class="consulta-setor">WIFI</span>
+                    <p>
+                      Cliente solicitou a senha do Wi-Fi. Após confirmação dos dados, a senha foi informada.
+                    </p>
+                  </div>
+
+
+                  <div class="consulta-item">
+                    <span class="consulta-setor">WIFI</span>
+                    <p>
+                      Cliente informou que o Wi-Fi não estava aparecendo. Verificado que estava desativado. Foi ativado
+                      e o cliente informou que foi normalizado.
+                    </p>
+                  </div>
+
+                  <div class="consulta-item">
+                    <span class="consulta-setor">CANCELAMENTO</span>
+                    <p>
+                      Cliente entrou em contato solicitando cancelamento. Foi oferecido suporte, porém não aceitou.
+                      Informado que o setor funciona de segunda a sexta, das 08h às 18h ou foi transferido para o
+                      Cancelamento.
+                    </p>
+                  </div>
+                  <div class="consulta-item">
+                    <span class="consulta-setor">SUPORTE</span>
+                    <p>
+                      Foi verificado a falta de conexão do cliente e ele não respondeu mais, logo foi necessário
+                      realizar um agendamento de uma visita técnica para resolver o problema.
+                    </p>
+                  </div>
+
+                </div>
+
+                <!-- 🟩 COLUNA 2 -->
+                <div class="coluna">
+
+
+
+                  <div class="consulta-item">
+                    <span class="consulta-setor">SEM CONEXÃO</span>
+                    <p>
+                      Cliente relatou estar sem conexão, porém constava como ONLINE no sistema. Foi realizada a limpeza
+                      de MAC e desconexão do login. Cliente informou que foi normalizado.
+                    </p>
+                  </div>
+
+                  <div class="consulta-item">
+                    <span class="consulta-setor">SEM CONEXÃO</span>
+                    <p>
+                      Cliente relatou estar sem conexão. Verificado que o login estava desativado por falta de
+                      pagamento. Após verificado o financeiro foi ativado o login e pedido para cliente tirar da tomada
+                      por 5 minutos, com isso a conexão foi restabelecida.
+                    </p>
+                  </div>
+
+                  <div class="consulta-item">
+                    <span class="consulta-setor">SEM CONEXÃO</span>
+                    <p>
+                      Cliente relatou estar sem conexão. Identificado equipamento travado. Foi orientado a desligar da
+                      tomada por 10 minutos. Após o procedimento, a conexão foi normalizada.
+                    </p>
+                  </div>
+
+                  <div class="consulta-item">
+                    <span class="consulta-setor">LENTIDÃO</span>
+                    <p>
+                      Cliente relata lentidão na conexão, principalmente em: [Wi-Fi / Cabo / Jogos / Streaming /
+                      Navegação / Geral].
+                      <br>
+                      Realizadas as seguintes ações durante o atendimento:
+                      <br>
+                      - ▪️ Verificação básica do link e status da ONU/roteador (sem anomalias aparentes).
+                      <br>
+                      -▪️ Configuração de servidor SNTP (a.st1.ntp.br / 201.49.148.135).
+                      <br>
+                      - ▪️ Configuração de DNS (8.8.8.8 e 1.1.1.1).
+                      <br>
+                      - ▪️ Ajuste de canal/banda do Wi-Fi.
+                      <br>
+                      - ▪️ Reinicialização do roteador.
+                      <br>
+                      Após procedimentos, cliente orientado a realizar novos testes de navegação.
+                      Conexão normalizada no momento do atendimento.
+                    </p>
+                  </div>
+
+
+                </div>
+
+                <!-- 🟨 COLUNA 3 -->
+                <div class="coluna">
+
+
+                  <div class="consulta-item">
+                    <span class="consulta-setor">SEM CONEXÃO</span>
+                    <p>
+                      Cliente estava com IP de bloqueio. Foi realizada a limpeza de MAC e desconexão do login. Logo,
+                      conexão normalizou!
+                    </p>
+                  </div>
+                  <div class="consulta-item">
+                    <span class="consulta-setor">FIBRA / LOS</span>
+                    <p>
+                      Cliente relatou estar sem conexão, com luz LOS piscando. Verificado no SmartOLT que somente este
+                      cliente estava sem conexão. Necessário agendamento de visita técnica.
+                    </p>
+                  </div>
+                  <div class="consulta-item">
+                    <span class="consulta-setor">SEM CONEXÃO</span>
+                    <p>
+                      Cliente relatou estar sem conexão. Foi pedido para ele inverter as pontas do cabo de rede que vai
+                      na ONU até o ROTEADOR e tirar por 10 minutos. Após o procedimento, a conexão foi normalizada.
+                    </p>
+                  </div>
+
+                  <div class="consulta-item">
+                    <span class="consulta-setor">INFRA / AGENDAMENTO</span>
+                    <p>
+                      Cliente estava com OS em aberto. Verificado que se trata de chamado para a infraestrutura,
+                      possivelmente relacionado à caixa de atendimento. Cliente foi informado.
+                    </p>
+                  </div>
+
+                  <div class="consulta-item">
+                    <span class="consulta-setor">ROTEADOR RESETADO</span>
+                    <p>
+                      Senhor(a), identifiquei pelo print que o equipamento roteador foi resetado, nesse caso podemos
+                      juntos tentar configurar remotamente daqui, conforme minhas instruções o senhor(a) executa para
+                      que assim sua conexão possa retornar, caso não seja possível, será cobrado a taxa de visita
+                      técnica de R$ 40,00 que virá incluso a sua fatura de internet.
+                      Por favor, conecte-se a rede wi-fi resetada com a senha que vem padrão embaixo do roteador, depois
+                      abra seu navegador e digite: 192.168.1.1 ou 192.168.0.1 precisamos abrir o roteador para acessar
+                      ele e conseguirmos configurar.
+
+                    </p>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
           </div>
+        </section>
 
-          <div class="consulta-item">
-            <span class="consulta-setor">SEM CONEXÃO</span>
-            <p>
-              Cliente estava com IP de bloqueio. Foi realizada a limpeza de MAC e desconexão do login. Logo, conexão normalizou!
-            </p>
-          </div>
+        <script>
+          /* ====== TAB / SIDEBAR CONTROL ====== */
+          function openTab(evt) {
+            const target = evt.currentTarget?.dataset?.target;
+            if (!target) return;
+            document.querySelectorAll('.content').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.sidebar .tab').forEach(t => t.classList.remove('active'));
+            evt.currentTarget.classList.add('active');
+            document.getElementById(target).style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
 
-          <div class="consulta-item">
-            <span class="consulta-setor">SEM CONEXÃO</span>
-            <p>
-              Cliente relatou estar sem conexão, porém constava como ONLINE no sistema. Foi realizada a limpeza de MAC e desconexão do login. Cliente informou que foi normalizado.
-            </p>
-          </div>
+          /* helper: scroll to card, open it and copy the text immediately */
+          function scrollToCard(cardId, textareaId) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+            // ensure mensagens tab visible
+            document.querySelectorAll('.sidebar .tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('.sidebar .tab[data-target="mensagens"]').classList.add('active');
+            document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
+            document.getElementById('mensagens').style.display = 'block';
+            // open card body
+            const body = card.querySelector('.body');
+            if (body) body.classList.add('active');
+            //card.scrollIntoView({behavior:'smooth', block:'center'});
+            // copy text if textareaId provided
+            if (textareaId) {
+              setTimeout(() => { // small delay to ensure UI updated
+                copiarTexto(textareaId);
+              }, 200);
+            }
+          }
 
-          <div class="consulta-item">
-            <span class="consulta-setor">SEM CONEXÃO</span>
-            <p>
-              Cliente relatou estar sem conexão. Verificado que o login estava desativado por falta de pagamento. Após o pagamento, a conexão foi restabelecida.
-            </p>
-          </div>
+          /* toggle card open/close by header click */
+          function toggleCardBody(msgId) {
+            const body = document.getElementById(msgId + '_body');
+            if (!body) return;
+            body.classList.toggle('active');
+          }
 
-          <div class="consulta-item">
-            <span class="consulta-setor">SEM CONEXÃO</span>
-            <p>
-              Cliente relatou estar sem conexão. Identificado equipamento travado. Foi orientado a desligar da tomada por 10 minutos. Após o procedimento, a conexão foi normalizada.
-            </p>
-          </div>
+          /* ==== Mensagens: copy/edit/save/excluir ==== */
+          function copiarTexto(textareaId) {
+            const ta = document.getElementById(textareaId);
+            if (!ta) return;
 
-          <div class="consulta-item">
-            <span class="consulta-setor">SEM CONEXÃO</span>
-            <p>
-              Cliente relatou estar sem conexão. Foi pedido para ele inverter as pontas do cabo de rede que vai na ONU até o ROTEADOR e tirar por 10 minutos. Após o procedimento, a conexão foi normalizada.
-            </p>
-          </div>
+            const value = ta.value;
 
-        </div>
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(value).then(() => {
+                mostrarToast();
+              }).catch(() => {
+                fallbackCopy(ta);
+                mostrarToast();
+              });
+            } else {
+              fallbackCopy(ta);
+              mostrarToast();
+            }
+          }
 
-        <!-- 🟨 COLUNA 3 -->
-        <div class="coluna">
-          
+          function fallbackCopy(ta) {
+            ta.select();
+            document.execCommand('copy');
+          }
 
-          <div class="consulta-item">
-            <span class="consulta-setor">FIBRA / LOS</span>
-            <p>
-              Cliente relatou estar sem conexão, com luz LOS piscando. Verificado no SmartOLT que somente este cliente estava sem conexão. Necessário agendamento de visita técnica.
-            </p>
-          </div>
+          function mostrarToast() {
+            const toast = document.getElementById("toastCopiado");
+            toast.classList.add("show");
 
-          <div class="consulta-item">
-            <span class="consulta-setor">INFRA / AGENDAMENTO</span>
-            <p>
-              Cliente estava com OS em aberto. Verificado que se trata de chamado para a infraestrutura, possivelmente relacionado à caixa de atendimento. Cliente foi informado.
-            </p>
-          </div>          
+            setTimeout(() => {
+              toast.classList.remove("show");
+            }, 1500);
+          }
 
-          <div class="consulta-item">
-            <span class="consulta-setor">ROTEADOR RESETADO</span>
-            <p>
-              Senhor(a), identifiquei pelo print que o equipamento roteador foi resetado, nesse caso podemos juntos tentar configurar remotamente daqui, conforme minhas instruções o senhor(a) executa para que assim sua conexão possa retornar, caso não seja possível, será cobrado a taxa de visita técnica de R$ 40,00 que virá incluso a sua fatura de internet.
-              Por favor, conecte-se a rede wi-fi resetada com a senha que vem padrão embaixo do roteador, depois abra seu navegador e digite: 192.168.1.1 ou 192.168.0.1 precisamos abrir o roteador para acessar ele e conseguirmos configurar.
-            
-            </p>
-          </div>
+          function editarMensagem(textareaId) {
+            const ta = document.getElementById(textareaId);
+            if (!ta) return;
+            ta.removeAttribute('readonly');
+            ta.focus();
+          }
+          function salvarTexto(textareaId) {
+            const ta = document.getElementById(textareaId);
+            if (!ta) return;
+            localStorage.setItem(textareaId, ta.value);
+            ta.setAttribute('readonly', 'true');
+            alert('Mensagem salva com sucesso!');
+          }
+          function excluirMensagemCard(cardId) {
+            if (!confirm('Excluir este card de mensagem?')) return;
+            const card = document.getElementById(cardId);
+            if (card) card.remove();
+          }
 
-        </div>
+          /* load saved messages into textareas on startup */
+          function carregarMensagensSalvas() {
+            document.querySelectorAll('.editable-text, textarea[id^="texto"]').forEach(t => {
+              const saved = localStorage.getItem(t.id);
+              if (saved) t.value = saved;
+            });
+          }
 
-      </div>
-    </div>
-  </div>
-</section>
+          /* ==== Planilha functions ==== */
+          let contador = 1;
 
-<script>
-/* ====== TAB / SIDEBAR CONTROL ====== */
-function openTab(evt){
-  const target = evt.currentTarget?.dataset?.target;
-  if(!target) return;
-  document.querySelectorAll('.content').forEach(s => s.style.display = 'none');
-  document.querySelectorAll('.sidebar .tab').forEach(t => t.classList.remove('active'));
-  evt.currentTarget.classList.add('active');
-  document.getElementById(target).style.display = 'block';
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+          function adicionarLinha(cpf = "", protocolo = "", telefone = "", observacao = "") {
+            const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
 
-/* helper: scroll to card, open it and copy the text immediately */
-function scrollToCard(cardId, textareaId){
-  const card = document.getElementById(cardId);
-  if(!card) return;
-  // ensure mensagens tab visible
-  document.querySelectorAll('.sidebar .tab').forEach(t=>t.classList.remove('active'));
-  document.querySelector('.sidebar .tab[data-target="mensagens"]').classList.add('active');
-  document.querySelectorAll('.content').forEach(c=>c.style.display='none');
-  document.getElementById('mensagens').style.display='block';
-  // open card body
-  const body = card.querySelector('.body');
-  if(body) body.classList.add('active');
-  //card.scrollIntoView({behavior:'smooth', block:'center'});
-  // copy text if textareaId provided
-  if(textareaId) {
-    setTimeout(()=>{ // small delay to ensure UI updated
-      copiarTexto(textareaId);
-    }, 200);
-  }
-}
+            // INSERE NO TOPO AGORA
+            const novaLinha = tabela.insertRow(0);
 
-/* toggle card open/close by header click */
-function toggleCardBody(msgId){
-  const body = document.getElementById(msgId + '_body');
-  if(!body) return;
-  body.classList.toggle('active');
-}
+            const celulaNumero = novaLinha.insertCell(0);
+            const celulaCPF = novaLinha.insertCell(1);
+            const celulaProtocolo = novaLinha.insertCell(2);
+            const celulaTelefone = novaLinha.insertCell(3);
+            const celulaObservacao = novaLinha.insertCell(4);
 
-/* ==== Mensagens: copy/edit/save/excluir ==== */
-function copiarTexto(textareaId){
-  const ta = document.getElementById(textareaId);
-  if(!ta) return;
+            celulaNumero.textContent = contador;
+            celulaCPF.innerHTML = `<input type="text" value="${cpf}" placeholder="CPF">`;
+            celulaProtocolo.innerHTML = `<input type="text" value="${protocolo}" placeholder="Protocolo">`;
+            celulaTelefone.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
+            celulaObservacao.innerHTML = `<input type="text" value="${observacao}" placeholder="Observação">`;
 
-  const value = ta.value;
+            contador++;
+          }
 
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(value).then(() => {
-      mostrarToast();
-    }).catch(() => {
-      fallbackCopy(ta);
-      mostrarToast();
-    });
-  } else {
-    fallbackCopy(ta);
-    mostrarToast();
-  }
-}
+          function salvarDados() {
+            const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
+            const linhas = tabela.getElementsByTagName('tr');
+            const atendimentos = [];
 
-function fallbackCopy(ta){
-  ta.select();
-  document.execCommand('copy');
-}
+            for (let i = 0; i < linhas.length; i++) {
+              const inputs = linhas[i].querySelectorAll('input');
 
-function mostrarToast(){
-  const toast = document.getElementById("toastCopiado");
-  toast.classList.add("show");
+              atendimentos.push({
+                numero: (linhas.length - i),
+                cpf: inputs[0]?.value || '',
+                protocolo: inputs[1]?.value || '',
+                telefone: inputs[2]?.value || '',
+                observacao: inputs[3]?.value || ''
+              });
+            }
 
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 1500);
-}
-  
-function editarMensagem(textareaId){
-  const ta = document.getElementById(textareaId);
-  if(!ta) return;
-  ta.removeAttribute('readonly');
-  ta.focus();
-}
-function salvarTexto(textareaId){
-  const ta = document.getElementById(textareaId);
-  if(!ta) return;
-  localStorage.setItem(textareaId, ta.value);
-  ta.setAttribute('readonly','true');
-  alert('Mensagem salva com sucesso!');
-}
-function excluirMensagemCard(cardId){
-  if(!confirm('Excluir este card de mensagem?')) return;
-  const card = document.getElementById(cardId);
-  if(card) card.remove();
-}
+            localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
+            alert('Dados salvos com sucesso!');
+          }
 
-/* load saved messages into textareas on startup */
-function carregarMensagensSalvas(){
-  document.querySelectorAll('.editable-text, textarea[id^="texto"]').forEach(t=>{
-    const saved = localStorage.getItem(t.id);
-    if(saved) t.value = saved;
-  });
-}
+          function carregarDados() {
+            const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
+            const dadosSalvos = localStorage.getItem('atendimentos');
 
-/* ==== Planilha functions ==== */
-let contador = 1;
+            if (dadosSalvos) {
+              const atendimentos = JSON.parse(dadosSalvos);
 
-function adicionarLinha(cpf = "", protocolo = "", telefone = "", observacao = "") {
-    const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
-    
-    // INSERE NO TOPO AGORA
-    const novaLinha = tabela.insertRow(0);
+              tabela.innerHTML = '';
+              contador = 1;
 
-    const celulaNumero = novaLinha.insertCell(0);
-    const celulaCPF = novaLinha.insertCell(1);       
-    const celulaProtocolo = novaLinha.insertCell(2); 
-    const celulaTelefone = novaLinha.insertCell(3);
-    const celulaObservacao = novaLinha.insertCell(4);
-    
-    celulaNumero.textContent = contador;
-    celulaCPF.innerHTML = `<input type="text" value="${cpf}" placeholder="CPF">`;
-    celulaProtocolo.innerHTML = `<input type="text" value="${protocolo}" placeholder="Protocolo">`;
-    celulaTelefone.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
-    celulaObservacao.innerHTML = `<input type="text" value="${observacao}" placeholder="Observação">`;
+              // REINSERE mantendo o TOPO primeiro
+              atendimentos.reverse().forEach(a => {
+                adicionarLinha(a.cpf, a.protocolo, a.telefone, a.observacao);
+              });
+            } else {
+              alert('Nenhum dado salvo encontrado!');
+            }
+          }
 
-    contador++;
-}
+          function baixarDados() {
+            const dadosSalvos = localStorage.getItem('atendimentos');
+            if (!dadosSalvos) { alert("Nenhum dado para baixar!"); return; }
+            const blob = new Blob([dadosSalvos], { type: "application/json" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "atendimentos.json";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
+          function limparTabela() {
+            if (confirm("Tem certeza que deseja limpar todos os dados?")) {
+              document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0].innerHTML = '';
+              localStorage.removeItem('atendimentos');
+              contador = 1;
+              alert("Dados apagados com sucesso!");
+            }
+          }
 
-function salvarDados() {
-    const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
-    const linhas = tabela.getElementsByTagName('tr');
-    const atendimentos = [];
+          /* ==== Forms: gerar mensagens e copiar automaticamente ==== */
+          function copiarResultadoTo(resultSelector, mensagem) {
+            const el = document.querySelector(resultSelector);
+            if (el) {
+              el.style.display = 'block';
+              el.textContent = mensagem;
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(mensagem).then(() => { alert('Mensagem copiada com sucesso!'); }).catch(() => { fallbackCopyText(mensagem); });
+            } else {
+              fallbackCopyText(mensagem);
+            }
+          }
+          function fallbackCopyText(txt) {
+            // create temporary textarea to copy
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); alert('Mensagem copiada (fallback)!'); } catch (e) { alert('Erro ao copiar'); }
+            document.body.removeChild(ta);
+          }
 
-    for (let i = 0; i < linhas.length; i++) {
-        const inputs = linhas[i].querySelectorAll('input');
-
-        atendimentos.push({
-            numero: (linhas.length - i), 
-            cpf: inputs[0]?.value || '',
-            protocolo: inputs[1]?.value || '',
-            telefone: inputs[2]?.value || '',
-            observacao: inputs[3]?.value || ''
-        });
-    }
-
-    localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
-    alert('Dados salvos com sucesso!');
-}
-
-function carregarDados() {
-    const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
-    const dadosSalvos = localStorage.getItem('atendimentos');
-
-    if (dadosSalvos) {
-        const atendimentos = JSON.parse(dadosSalvos);
-
-        tabela.innerHTML = '';
-        contador = 1;
-
-        // REINSERE mantendo o TOPO primeiro
-        atendimentos.reverse().forEach(a => {
-            adicionarLinha(a.cpf, a.protocolo, a.telefone, a.observacao);
-        });
-    } else {
-        alert('Nenhum dado salvo encontrado!');
-    }
-}
-
-function baixarDados() {
-  const dadosSalvos = localStorage.getItem('atendimentos');
-  if (!dadosSalvos) { alert("Nenhum dado para baixar!"); return; }
-  const blob = new Blob([dadosSalvos], { type: "application/json" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "atendimentos.json";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-function limparTabela() {
-  if (confirm("Tem certeza que deseja limpar todos os dados?")) {
-    document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0].innerHTML = '';
-    localStorage.removeItem('atendimentos');
-    contador = 1;
-    alert("Dados apagados com sucesso!");
-  }
-}
-
-/* ==== Forms: gerar mensagens e copiar automaticamente ==== */
-function copiarResultadoTo(resultSelector, mensagem){
-  const el = document.querySelector(resultSelector);
-  if(el){
-    el.style.display='block';
-    el.textContent = mensagem;
-  }
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(mensagem).then(()=>{ alert('Mensagem copiada com sucesso!'); }).catch(()=>{ fallbackCopyText(mensagem); });
-  } else {
-    fallbackCopyText(mensagem);
-  }
-}
-function fallbackCopyText(txt){
-  // create temporary textarea to copy
-  const ta = document.createElement('textarea');
-  ta.value = txt;
-  document.body.appendChild(ta);
-  ta.select();
-  try{ document.execCommand('copy'); alert('Mensagem copiada (fallback)!'); }catch(e){ alert('Erro ao copiar'); }
-  document.body.removeChild(ta);
-}
-  
-  function mostrarOutroTipo() {
-  const select = document.getElementById("tipoManutencaoSelect");
-  const customInput = document.getElementById("tipoManutencaoCustom");
-  if (select.value === "Outro") {
-    customInput.style.display = "block";
-  } else {
-    customInput.style.display = "none";
-    customInput.value = "";
-  }
-}
+          function mostrarOutroTipo() {
+            const select = document.getElementById("tipoManutencaoSelect");
+            const customInput = document.getElementById("tipoManutencaoCustom");
+            if (select.value === "Outro") {
+              customInput.style.display = "block";
+            } else {
+              customInput.style.display = "none";
+              customInput.value = "";
+            }
+          }
 
 
-function gerarMensagem1() {
-  const tipoSelect = document.getElementById("tipoManutencaoSelect");
-  const tipoCustom = document.getElementById("tipoManutencaoCustom");
-  const tipo = tipoSelect.value === "Outro" && tipoCustom.value.trim()
-    ? tipoCustom.value.trim()
-    : tipoSelect.value;
+          function gerarMensagem1() {
+            const tipoSelect = document.getElementById("tipoManutencaoSelect");
+            const tipoCustom = document.getElementById("tipoManutencaoCustom");
+            const tipo = tipoSelect.value === "Outro" && tipoCustom.value.trim()
+              ? tipoCustom.value.trim()
+              : tipoSelect.value;
 
-  const atendente = document.getElementById("atendente1").value;
-  const name = document.getElementById("name").value;
-  const loc = document.getElementById("loc").value;
-  const turnoSelect = document.getElementById("turno");
-  const turnoInput = document.getElementById("turnoCustom");
-  const turno = turnoSelect.value === "Outro" && turnoInput.value.trim()
-    ? turnoInput.value.trim()
-    : turnoSelect.value;
-  const causaSelect = document.getElementById("causa");
-  const causaInput = document.getElementById("causaCustom");
-  const causa = causaSelect.value === "Outro" && causaInput.value.trim()
-    ? causaInput.value.trim()
-    : causaSelect.value;
-  const obs = document.getElementById("obs").value;
+            const atendente = document.getElementById("atendente1").value;
+            const name = document.getElementById("name").value;
+            const loc = document.getElementById("loc").value;
+            const turnoSelect = document.getElementById("turno");
+            const turnoInput = document.getElementById("turnoCustom");
+            const turno = turnoSelect.value === "Outro" && turnoInput.value.trim()
+              ? turnoInput.value.trim()
+              : turnoSelect.value;
+            const causaSelect = document.getElementById("causa");
+            const causaInput = document.getElementById("causaCustom");
+            const causa = causaSelect.value === "Outro" && causaInput.value.trim()
+              ? causaInput.value.trim()
+              : causaSelect.value;
+            const obs = document.getElementById("obs").value;
 
-  const msg =
-`${tipo.toUpperCase()}
+            const msg =
+              `${tipo.toUpperCase()}
 🧑‍💻 Atendente: ${atendente}
 👱 Cliente: ${name}
 📍 Localização: ${loc}
@@ -1659,98 +2051,99 @@ function gerarMensagem1() {
 ⚠️ Causa: ${causa}
 📝 Observação: ${obs}`;
 
-  copiarResultadoTo('#result_vaga', msg);
-}
+            copiarResultadoTo('#result_vaga', msg);
+          }
 
-  function toggleTurnoInput() {
-  const select = document.getElementById("turno");
-  const customInput = document.getElementById("turnoCustom");
+          function toggleTurnoInput() {
+            const select = document.getElementById("turno");
+            const customInput = document.getElementById("turnoCustom");
 
-  if (select.value === "Outro") {
-    customInput.style.display = "block";
-    customInput.focus();
-  } else {
-    customInput.style.display = "none";
-    customInput.value = "";
-  }
-}
+            if (select.value === "Outro") {
+              customInput.style.display = "block";
+              customInput.focus();
+            } else {
+              customInput.style.display = "none";
+              customInput.value = "";
+            }
+          }
 
-  function toggleCausaInput() {
-  const select = document.getElementById("causa");
-  const input = document.getElementById("causaCustom");
-  if (select.value === "Outro") {
-    input.style.display = "block";
-  } else {
-    input.style.display = "none";
-    input.value = "";
-  }
-}
+          function toggleCausaInput() {
+            const select = document.getElementById("causa");
+            const input = document.getElementById("causaCustom");
+            if (select.value === "Outro") {
+              input.style.display = "block";
+            } else {
+              input.style.display = "none";
+              input.value = "";
+            }
+          }
 
-  function calcularDias() {
-  const dataInicio = document.getElementById("dataInicio").value;
-  const dataFim = document.getElementById("dataFim").value;
-  const resultado = document.getElementById("resultadoDias");
+          function calcularDias() {
+            const dataInicio = document.getElementById("dataInicio").value;
+            const dataFim = document.getElementById("dataFim").value;
+            const resultado = document.getElementById("resultadoDias");
 
-  if (!dataInicio || !dataFim) {
-    resultado.textContent = "Selecione as duas datas para calcular.";
-    resultado.style.color = "#004080";
-    return;
-  }
+            if (!dataInicio || !dataFim) {
+              resultado.textContent = "Selecione as duas datas para calcular.";
+              resultado.style.color = "#004080";
+              return;
+            }
 
-  const inicio = new Date(dataInicio);
-  const fim = new Date(dataFim);
-  const diffTime = fim - inicio;
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const inicio = new Date(dataInicio);
+            const fim = new Date(dataFim);
+            const diffTime = fim - inicio;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-  if (diffDays < 0) {
-    resultado.textContent = "⚠️ A data final é anterior à data inicial!";
-    resultado.style.color = "#cc0000";
-  } else {
-    resultado.textContent = `📅 Diferença: ${diffDays} dias`;
-    resultado.style.color = diffDays > 60 ? "#cc0000" : "#007a00";
-  }
-}
+            if (diffDays < 0) {
+              resultado.textContent = "⚠️ A data final é anterior à data inicial!";
+              resultado.style.color = "#cc0000";
+            } else {
+              resultado.textContent = `📅 Diferença: ${diffDays} dias`;
+              resultado.style.color = diffDays > 60 ? "#cc0000" : "#007a00";
+            }
+          }
 
-/* gerarMensagem2 - Reporte Telefonia (Form2) */
-function gerarMensagem2() {
-  const cliente = document.getElementById("cliente").value;
-  const numero = document.getElementById("numero").value;
-  const problema = document.getElementById("problema").value;
-  const tratativas = document.getElementById("tratativas").value;
-  const atendente = document.getElementById("atendente").value;
-  const msg = `❗ REPORT\n\n👱 CLIENTE: ${cliente}\n📞 NÚMERO: ${numero}\n⚠️ DESCRIÇÃO DO PROBLEMA: ${problema}\n⚙️ TRATATIVAS REALIZADAS: ${tratativas}\n\n👷 ATENDENTE: ${atendente}`;
-  copiarResultadoTo('#result_report2', msg);
-}
+          /* gerarMensagem2 - Reporte Telefonia (Form2) */
+          function gerarMensagem2() {
+            const cliente = document.getElementById("cliente").value;
+            const numero = document.getElementById("numero").value;
+            const problema = document.getElementById("problema").value;
+            const tratativas = document.getElementById("tratativas").value;
+            const atendente = document.getElementById("atendente").value;
+            const msg = `❗ REPORT\n\n👱 CLIENTE: ${cliente}\n📞 NÚMERO: ${numero}\n⚠️ DESCRIÇÃO DO PROBLEMA: ${problema}\n⚙️ TRATATIVAS REALIZADAS: ${tratativas}\n\n👷 ATENDENTE: ${atendente}`;
+            copiarResultadoTo('#result_report2', msg);
+          }
 
-/* gerarMensagem3 - Reporte N2 (Form3) */
-function gerarMensagem3() {
-  const cliente = document.getElementById("cliente2").value;
-  const problema = document.getElementById("problema2").value;
-  const ixc = document.getElementById("ixc").value;
-  const opa = document.getElementById("opa").value;
-  const msg = `❗ REPORT\n\n👷 CLIENTE: ${cliente}\n⚠️ DESCRIÇÃO DO PROBLEMA: ${problema}\n📄 PROTOCOLO NO IXC: ${ixc}\n📄 PROTOCOLO NO OPA: ${opa}`;
-  copiarResultadoTo('#result_report3', msg);
-}
+          /* gerarMensagem3 - Reporte N2 (Form3) */
+          function gerarMensagem3() {
+            const cliente = document.getElementById("cliente2").value;
+            const problema = document.getElementById("problema2").value;
+            const ixc = document.getElementById("ixc").value;
+            const opa = document.getElementById("opa").value;
+            const msg = `❗ REPORT\n\n👷 CLIENTE: ${cliente}\n⚠️ DESCRIÇÃO DO PROBLEMA: ${problema}\n📄 PROTOCOLO NO IXC: ${ixc}\n📄 PROTOCOLO NO OPA: ${opa}`;
+            copiarResultadoTo('#result_report3', msg);
+          }
 
-/* gerarMensagem4 - Agendamentos sem monitoramento (Form4) */
-function gerarMensagem4() {
-  const cliente = document.getElementById("cliente4").value;
-  const tecnico = document.getElementById("tecnico").value;
-  const diaAgendamento = document.getElementById("diaAgendamento").value;
-  const msg = `📄 Cliente  ${cliente} agendado para o técnico  ${tecnico}, para o dia 📅 ${diaAgendamento}, pois o setor de monitoramento estava indisponível.`;
-  copiarResultadoTo('#result_agendamentos', msg);
-}
-
-
+          /* gerarMensagem4 - Agendamentos sem monitoramento (Form4) */
+          function gerarMensagem4() {
+            const cliente = document.getElementById("cliente4").value;
+            const tecnico = document.getElementById("tecnico").value;
+            const diaAgendamento = document.getElementById("diaAgendamento").value;
+            const msg = `📄 Cliente  ${cliente} agendado para o técnico  ${tecnico}, para o dia 📅 ${diaAgendamento}, pois o setor de monitoramento estava indisponível.`;
+            copiarResultadoTo('#result_agendamentos', msg);
+          }
 
 
-/* onload init */
-window.addEventListener('DOMContentLoaded', () => {
-  // show mensagens by default
-  document.getElementById('mensagens').style.display='block';
-  carregarMensagensSalvas();
-});
-  
-</script>
+
+
+          /* onload init */
+          window.addEventListener('DOMContentLoaded', () => {
+            // show mensagens by default
+            document.getElementById('mensagens').style.display = 'block';
+            carregarMensagensSalvas();
+          });
+
+        </script>
 </body>
+
 </html>
