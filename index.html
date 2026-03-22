@@ -385,6 +385,74 @@
       }
     }
 
+
+    .hover-tooltip {
+      position: fixed;
+      width: min(380px, calc(100vw - 24px));
+      max-height: 260px;
+      overflow-y: auto;
+      background: #ffffff;
+      color: #222;
+      border: 1px solid #c7dff3;
+      border-left: 5px solid var(--blue);
+      border-radius: 12px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+      padding: 12px;
+      display: none;
+      z-index: 9998;
+      white-space: pre-line;
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    .hover-tooltip.active {
+      display: block;
+    }
+
+    .preview-fixo {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: min(420px, calc(100vw - 24px));
+      background: #ffffff;
+      border: 1px solid #c7dff3;
+      border-radius: 12px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+      padding: 12px;
+      display: none;
+      z-index: 9998;
+    }
+
+    .preview-fixo.active {
+      display: block;
+    }
+
+    .preview-fixo h3 {
+      margin: 0 0 8px 0;
+      font-size: 15px;
+      color: #004080;
+    }
+
+    .preview-fixo textarea {
+      min-height: 170px;
+      max-height: 45vh;
+      resize: vertical;
+      margin-bottom: 8px;
+    }
+
+    .preview-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .preview-actions button {
+      flex: 1;
+    }
+
+    #messages-list {
+      display: none;
+    }
+
     .toast {
       position: fixed;
       bottom: 20px;
@@ -438,73 +506,88 @@
           <h2 style="margin:0 0 8px 0;">Mensagens Prontas</h2>
           <div class="botoes-grid">
             <!-- Buttons that open & copy the message immediately -->
-            <button class="btn-inicio" onclick="scrollToCard('msg3_card','texto3')">Iniciar Atendimento</button>
-            <button class="btn-fim" onclick="scrollToCard('msg4_card','texto4')">Finalizar Atendimento</button>
-            <button class="btn-avaliacao" onclick="scrollToCard('msg10_card','texto10')">Avaliação do Google</button>
-            <button class="btn-dados" onclick="scrollToCard('msg21_card','texto21')">Confirmar Endereço | Dados</button>
-            <button class="btn-acao" onclick="scrollToCard('msg19_card','texto19')">Tirar da Tomada Roteador</button>
-            <button class="btn-rompida" onclick="scrollToCard('msg8_card','texto8')">Informar Rompimento
+            <button class="btn-inicio" data-textarea="texto3">Iniciar Atendimento</button>
+            <button class="btn-fim" data-textarea="texto4">Finalizar Atendimento</button>
+            <button class="btn-avaliacao" data-textarea="texto10">Avaliação do Google</button>
+            <button class="btn-dados" data-textarea="texto21">Confirmar Endereço | Dados</button>
+            <button class="btn-acao" data-textarea="texto19">Tirar da Tomada Roteador</button>
+            <button class="btn-rompida" data-textarea="texto8">Informar Rompimento
               Massivo</button>
-            <button class="btn-tecnicos" onclick="scrollToCard('msg11_card','texto11')">Informar Agendamento</button>
-            <button class="btn-falha" onclick="scrollToCard('msg9_card','texto9')">Encerrar por Falta de
+            <button class="btn-tecnicos" data-textarea="texto11">Informar Agendamento</button>
+            <button class="btn-falha" data-textarea="texto9">Encerrar por Falta de
               Interação</button>
-            <button class="btn-rompida" onclick="scrollToCard('msg31_card','texto31')">Analisar LOSS no
+            <button class="btn-rompida" data-textarea="texto31">Analisar LOSS no
               Roteador</button>
-            <button class="btn-financeiro" onclick="scrollToCard('msg13_card','texto13')">Cobrar Taxa de Visita
+            <button class="btn-financeiro" data-textarea="texto13">Cobrar Taxa de Visita
               R$40,00</button>
-            <button class="btn-teste" onclick="scrollToCard('msg14_card','texto14')">Testar Velocidade</button>
-            <button class="btn-tv" onclick="scrollToCard('msg5_card','texto5')">Sugerir Cabo ao TVBOX</button>
-            <button class="btn-lentidao" onclick="scrollToCard('msg6_card','texto6')">Investigar Onde Ocorre
+            <button class="btn-teste" data-textarea="texto14">Testar Velocidade</button>
+            <button class="btn-tv" data-textarea="texto5">Sugerir Cabo ao TVBOX</button>
+            <button class="btn-lentidao" data-textarea="texto6">Investigar Onde Ocorre
               Lentidão</button>
-            <button class="btn-lentidao" onclick="scrollToCard('msg15_card','texto15')">Analisar Lentidão</button>
-            <button class="btn-lentidao" onclick="scrollToCard('msg36_card','texto36')">Analisar Lentidão na TV</button>
-            <button class="btn-tv" onclick="scrollToCard('msg7_card','texto7')">TV/CELULAR não pega 5G.</button>
-            <button class="btn-lentidao" onclick="scrollToCard('msg16_card','texto16')">Investigar Lentidão no
+            <button class="btn-lentidao" data-textarea="texto15">Analisar Lentidão</button>
+            <button class="btn-lentidao" data-textarea="texto36">Analisar Lentidão na TV</button>
+            <button class="btn-tv" data-textarea="texto7">TV/CELULAR não pega 5G.</button>
+            <button class="btn-lentidao" data-textarea="texto16">Investigar Lentidão no
               PC</button>
-            <button class="btn-lentidao" onclick="scrollToCard('msg17_card','texto17')">Iniciar Ações de
+            <button class="btn-lentidao" data-textarea="texto17">Iniciar Ações de
               Lentidão</button>
-            <button class="btn-lentidao" onclick="scrollToCard('msg18_card','texto18')">Finalizar Ações de
+            <button class="btn-lentidao" data-textarea="texto18">Finalizar Ações de
               Lentidão</button>
-            <button class="btn-informativo" onclick="scrollToCard('msg20_card','texto20')">Explicar Como Verificar
+            <button class="btn-informativo" data-textarea="texto20">Explicar Como Verificar
               Velocidade Contratada</button>
-            <button class="btn-rompida" onclick="scrollToCard('msg22_card','texto22')">Explicar Sinal LOSS</button>
-            <button class="btn-rompida" onclick="scrollToCard('msg23_card','texto23')">Pedir para cliente aguardar,
+            <button class="btn-rompida" data-textarea="texto22">Explicar Sinal LOSS</button>
+            <button class="btn-rompida" data-textarea="texto23">Pedir para cliente aguardar,
               verificando rompimento massivo</button>
-            <button class="btn-rompida" onclick="scrollToCard('msg24_card','texto24')">Explicar luz PON
+            <button class="btn-rompida" data-textarea="texto24">Explicar luz PON
               piscando</button>
-            <button class="btn-tv" onclick="scrollToCard('msg25_card','texto25')">Testar YT no celular em caso de
+            <button class="btn-tv" data-textarea="texto25">Testar YT no celular em caso de
               TVBOX</button>
-            <button class="btn-inicio" onclick="scrollToCard('msg26_card','texto26')">Expediente Findou</button>
-            <button class="btn-dados" onclick="scrollToCard('msg27_card','texto27')">Enviar ao Cliente que quer senha do
+            <button class="btn-inicio" data-textarea="texto26">Expediente Findou</button>
+            <button class="btn-dados" data-textarea="texto27">Enviar ao Cliente que quer senha do
               ROTEADOR</button>
-            <button class="btn-financeiro" onclick="scrollToCard('msg28_card','texto28')">Cliente que quer contratar IP
+            <button class="btn-financeiro" data-textarea="texto28">Cliente que quer contratar IP
               FIXO</button>
-            <button class="btn-alerta" onclick="scrollToCard('msg29_card','texto29')">Encerrar por palavras de baixo
+            <button class="btn-alerta" data-textarea="texto29">Encerrar por palavras de baixo
               calão</button>
-            <button class="btn-avaliacao" onclick="scrollToCard('msg30_card','texto30')">Agradecer Cliente Avaliação
+            <button class="btn-avaliacao" data-textarea="texto30">Agradecer Cliente Avaliação
               Google</button>
-            <button class="btn-acao" onclick="scrollToCard('msg12_card','texto12')">Desculpas Alto Fluxo</button>
-            <button class="btn-dados" onclick="scrollToCard('msg32_card','texto32')">Confirmar Dados para Trocar
+            <button class="btn-acao" data-textarea="texto12">Desculpas Alto Fluxo</button>
+            <button class="btn-dados" data-textarea="texto32">Confirmar Dados para Trocar
               SENHA</button>
-            <button class="btn-dados" onclick="scrollToCard('msg33_card','texto33')">Solicitar PRINT da redes
+            <button class="btn-dados" data-textarea="texto33">Solicitar PRINT da redes
               Wi-fi</button>
-            <button class="btn-financeiro" onclick="scrollToCard('msg34_card','texto34')">Enviar MSG para cliente S/
+            <button class="btn-financeiro" data-textarea="texto34">Enviar MSG para cliente S/
               conexão que foi agendado</button>
-            <button class="btn-informativo" onclick="scrollToCard('msg35_card','texto35')">Solicitar Print Site
+            <button class="btn-informativo" data-textarea="texto35">Solicitar Print Site
               MeuIp</button>
-            <button class="btn-lentidao" onclick="scrollToCard('msg37_card','texto37')">Inserir em Lentidão</button>
-            <button class="btn-financeiro" onclick="scrollToCard('msg38_card','texto38')">Liberar Conexão</button>
-            <button class="btn-rompida" onclick="scrollToCard('msg39_card','texto39')">Analisar Se Roteador
+            <button class="btn-lentidao" data-textarea="texto37">Inserir em Lentidão</button>
+            <button class="btn-financeiro" data-textarea="texto38">Liberar Conexão</button>
+            <button class="btn-rompida" data-textarea="texto39">Analisar Se Roteador
               Liga</button>
-            <button class="btn-tecnicos" onclick="scrollToCard('msg40_card','texto40')">Informar agendamento Sem Cliente
+            <button class="btn-tecnicos" data-textarea="texto40">Informar agendamento Sem Cliente
               Responder</button>
-            <button class="btn-rompida" onclick="scrollToCard('msg41_card','texto41')">Enviar mensagem para Inverter
+            <button class="btn-rompida" data-textarea="texto41">Enviar mensagem para Inverter
               Pontas ONU/Roteador</button>
-            <button class="btn-tecnicos" onclick="scrollToCard('msg42_card','texto42')">Explicar sobre Infra
+            <button class="btn-tecnicos" data-textarea="texto42">Explicar sobre Infra
               48h</button>
-            <button class="btn-tv" onclick="scrollToCard('msg43_card','texto43')">Explicar sobre Diferenças rede 2.4G e
+            <button class="btn-tv" data-textarea="texto43">Explicar sobre Diferenças rede 2.4G e
               5G</button>
+            <button class="btn-tecnicos" data-textarea="texto44">Informar Agendamento Aberto</button>
+            <button class="btn-tecnicos" data-textarea="texto45">Informar que Precisa Reagendar</button>
+            <button class="btn-dados" data-textarea="texto46">Roteador Resetado</button>
 
+          </div>
+
+          <div id="hoverTooltip" class="hover-tooltip"></div>
+
+          <div id="previewFixo" class="preview-fixo">
+            <h3 id="previewFixoTitle">Mensagem selecionada</h3>
+            <textarea id="previewFixoTextarea" readonly
+              placeholder="Clique em um botão para travar a mensagem aqui."></textarea>
+            <div class="preview-actions">
+              <button type="button" onclick="copiarPreviewFixo()">📋 Copiar mensagem</button>
+              <button type="button" onclick="fecharPreviewFixo()">Fechar</button>
+            </div>
           </div>
         </div>
 
@@ -526,11 +609,11 @@
               </div>
             </div>
             <div class="body" id="msg3_body">
-              <textarea id="texto3" class="editable-text" readonly>Suporte Técnico Onitel, Boa noite!
-Tudo bem?
-Por gentileza, me envie o CPF ou CNPJ do titular da internet para localizarmos o cadastro.
-              
-E já aproveita e me conta com o que posso te ajudar, assim posso agilizar seu atendimento. 😉!</textarea>
+              <textarea id="texto3" class="editable-text" readonly>Suporte Técnico Onitel, boa noite!  
+
+Para darmos continuidade ao atendimento, por gentileza, informe o CPF ou CNPJ do titular para localizarmos o cadastro.
+
+Aproveitando, poderia descrever a situação EM QUE PODEMOS AJUDAR para que possamos agilizar a análise?</textarea>
             </div>
           </div>
 
@@ -760,8 +843,7 @@ https://www.speedtest.net/</textarea>
               </div>
             </div>
             <div class="body" id="msg15_body">
-              <textarea id="texto15" class="editable-text"
-                readonly>A lentidão está ocorrendo em qual situação:
+              <textarea id="texto15" class="editable-text" readonly>A lentidão está ocorrendo em qual situação:
 📱 redes sociais (Instagram, WhatsApp),
 📺 streaming (YouTube, Netflix),
 🎮 jogos online,
@@ -1073,8 +1155,7 @@ Desejo que sua vida seja sempre iluminada por muitas bênçãos, felicidade e su
               </div>
             </div>
             <div class="body" id="msg31_body">
-              <textarea id="texto31" class="editable-text"
-                readonly>
+              <textarea id="texto31" class="editable-text" readonly>
 Por favor, envie um vídeo do roteador e uma foto nítida da parte de baixo do roteador. Preciso de alguns números que ficam nessa região para verificar no sistema sobre sua conexão. 
 E também um print (captura de tela) das redes Wi-Fi que aparecem no seu celular, preciso verificar se aparece: conectado sem internet!</textarea>
             </div>
@@ -1136,7 +1217,7 @@ Após a confirmação, por favor, informe a nova senha da rede Wi-Fi ou o novo n
 
 Identificamos que o seu serviço está sem conexão.
 Após realizarmos os procedimentos remotos, não foi possível restabelecer o sinal.
-Dessa forma, será agendada uma visita técnica presencial para que o problema seja verificado e solucionado no local, no dia data.
+Dessa forma, será agendada uma visita técnica presencial para que o problema seja verificado e solucionado no local XXXXXXX, no dia data XXXXXX.
 Caso a conexão normalize antes da visita, pedimos a gentileza de nos informar o mais rápido possível, para que possamos atualizar o agendamento.</textarea>
             </div>
           </div>
@@ -1328,757 +1409,918 @@ As redes Wi-Fi 2.4GHz e 5GHz possuem características diferentes:
     </textarea>
             </div>
           </div>
+          <!-- msg44 -->
+          <div class="msg-card" id="msg44_card">
+            <div class="header" onclick="toggleCardBody('msg44')">
+              <h3>Informar Agendamento Aberto ao Cliente</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto44')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto44')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto44')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg44_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg44_body">
+              <textarea id="texto44" class="editable-text" readonly>
+Olá! 😊
 
-        </div> <!-- end messages-list -->
+Verifiquei aqui para você e sua visita técnica está em aberto para HOJE [ ].
+
+O técnico ainda não chegou, mas fique tranquilo(a). No momento, ele está em rota de atendimento, realizando as manutenções anteriores. Sua visita está na fila de atendimentos e será realizada assim que os chamados anteriores forem concluídos.
+
+Pedimos, por gentileza, que aguarde e fique atento(a) à chegada do técnico. Nossa equipe poderá entrar em contato caso necessário.
+
+Ficamos à disposição para o que precisar. Obrigado pela compreensão!
+    </textarea>
+            </div>
+          </div>
+
+          <!-- msg45 -->
+          <div class="msg-card" id="msg45_card">
+            <div class="header" onclick="toggleCardBody('msg45')">
+              <h3>Informar que Precisa Reagendar</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto45')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto45')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto45')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg45_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg45_body">
+              <textarea id="texto45" class="editable-text" readonly>
+Olá! 😊
+
+Verifiquei aqui e o técnico esteve no local, porém não conseguiu contato no momento da visita.
+
+Para darmos continuidade ao atendimento, será necessário reagendar uma nova visita técnica. Caso esteja de acordo, por gentileza, confirme por aqui para que eu possa solicitar uma nova vaga de agendamento.
+
+Assim que confirmado, seguiremos com o reagendamento e informaremos a nova data.
+
+Fico no aguardo da sua confirmação.
+    </textarea>
+            </div>
+          </div>
+
+          <!-- msg46 -->
+          <div class="msg-card" id="msg46_card">
+            <div class="header" onclick="toggleCardBody('msg46')">
+              <h3>Roteador Resetado</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto46')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto46')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto46')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg46_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg46_body">
+              <textarea id="texto46" class="editable-text" readonly>
+Senhor(a), identifiquei pelo print que o roteador foi resetado.
+
+Nesse caso, podemos tentar realizar a configuração remotamente, com minha orientação e sua ajuda, para que a conexão possa ser restabelecida.
+
+Caso não seja possível concluir a configuração dessa forma, será necessária uma visita técnica, com taxa de R$ 40,00, que será incluída na próxima fatura de internet.
+
+Por gentileza, conecte-se à rede Wi-Fi padrão do roteador, utilizando a senha que está na etiqueta abaixo do equipamento.
+
+Depois, abra o navegador e digite um destes endereços:
+192.168.1.1
+ou
+192.168.0.1
+
+Precisamos acessar o roteador para realizar a configuração.
+    </textarea>
+            </div>
+          </div>
+
       </section>
 
-      <div class="card">
 
+      <section id="planilha" class="content" style="display:none;">
+        <div class="planilha-container">
 
-        <section id="planilha" class="content" style="display:none;">
-          <div class="planilha-container">
-
-            <!-- Botões apenas abaixo -->
-            <div class="planilha-botoes">
-              <button onclick="adicionarLinha()">➕ Adicionar Linha</button>
-              <button onclick="salvarDados()">💾 Salvar Dados</button>
-              <button onclick="carregarDados()">🔃 Carregar Dados</button>
-              <button onclick="baixarDados()">⬇️ Baixar Dados</button>
-              <button onclick="limparTabela()">🗑️ Limpar Dados</button>
-            </div>
-            <table id="tabelaAtendimentos">
-              <thead>
-                <tr>
-                  <th>Nº</th>
-                  <th>CPF</th>
-                  <th>Protocolo</th>
-                  <th>Telefone</th>
-                  <th>Observação</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-
-
+          <!-- Botões apenas abaixo -->
+          <div class="planilha-botoes">
+            <button onclick="adicionarLinha()">➕ Adicionar Linha</button>
+            <button onclick="salvarDados()">💾 Salvar Dados</button>
+            <button onclick="carregarDados()">🔃 Carregar Dados</button>
+            <button onclick="baixarDados()">⬇️ Baixar Dados</button>
+            <button onclick="limparTabela()">🗑️ Limpar Dados</button>
           </div>
-        </section>
+          <table id="tabelaAtendimentos">
+            <thead>
+              <tr>
+                <th>Nº</th>
+                <th>CPF</th>
+                <th>Protocolo</th>
+                <th>Telefone</th>
+                <th>Observação</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
 
-        <!-- === Reporte Telefonia (Form 2) === -->
-        <section id="report_telefonia" class="content" style="display:none;">
-          <div class="card">
-            <div class="forms-container" style="margin-top:12px;">
-              <form id="form2" class="form-box">
-                <h2 style="font-size:18px;">📡 Reporte de Telefonia</h2>
-                <label>👱 Cliente:</label>
-                <input type="text" id="cliente" placeholder="Digite o nome do cliente">
-                <label>📞 Número:</label>
-                <input type="text" id="numero" placeholder="Digite o número do cliente">
-                <label>⚠️ Descrição do problema:</label>
-                <textarea id="problema" placeholder="Descreva o problema"></textarea>
-                <label>⚙️ Tratativas realizadas:</label>
-                <textarea id="tratativas" placeholder="Descreva as tratativas"></textarea>
-                <label>👷 Atendente:</label>
-                <input type="text" id="atendente" placeholder="Digite o nome do atendente">
-                <button type="button" onclick="gerarMensagem2()">Gerar e Copiar</button>
-              </form>
-              <div class="result-box" id="result_report2" style="display:none;"></div>
+
+        </div>
+      </section>
+
+      <!-- === Reporte Telefonia (Form 2) === -->
+      <section id="report_telefonia" class="content" style="display:none;">
+        <div class="card">
+          <div class="forms-container" style="margin-top:12px;">
+            <form id="form2" class="form-box">
+              <h2 style="font-size:18px;">📡 Reporte de Telefonia</h2>
+              <label>👱 Cliente:</label>
+              <input type="text" id="cliente" placeholder="Digite o nome do cliente">
+              <label>📞 Número:</label>
+              <input type="text" id="numero" placeholder="Digite o número do cliente">
+              <label>⚠️ Descrição do problema:</label>
+              <textarea id="problema" placeholder="Descreva o problema"></textarea>
+              <label>⚙️ Tratativas realizadas:</label>
+              <textarea id="tratativas" placeholder="Descreva as tratativas"></textarea>
+              <label>👷 Atendente:</label>
+              <input type="text" id="atendente" placeholder="Digite o nome do atendente">
+              <button type="button" onclick="gerarMensagem2()">Gerar e Copiar</button>
+            </form>
+            <div class="result-box" id="result_report2" style="display:none;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- === Reporte N2 (Form 3) === -->
+      <section id="report_n2" class="content" style="display:none;">
+        <div class="card">
+          <div class="forms-container" style="margin-top:12px;">
+            <form id="form3" class="form-box">
+              <h2 style="font-size:18px;">🛠 Reporte N2</h2>
+              <label>👷 Cliente:</label>
+              <input type="text" id="cliente2" placeholder="Digite o nome do cliente">
+              <label>⚠️ Descrição do problema:</label>
+              <textarea id="problema2" placeholder="Descreva o problema"></textarea>
+              <label>📄 Protocolo no IXC:</label>
+              <input type="text" id="ixc" placeholder="Digite o protocolo no IXC">
+              <label>📄 Protocolo no OPA:</label>
+              <input type="text" id="opa" placeholder="Digite o protocolo no OPA">
+              <button type="button" onclick="gerarMensagem3()">Gerar e Copiar</button>
+            </form>
+            <div class="result-box" id="result_report3" style="display:none;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- === Solicitação de Vaga (Form 1) === -->
+      <section id="vaga" class="content" style="display:none;">
+        <div class="card">
+
+          <!-- 🔢 Contador de Dias -->
+          <div class="contador-container" style="margin-bottom:15px; text-align:left;">
+            <h3>📆 Contador de Dias</h3>
+
+            <label>Data de Início:</label>
+            <input type="date" id="dataInicio" onchange="calcularDias()">
+
+            <label>Data de Fim:</label>
+            <input type="date" id="dataFim" onchange="calcularDias()">
+
+            <p id="resultadoDias" style="font-weight:bold; color:#004080; margin-top:8px;">Selecione as datas</p>
+          </div>
+
+          <div class="forms-container" style="margin-top:12px;">
+            <form id="form1" class="form-box">
+              <h2 style="font-size:18px;">📅 Solicitação de Vaga no Monitoramento</h2>
+
+              <label>🧾 Tipo de Solicitação:</label>
+              <select id="tipoManutencaoSelect" onchange="mostrarOutroTipo()">
+                <option value="MANUTENÇÃO">MANUTENÇÃO</option>
+                <option value="RETORNO DE MANUTENÇÃO">RETORNO DE MANUTENÇÃO</option>
+                <option value="RETORNO DE INSTALAÇÃO">RETORNO DE INSTALAÇÃO</option>
+                <option value="Outro">Outro (digitar manualmente)</option>
+              </select>
+
+              <!-- Este input só aparece quando escolhe "Outro" -->
+              <input type="text" id="tipoManutencaoCustom" placeholder="Digite o tipo de solicitação"
+                style="display:none; margin-top:8px;">
+
+
+              <label>🧑‍💻 Nome do Atendente:</label>
+              <input type="text" id="atendente1" placeholder="Digite o nome do atendente">
+
+              <label>👤 Nome do Cliente:</label>
+              <input type="text" id="name" placeholder="Digite o nome do cliente">
+
+              <label>📍 Localização:</label>
+              <input type="text" id="loc" placeholder="Digite a localização">
+
+              <label>📅 Preferência de horário:</label>
+              <select id="turno" onchange="toggleTurnoInput()">
+                <option value="O mais próximo">O mais próximo</option>
+                <option value="O mais próximo pela manhã">O mais próximo pela manhã</option>
+                <option value="O mais próximo pela tarde">O mais próximo pela tarde</option>
+                <option value="Cliente informou que só pode receber pela noite">Cliente informou que só pode receber
+                  pela noite</option>
+                <option value="Outro">Outro (digitar manualmente)</option>
+              </select>
+              <input type="text" id="turnoCustom" placeholder="Digite manualmente o horário desejado"
+                style="display:none;">
+
+              <label>⚠️ Causa do agendamento:</label>
+              <select id="causa" onchange="toggleCausaInput()">
+                <option value="Loss | Fibra Rompida">Loss | Fibra Rompida</option>
+                <option value="Vaga para Reagendamento">Vaga para Reagendamento</option>
+                <option value="Análise Técnica">Análise Técnica</option>
+                <option value="Sem conexão, conectado sem internet.">Sem conexão, conectado sem internet.</option>
+                <option value="Luz de PON piscando, sem conexão.">Luz de PON piscando, sem conexão.</option>
+                <option value="Cliente com oscilação de sinal, necessário agendar.">Cliente com oscilação de sinal,
+                  necessário agendar.</option>
+                <option value="Equipamento resetado">Equipamento resetado.</option>
+                <option value="Drop Baixo/Caído">Drop Baixo/Caído</option>
+                <option value="Animal de estimação do cliente rompeu a fibra, sem conexão necessário agendar">Animal
+                  de estimação do cliente rompeu a fibra, sem conexão necessário agendar.</option>
+                <option value="Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar">
+                  Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar.</option>
+                <option value="Cliente deseja mudar fio da fibra de local">Cliente deseja mudar fio da fibra de local.
+                </option>
+                <option value="Outro">Outro (digitar manualmente)</option>
+              </select>
+
+              <!-- Input oculto, aparece só se escolher "Outro" -->
+              <input type="text" id="causaCustom" placeholder="Digite manualmente a causa" style="display:none;">
+
+
+              <label>📰 Observação:</label>
+              <input type="text" id="obs" placeholder="Observação">
+
+              <button type="button" onclick="gerarMensagem1()">Gerar Vaga e Copiar</button>
+            </form>
+
+            <div class="result-box" id="result_vaga" style="display:none;"></div>
+          </div>
+        </div>
+      </section>
+
+
+
+      <!-- === Agendamentos sem monitoramento (Form 4) === -->
+      <section id="agendamentos" class="content" style="display:none;">
+        <div class="card">
+          <div class="forms-container" style="margin-top:12px;">
+            <form id="form4" class="form-box">
+              <h2 style="font-size:18px;">⏱ Agendamentos sem monitoramento</h2>
+              <label>👱 Cliente:</label>
+              <input type="text" id="cliente4" placeholder="Nome do cliente">
+              <label>👷 Técnico:</label>
+              <input type="text" id="tecnico" placeholder="Nome do técnico agendado">
+              <label>📅 Dia do Agendamento:</label>
+              <input type="text" id="diaAgendamento" placeholder="Ex: amanhã (08/10)">
+              <button type="button" onclick="gerarMensagem4()">Gerar e Copiar</button>
+            </form>
+            <div class="result-box" id="result_agendamentos" style="display:none;"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="setor_encaminhamento" class="content" style="display:none;">
+        <div class="card">
+          <div class="consulta-container">
+            <h2>CONSULTA RÁPIDA - SETOR DE ENCAMINHAMENTO</h2>
+
+            <div class="consulta-grid">
+              <!-- 🟦 COLUNA 1 -->
+              <div class="coluna">
+                <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span>
+                  <p>MUDANÇA DE ENDEREÇO</p>
+                </div>
+                <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span>
+                  <p>MUDANÇA DE LOCAL DE EQUIPAMENTO</p>
+                </div>
+                <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span>
+                  <p>PLATAFORMAS DIGITAIS: ONITEL TV, PARAMOUNT, WATCH BRASIL...</p>
+                </div>
+                <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span>
+                  <p>ENVIO DE FATURA/BOLETO/QRCODE PIX</p>
+                </div>
+                <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span>
+                  <p> CONTRATO VERMELHO 🟥 (ATRASO COM MAIS DE 7 DIAS) ➝ ENCAMINHAR PARA COBRANÇA</p>
+                </div>
+
+              </div>
+
+              <!-- 🟩 COLUNA 2 -->
+              <div class="coluna">
+                <div class="consulta-item"><span class="consulta-setor">VENDAS</span>
+                  <p>CLIENTE COM O.S DE INSTALAÇÃO EM ABERTO ("O.S "AGENDADA 🟦 OU ENCAMINHADA 🟧)</p>
+                </div>
+                <div class="consulta-item"><span class="consulta-setor">VENDAS</span>
+                  <p>CLIENTE COM CONTRATO EM AZUL 🟦 (AGUARDANDO ASSINATURA) ➝ ENCAMINHAR PARA VENDAS </p>
+                </div>
+                <div class="consulta-item"><span class="consulta-setor">UPGRADE</span>
+                  <p>ASSUNTOS DO SETOR DE UPGRADE (COMO AUMENTAR O PLANO E SOBRE VALORES)</p>
+                </div>
+                <div class="consulta-item"><span class="consulta-setor">SUPORTE</span>
+                  <p>CONTRATO AMARELO 🟨 (1 FATURA VENCIDA ATÉ 7 DIAS) - IPV4 10.141... IP DE BLOQUEIO</p>
+                </div>
+              </div>
+
+              <!-- 🟨 COLUNA 3 -->
+              <div class="coluna">
+                <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span>
+                  <p>CONTRATO VERMELHO 🟥 OU BLOQUEADO</p>
+                </div>
+                <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO (TELEFONE)</span>
+                  <p>SOLICITAÇÃO OU INFORMAÇÕES SOBRE CANCELAMENTO ➝ ENCAMINHAR SOMENTE POR TELEFONE</p>
+                </div>
+                <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span>
+                  <p>TROCA DE TITULARIDADE ➝ ENCAMINHAR PARA CANCELAMENTO</p>
+                </div>
+                <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span>
+                  <p>DOWNGRADE (NÃO PERMITIDO) ➝ ENCAMINHAR PARA REVERSÃO</p>
+                </div>
+                <div class="consulta-item"><span class="consulta-setor">UPGRADE</span>
+                  <p>NECESSÁRIO CRIAR NOVO CONTRATO (INCLUSIVE “CLIENTE NEGATIVADO 🟥”)</p>
+                </div>
+
+
+              </div>
             </div>
           </div>
-        </section>
+        </div>
+        <div>
 
-        <!-- === Reporte N2 (Form 3) === -->
-        <section id="report_n2" class="content" style="display:none;">
-          <div class="card">
-            <div class="forms-container" style="margin-top:12px;">
-              <form id="form3" class="form-box">
-                <h2 style="font-size:18px;">🛠 Reporte N2</h2>
-                <label>👷 Cliente:</label>
-                <input type="text" id="cliente2" placeholder="Digite o nome do cliente">
-                <label>⚠️ Descrição do problema:</label>
-                <textarea id="problema2" placeholder="Descreva o problema"></textarea>
-                <label>📄 Protocolo no IXC:</label>
-                <input type="text" id="ixc" placeholder="Digite o protocolo no IXC">
-                <label>📄 Protocolo no OPA:</label>
-                <input type="text" id="opa" placeholder="Digite o protocolo no OPA">
-                <button type="button" onclick="gerarMensagem3()">Gerar e Copiar</button>
-              </form>
-              <div class="result-box" id="result_report3" style="display:none;"></div>
-            </div>
-          </div>
-        </section>
-
-        <!-- === Solicitação de Vaga (Form 1) === -->
-        <section id="vaga" class="content" style="display:none;">
-          <div class="card">
-
-            <!-- 🔢 Contador de Dias -->
-            <div class="contador-container" style="margin-bottom:15px; text-align:left;">
-              <h3>📆 Contador de Dias</h3>
-
-              <label>Data de Início:</label>
-              <input type="date" id="dataInicio" onchange="calcularDias()">
-
-              <label>Data de Fim:</label>
-              <input type="date" id="dataFim" onchange="calcularDias()">
-
-              <p id="resultadoDias" style="font-weight:bold; color:#004080; margin-top:8px;">Selecione as datas</p>
-            </div>
-
-            <div class="forms-container" style="margin-top:12px;">
-              <form id="form1" class="form-box">
-                <h2 style="font-size:18px;">📅 Solicitação de Vaga no Monitoramento</h2>
-
-                <label>🧾 Tipo de Solicitação:</label>
-                <select id="tipoManutencaoSelect" onchange="mostrarOutroTipo()">
-                  <option value="MANUTENÇÃO">MANUTENÇÃO</option>
-                  <option value="RETORNO DE MANUTENÇÃO">RETORNO DE MANUTENÇÃO</option>
-                  <option value="RETORNO DE INSTALAÇÃO">RETORNO DE INSTALAÇÃO</option>
-                  <option value="Outro">Outro (digitar manualmente)</option>
-                </select>
-
-                <!-- Este input só aparece quando escolhe "Outro" -->
-                <input type="text" id="tipoManutencaoCustom" placeholder="Digite o tipo de solicitação"
-                  style="display:none; margin-top:8px;">
-
-
-                <label>🧑‍💻 Nome do Atendente:</label>
-                <input type="text" id="atendente1" placeholder="Digite o nome do atendente">
-
-                <label>👤 Nome do Cliente:</label>
-                <input type="text" id="name" placeholder="Digite o nome do cliente">
-
-                <label>📍 Localização:</label>
-                <input type="text" id="loc" placeholder="Digite a localização">
-
-                <label>📅 Preferência de horário:</label>
-                <select id="turno" onchange="toggleTurnoInput()">
-                  <option value="O mais próximo">O mais próximo</option>
-                  <option value="O mais próximo pela manhã">O mais próximo pela manhã</option>
-                  <option value="O mais próximo pela tarde">O mais próximo pela tarde</option>
-                  <option value="Cliente informou que só pode receber pela noite">Cliente informou que só pode receber
-                    pela noite</option>
-                  <option value="Outro">Outro (digitar manualmente)</option>
-                </select>
-                <input type="text" id="turnoCustom" placeholder="Digite manualmente o horário desejado"
-                  style="display:none;">
-
-                <label>⚠️ Causa do agendamento:</label>
-                <select id="causa" onchange="toggleCausaInput()">
-                  <option value="Loss | Fibra Rompida">Loss | Fibra Rompida</option>
-                  <option value="Vaga para Reagendamento">Vaga para Reagendamento</option>
-                  <option value="Análise Técnica">Análise Técnica</option>
-                  <option value="Sem conexão, conectado sem internet.">Sem conexão, conectado sem internet.</option>
-                  <option value="Luz de PON piscando, sem conexão.">Luz de PON piscando, sem conexão.</option>
-                  <option value="Cliente com oscilação de sinal, necessário agendar.">Cliente com oscilação de sinal,
-                    necessário agendar.</option>
-                  <option value="Equipamento resetado">Equipamento resetado.</option>
-                  <option value="Drop Baixo/Caído">Drop Baixo/Caído</option>
-                  <option value="Animal de estimação do cliente rompeu a fibra, sem conexão necessário agendar">Animal
-                    de estimação do cliente rompeu a fibra, sem conexão necessário agendar.</option>
-                  <option value="Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar">
-                    Fontes/equipamento queimado foi testado em outras tomadas, necessário agendar.</option>
-                  <option value="Cliente deseja mudar fio da fibra de local">Cliente deseja mudar fio da fibra de local.
-                  </option>
-                  <option value="Outro">Outro (digitar manualmente)</option>
-                </select>
-
-                <!-- Input oculto, aparece só se escolher "Outro" -->
-                <input type="text" id="causaCustom" placeholder="Digite manualmente a causa" style="display:none;">
-
-
-                <label>📰 Observação:</label>
-                <input type="text" id="obs" placeholder="Observação">
-
-                <button type="button" onclick="gerarMensagem1()">Gerar Vaga e Copiar</button>
-              </form>
-
-              <div class="result-box" id="result_vaga" style="display:none;"></div>
-            </div>
-          </div>
-        </section>
-
-
-
-        <!-- === Agendamentos sem monitoramento (Form 4) === -->
-        <section id="agendamentos" class="content" style="display:none;">
-          <div class="card">
-            <div class="forms-container" style="margin-top:12px;">
-              <form id="form4" class="form-box">
-                <h2 style="font-size:18px;">⏱ Agendamentos sem monitoramento</h2>
-                <label>👱 Cliente:</label>
-                <input type="text" id="cliente4" placeholder="Nome do cliente">
-                <label>👷 Técnico:</label>
-                <input type="text" id="tecnico" placeholder="Nome do técnico agendado">
-                <label>📅 Dia do Agendamento:</label>
-                <input type="text" id="diaAgendamento" placeholder="Ex: amanhã (08/10)">
-                <button type="button" onclick="gerarMensagem4()">Gerar e Copiar</button>
-              </form>
-              <div class="result-box" id="result_agendamentos" style="display:none;"></div>
-            </div>
-          </div>
-        </section>
-
-        <section id="setor_encaminhamento" class="content" style="display:none;">
           <div class="card">
             <div class="consulta-container">
-              <h2>CONSULTA RÁPIDA - SETOR DE ENCAMINHAMENTO</h2>
+              <h2>CONSULTA HORÁRIOS </h2>
 
               <div class="consulta-grid">
                 <!-- 🟦 COLUNA 1 -->
                 <div class="coluna">
-                  <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span>
-                    <p>MUDANÇA DE ENDEREÇO</p>
-                  </div>
-                  <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span>
-                    <p>MUDANÇA DE LOCAL DE EQUIPAMENTO</p>
-                  </div>
-                  <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span>
-                    <p>PLATAFORMAS DIGITAIS: ONITEL TV, PARAMOUNT, WATCH BRASIL...</p>
-                  </div>
-                  <div class="consulta-item"><span class="consulta-setor">ADM/FINANCEIRO</span>
-                    <p>ENVIO DE FATURA/BOLETO/QRCODE PIX</p>
-                  </div>
                   <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span>
-                    <p> CONTRATO VERMELHO 🟥 (ATRASO COM MAIS DE 7 DIAS) ➝ ENCAMINHAR PARA COBRANÇA</p>
+                    <p>Segunda á sexta: 08:00 ás 22:00 <br> Sábado : 08:00 ás 18:00</p>
                   </div>
+                  <div class="consulta-item"><span class="consulta-setor">UPGRADE</span>
+                    <p> Segunda á sexta: 08:00 ás 22:00 <br> Sábado : 08:00 ás 20:00</p>
+                  </div>
+
 
                 </div>
 
                 <!-- 🟩 COLUNA 2 -->
                 <div class="coluna">
-                  <div class="consulta-item"><span class="consulta-setor">VENDAS</span>
-                    <p>CLIENTE COM O.S DE INSTALAÇÃO EM ABERTO ("O.S "AGENDADA 🟦 OU ENCAMINHADA 🟧)</p>
-                  </div>
-                  <div class="consulta-item"><span class="consulta-setor">VENDAS</span>
-                    <p>CLIENTE COM CONTRATO EM AZUL 🟦 (AGUARDANDO ASSINATURA) ➝ ENCAMINHAR PARA VENDAS </p>
-                  </div>
-                  <div class="consulta-item"><span class="consulta-setor">UPGRADE</span>
-                    <p>ASSUNTOS DO SETOR DE UPGRADE (COMO AUMENTAR O PLANO E SOBRE VALORES)</p>
-                  </div>
-                  <div class="consulta-item"><span class="consulta-setor">SUPORTE</span>
-                    <p>CONTRATO AMARELO 🟨 (1 FATURA VENCIDA ATÉ 15 DIAS) - IPV4 10.141...</p>
-                  </div>
-                </div>
-
-                <!-- 🟨 COLUNA 3 -->
-                <div class="coluna">
-                  <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span>
-                    <p>CONTRATO VERMELHO 🟥 OU BLOQUEADO</p>
-                  </div>
-                  <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO (TELEFONE)</span>
-                    <p>SOLICITAÇÃO OU INFORMAÇÕES SOBRE CANCELAMENTO ➝ ENCAMINHAR SOMENTE POR TELEFONE</p>
-                  </div>
                   <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span>
-                    <p>TROCA DE TITULARIDADE ➝ ENCAMINHAR PARA CANCELAMENTO</p>
+                    <p>Segunda á sexta: 08:00 ás 18:00<br>Sábado: 08:00 ás 12:00 (apenas reversão e demanda
+                      administrativa)</p>
                   </div>
-                  <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span>
-                    <p>DOWNGRADE (NÃO PERMITIDO) ➝ ENCAMINHAR PARA REVERSÃO</p>
-                  </div>
-                  <div class="consulta-item"><span class="consulta-setor">UPGRADE</span>
-                    <p>NECESSÁRIO CRIAR NOVO CONTRATO (INCLUSIVE “CLIENTE NEGATIVADO 🟥”)</p>
-                  </div>
-
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-
-            <div class="card">
-              <div class="consulta-container">
-                <h2>CONSULTA HORÁRIOS </h2>
-
-                <div class="consulta-grid">
-                  <!-- 🟦 COLUNA 1 -->
-                  <div class="coluna">
-                    <div class="consulta-item"><span class="consulta-setor">COBRANÇA</span>
-                      <p>Segunda á sexta: 08:00 ás 22:00 <br> Sábado : 08:00 ás 18:00</p>
-                    </div>
-                    <div class="consulta-item"><span class="consulta-setor">UPGRADE</span>
-                      <p> Segunda á sexta: 08:00 ás 22:00 <br> Sábado : 08:00 ás 20:00</p>
-                    </div>
-
-
-                  </div>
-
-                  <!-- 🟩 COLUNA 2 -->
-                  <div class="coluna">
-                     <div class="consulta-item"><span class="consulta-setor">CANCELAMENTO</span>
-                      <p>Segunda á sexta: 08:00 ás 18:00<br>Sábado: 08:00 ás 12:00 (apenas reversão e demanda administrativa)</p>
-                    </div>
-                    <div class="consulta-item"><span class="consulta-setor">VENDAS</span>
-                      <p>Segunda á sábado: 08:00 ás 22:00</p>
-                    </div>
-                    
-                  </div>
-                  
-                  <!-- 🟨 COLUNA 3 -->
-                  <div class="coluna">
-                    <div class="consulta-item"><span class="consulta-setor">MONITORAMENTO MANUTENÇÃO</span>
-                      <p>Segunda á sábado: 08:00 ás 20:00<br>Domingo: 08:00 ás 17:00</p>
-                    </div>
-                    <div class="consulta-item"><span class="consulta-setor">MONITORAMENTO MUDANÇA DE ENDEREÇO</span>
-                      <p>Segunda á sexta: 08:00 ás 22:00<br>Sábado: 08:00 ás 20:00<br>Domingo: 08:00 ás 18:00</p>
-                    </div>                    
-
-                  </div>
-                </div>
-              </div>
-
-            </div>
-        </section>
-
-         <section id="setor_mensagens" class="content" style="display:none;">
-          <div class="card">
-            <div class="consulta-container">
-              <h2>MODELOS DE MENSAGENS – SUPORTE ONITEL</h2>
-
-              <div class="consulta-grid">
-
-                <!-- 🟦 COLUNA 1 -->
-                <div class="coluna">
-                  <div class="consulta-item"><span class="consulta-setor">SUPORTE</span>
-                    <p>Foi verificado a falta de conexão do cliente e ele não respondeu mais, logo foi necessário
-                      realizar um agendamento de uma visita técnica para resolver o problema.</p>
-                  </div>
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">LENTIDÃO</span>
-                    <p>
-                      Cliente relatou lentidão. Foi configurado o DNS, canais e reinicia o roteador e o cliente informou
-                      que a conexão foi normalizada.
-                    </p>
-                  </div>
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">LENTIDÃO</span>
-                    <p>
-                      Cliente relatou lentidão. Foram realizadas alterações no roteador, porém durante o atendimento o
-                      cliente parou de responder.
-                    </p>
-                  </div>
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">WIFI</span>
-                    <p>
-                      Cliente solicitou a senha do Wi-Fi. Após confirmação dos dados, a senha foi informada.
-                    </p>
-                  </div>
-
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">CANCELAMENTO</span>
-                    <p>
-                      Cliente entrou em contato solicitando cancelamento. Foi oferecido suporte, porém não aceitou.
-                      Informado que o setor funciona de segunda a sexta, das 08h às 18h ou foi transferido para o
-                      Cancelamento.
-                    </p>
-                  </div>
-                  <div class="consulta-item">
-                    <span class="consulta-setor">SUPORTE</span>
-                    <p>
-                      Foi verificado a falta de conexão do cliente e ele não respondeu mais, logo foi necessário
-                      realizar um agendamento de uma visita técnica para resolver o problema.
-                    </p>
-                  </div>
-                  <div class="consulta-item">
-                    <span class="consulta-setor">INFORMAR PRECISA REAGENDAR AO CLIENTE</span>
-                    <p>
-                      Olá! 😊
-                      Verifiquei aqui e o técnico esteve no local, porém não conseguiu contato no momento da visita.
-
-                      Para que possamos dar continuidade ao atendimento, será necessário reagendar uma nova visita
-                      técnica.
-                      Caso esteja de acordo, por gentileza confirme para que eu possa solicitar a vaga de agendamento.
-
-                      Assim que confirmado, seguimos com o reagendamento e informamos a nova data.
-                      Fico no aguardo da sua confirmação.
-                    </p>
-                  </div>
-
-                </div>
-
-                <!-- 🟩 COLUNA 2 -->
-                <div class="coluna">
-
-
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">SEM CONEXÃO</span>
-                    <p>
-                      Cliente relatou estar sem conexão, porém constava como ONLINE no sistema. Foi realizada a limpeza
-                      de MAC e desconexão do login. Cliente informou que foi normalizado.
-                    </p>
-                  </div>
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">SEM CONEXÃO</span>
-                    <p>
-                      Cliente relatou estar sem conexão. Verificado que o login estava desativado por falta de
-                      pagamento. Após verificado o financeiro foi ativado o login e pedido para cliente tirar da tomada
-                      por 5 minutos, com isso a conexão foi restabelecida.
-                    </p>
-                  </div>
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">SEM CONEXÃO</span>
-                    <p>
-                      Cliente relatou estar sem conexão. Identificado equipamento travado. Foi orientado a desligar da
-                      tomada por 10 minutos. Após o procedimento, a conexão foi normalizada.
-                    </p>
-                  </div>
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">LENTIDÃO</span>
-                    <p>
-                      Cliente relata lentidão na conexão, principalmente em: [Wi-Fi / Cabo / Jogos / Streaming /
-                      Navegação / Geral].
-                      <br>
-                      Realizadas as seguintes ações durante o atendimento:
-                      <br>
-                      - ▪️ Verificação básica do link e status da ONU/roteador (sem anomalias aparentes).
-                      <br>
-                      -▪️ Configuração de servidor SNTP (a.st1.ntp.br / 201.49.148.135).
-                      <br>
-                      - ▪️ Configuração de DNS (8.8.8.8 e 1.1.1.1).
-                      <br>
-                      - ▪️ Ajuste de canal/banda do Wi-Fi.
-                      <br>
-                      - ▪️ Reinicialização do roteador.
-                      <br>
-                      Após procedimentos, cliente orientado a realizar novos testes de navegação.
-                      Conexão normalizada no momento do atendimento.
-                    </p>
-                  </div>
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">INFORMAR AGENDMAENTO ABERTO AO CLIENTE</span>
-                    <p>
-                      Olá! 😊
-                      Verifiquei aqui para você e sua visita técnica está aberta para HOJE [ ]. O técnico ainda não
-                      chegou, mas fique tranquilo(a).
-
-                      No momento, o técnico encontra-se em rota de atendimento, realizando as manutenções.
-                      Sua visita técnica está na fila de atendimentos e será realizada assim que o técnico concluir os
-                      chamados anteriores.
-
-                      Pedimos, por gentileza, que aguarde e fique atento(a) à chegada do técnico.
-                      Nossa equipe entrará em contato caso o técnico esteja no local.
-
-                      Ficamos à disposição para o que precisar. Obrigado pela compreensão!
-                    </p>
+                  <div class="consulta-item"><span class="consulta-setor">VENDAS</span>
+                    <p>Segunda á sábado: 08:00 ás 22:00</p>
                   </div>
 
                 </div>
 
                 <!-- 🟨 COLUNA 3 -->
                 <div class="coluna">
-
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">SEM CONEXÃO</span>
-                    <p>
-                      Cliente estava com IP de bloqueio. Foi realizada a limpeza de MAC e desconexão do login. Logo,
-                      conexão normalizou!
-                    </p>
+                  <div class="consulta-item"><span class="consulta-setor">MONITORAMENTO MANUTENÇÃO</span>
+                    <p>Segunda á sábado: 08:00 ás 20:00<br>Domingo: 08:00 ás 17:00</p>
                   </div>
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">WIFI</span>
-                    <p>
-                      Cliente informou que o Wi-Fi não estava aparecendo. Verificado que estava desativado. Foi ativado
-                      e o cliente informou que foi normalizado.
-                    </p>
-                  </div>
-                  
-                  <div class="consulta-item">
-                    <span class="consulta-setor">FIBRA / LOS</span>
-                    <p>
-                      Cliente relatou estar sem conexão, com luz LOS piscando. Verificado no SmartOLT que somente este
-                      cliente estava sem conexão. Necessário agendamento de visita técnica.
-                    </p>
-                  </div>
-                  <div class="consulta-item">
-                    <span class="consulta-setor">SEM CONEXÃO</span>
-                    <p>
-                      Cliente relatou estar sem conexão. Foi pedido para ele inverter as pontas do cabo de rede que vai
-                      na ONU até o ROTEADOR e tirar por 10 minutos. Após o procedimento, a conexão foi normalizada.
-                    </p>
-                  </div>
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">INFRA / AGENDAMENTO</span>
-                    <p>
-                      Cliente estava com OS em aberto. Verificado que se trata de chamado para a infraestrutura,
-                      possivelmente relacionado à caixa de atendimento. Cliente foi informado.
-                    </p>
-                  </div>
-
-                  <div class="consulta-item">
-                    <span class="consulta-setor">ROTEADOR RESETADO</span>
-                    <p>
-                      Senhor(a), identifiquei pelo print que o equipamento roteador foi resetado, nesse caso podemos
-                      juntos tentar configurar remotamente daqui, conforme minhas instruções o senhor(a) executa para
-                      que assim sua conexão possa retornar, caso não seja possível, será cobrado a taxa de visita
-                      técnica de R$ 40,00 que virá incluso a sua fatura de internet.
-                      Por favor, conecte-se a rede wi-fi resetada com a senha que vem padrão embaixo do roteador, depois
-                      abra seu navegador e digite: 192.168.1.1 ou 192.168.0.1 precisamos abrir o roteador para acessar
-                      ele e conseguirmos configurar.
-                    </p>
+                  <div class="consulta-item"><span class="consulta-setor">MONITORAMENTO MUDANÇA DE ENDEREÇO</span>
+                    <p>Segunda á sexta: 08:00 ás 22:00<br>Sábado: 08:00 ás 20:00<br>Domingo: 08:00 ás 18:00</p>
                   </div>
 
                 </div>
-
               </div>
             </div>
+
           </div>
-        </section>
+      </section>
 
-        <script>
-          /* ====== TAB / SIDEBAR CONTROL ====== */
-          function openTab(evt) {
-            const target = evt.currentTarget?.dataset?.target;
-            if (!target) return;
-            document.querySelectorAll('.content').forEach(s => s.style.display = 'none');
-            document.querySelectorAll('.sidebar .tab').forEach(t => t.classList.remove('active'));
-            evt.currentTarget.classList.add('active');
-            document.getElementById(target).style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+      <section id="setor_mensagens" class="content" style="display:none;">
+        <div class="card">
+          <div class="consulta-container">
+            <h2>MODELOS DE MENSAGENS – SUPORTE ONITEL</h2>
+
+            <div class="consulta-grid">
+
+              <!-- 🟦 COLUNA 1 -->
+              <div class="coluna">
+
+                <!-- 🟦 LENTIDÃO -->
+                <div class="consulta-item">
+                  <span class="consulta-setor">LENTIDÃO</span>
+                  <p>
+                    Cliente relatou lentidão na conexão.
+                    Foram realizados ajustes no roteador (SNTP, DNS, canais Wi-Fi e reinicialização).
+                    Após os procedimentos, cliente confirmou a normalização.
+                  </p>
+                </div>
+
+                <div class="consulta-item">
+                  <span class="consulta-setor">LENTIDÃO</span>
+                  <p>
+                    Cliente relatou lentidão.
+                    Foram realizadas configurações no equipamento, porém o cliente não respondeu após os testes.
+                  </p>
+                </div>
+
+                <div class="consulta-item">
+                  <span class="consulta-setor">LENTIDÃO</span>
+                  <p>
+                    Cliente relata lentidão (Wi-Fi / Cabo / Jogos / Streaming / Navegação).
+
+                    <br><br>
+                    Procedimentos realizados:
+                    <br>▪️ Verificação do link e status da ONU/roteador
+                    <br>▪️ Configuração de SNTP
+                    <br>▪️ Ajuste de DNS (8.8.8.8 / 1.1.1.1)
+                    <br>▪️ Ajuste de canal e banda Wi-Fi
+                    <br>▪️ Reinicialização do equipamento
+
+                    <br><br>
+                    Cliente orientado a testar novamente.
+                    Conexão normalizada no momento do atendimento.
+                  </p>
+                </div>
+
+                <!-- 🟪 WIFI -->
+                <div class="consulta-item">
+                  <span class="consulta-setor">PERGUNTAR SOBRE AGENDAMENTO</span>
+                  <p>
+                    XXXXXXXXXXXXX
+
+                    Cliente aguardando técnico.
+                    Por favor, poderiam verificar posição em rota e se está próximo do atendimento?
+                    Cliente já demonstra insatisfação.
+                  </p>
+                </div>
+
+                <!-- 🟪 WIFI -->
+                <div class="consulta-item">
+                  <span class="consulta-setor">WIFI</span>
+                  <p>
+                    Cliente solicitou a senha do Wi-Fi.
+                    Após confirmação dos dados, a senha foi informada com sucesso.
+                  </p>
+                </div>
+
+                <div class="consulta-item">
+                  <span class="consulta-setor">WIFI</span>
+                  <p>
+                    Cliente informou que o Wi-Fi não estava aparecendo.
+                    Foi identificado que estava desativado, realizada a ativação e normalizado.
+                  </p>
+                </div>
+
+                <!-- 🟥 CANCELAMENTO -->
+                <div class="consulta-item">
+                  <span class="consulta-setor">CANCELAMENTO</span>
+                  <p>
+                    Cliente solicitou cancelamento do serviço.
+                    Foi ofertado suporte, porém não houve interesse.
+                    Cliente orientado sobre o horário do setor (08h às 18h) ou transferido.
+                  </p>
+                </div>
+
+                <!-- 🟨 AGENDAMENTO -->
+                <div class="consulta-item">
+                  <span class="consulta-setor">AGENDAMENTO</span>
+                  <p>
+                    Cliente entrou em contato para verificar o agendamento técnico.
+                    Ordem de serviço permanece em aberto.
+                    Orientado a aguardar contato do técnico e manter-se disponível.
+                  </p>
+                </div>
+
+                <!-- 🟩 SUPORTE -->
+                <div class="consulta-item">
+                  <span class="consulta-setor">SUPORTE</span>
+                  <p>
+                    Cliente sem conexão.
+                    Durante o atendimento não houve retorno.
+                    Necessário abertura de agendamento técnico.
+                  </p>
+                </div>
+
+                <!-- 🟥 SEM CONEXÃO -->
+                <div class="consulta-item">
+                  <span class="consulta-setor">SEM CONEXÃO</span>
+                  <p>
+                    Cliente sem conexão, porém constava ONLINE no sistema.
+                    Realizada limpeza de MAC e reconexão.
+                    Conexão normalizada.
+                  </p>
+                </div>
+
+                <div class="consulta-item">
+                  <span class="consulta-setor">SEM CONEXÃO</span>
+                  <p>
+                    Cliente sem conexão devido a bloqueio financeiro.
+                    Após liberação, orientado reiniciar o equipamento.
+                    Conexão restabelecida.
+                  </p>
+                </div>
+
+                <div class="consulta-item">
+                  <span class="consulta-setor">SEM CONEXÃO</span>
+                  <p>
+                    Cliente sem conexão devido a travamento do equipamento.
+                    Orientado desligar da tomada por 10 minutos.
+                    Após o procedimento, conexão normalizada.
+                  </p>
+                </div>
+
+                <div class="consulta-item">
+                  <span class="consulta-setor">SEM CONEXÃO</span>
+                  <p>
+                    Cliente identificado com IP de bloqueio.
+                    Realizada limpeza de MAC e reconexão do login.
+                    Conexão normalizada.
+                  </p>
+                </div>
+
+                <div class="consulta-item">
+                  <span class="consulta-setor">SEM CONEXÃO</span>
+                  <p>
+                    Cliente orientado a inverter as pontas do cabo entre ONU e roteador.
+                    Após reinicialização dos equipamentos, conexão normalizada.
+                  </p>
+                </div>
+
+                <!-- 🟫 FIBRA -->
+                <div class="consulta-item">
+                  <span class="consulta-setor">FIBRA / LOS</span>
+                  <p>
+                    Cliente sem conexão com luz LOS piscando.
+                    Verificado que apenas este cliente está offline.
+                    Necessário agendamento técnico.
+                  </p>
+                </div>
+
+                <!-- 🟦 INFRA -->
+                <div class="consulta-item">
+                  <span class="consulta-setor">INFRA / AGENDAMENTO</span>
+                  <p>
+                    Cliente com ordem de serviço em aberto para infraestrutura.
+                    Possível falha na caixa (CTO).
+                    Cliente informado.
+                  </p>
+                </div>
+
+                <!-- 🟥 ROTEADOR RESETADO -->
+                <div class="consulta-item">
+                  <span class="consulta-setor">ROTEADOR RESETADO</span>
+                  <p>
+                    Identificado roteador resetado.
+
+                    <br><br>
+                    Instruções:
+                    <br>1. Conectar na rede padrão do roteador
+                    <br>2. Acessar: 192.168.1.1 ou 192.168.0.1
+                    <br>3. Seguir configuração
+
+                    <br><br>
+                    Caso não seja possível, necessário agendamento técnico (taxa de R$ 40,00).
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script>
+        /* ====== TAB / SIDEBAR CONTROL ====== */
+        function openTab(evt) {
+          const target = evt.currentTarget?.dataset?.target;
+          if (!target) return;
+          document.querySelectorAll('.content').forEach(s => s.style.display = 'none');
+          document.querySelectorAll('.sidebar .tab').forEach(t => t.classList.remove('active'));
+          evt.currentTarget.classList.add('active');
+          document.getElementById(target).style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* preview das mensagens prontas */
+        let mensagemFixadaId = null;
+
+        function obterMensagemDoBotao(button) {
+          const textareaId = button?.dataset?.textarea;
+          if (!textareaId) return null;
+          const textarea = document.getElementById(textareaId);
+          if (!textarea) return null;
+          return {
+            id: textareaId,
+            titulo: button.textContent.replace(/\s+/g, ' ').trim(),
+            texto: textarea.value
+          };
+        }
+
+        function posicionarTooltip(button) {
+          const tooltip = document.getElementById('hoverTooltip');
+          if (!tooltip || !button) return;
+
+          const rect = button.getBoundingClientRect();
+          const tooltipWidth = Math.min(380, window.innerWidth - 24);
+          let left = rect.left;
+          let top = rect.bottom + 8;
+
+          if (left + tooltipWidth > window.innerWidth - 12) {
+            left = window.innerWidth - tooltipWidth - 12;
           }
 
-          /* helper: scroll to card, open it and copy the text immediately */
-          function scrollToCard(cardId, textareaId) {
-            const card = document.getElementById(cardId);
-            if (!card) return;
-            // ensure mensagens tab visible
-            document.querySelectorAll('.sidebar .tab').forEach(t => t.classList.remove('active'));
-            document.querySelector('.sidebar .tab[data-target="mensagens"]').classList.add('active');
-            document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
-            document.getElementById('mensagens').style.display = 'block';
-            // open card body
-            const body = card.querySelector('.body');
-            if (body) body.classList.add('active');
-            //card.scrollIntoView({behavior:'smooth', block:'center'});
-            // copy text if textareaId provided
-            if (textareaId) {
-              setTimeout(() => { // small delay to ensure UI updated
-                copiarTexto(textareaId);
-              }, 200);
-            }
+          if (top + 260 > window.innerHeight - 12) {
+            top = rect.top - 268;
           }
 
-          /* toggle card open/close by header click */
-          function toggleCardBody(msgId) {
-            const body = document.getElementById(msgId + '_body');
-            if (!body) return;
-            body.classList.toggle('active');
+          tooltip.style.left = `${Math.max(12, left)}px`;
+          tooltip.style.top = `${Math.max(12, top)}px`;
+        }
+
+        function abrirTooltip(button) {
+          if (mensagemFixadaId) return;
+
+          const data = obterMensagemDoBotao(button);
+          const tooltip = document.getElementById('hoverTooltip');
+          if (!data || !tooltip) return;
+
+          tooltip.textContent = data.texto;
+          tooltip.dataset.currentTextarea = data.id;
+          posicionarTooltip(button);
+          tooltip.classList.add('active');
+        }
+
+        function fecharTooltip() {
+          if (mensagemFixadaId) return;
+          const tooltip = document.getElementById('hoverTooltip');
+          if (tooltip) {
+            tooltip.classList.remove('active');
+            tooltip.textContent = '';
+            delete tooltip.dataset.currentTextarea;
           }
+        }
 
-          /* ==== Mensagens: copy/edit/save/excluir ==== */
-          function copiarTexto(textareaId) {
-            const ta = document.getElementById(textareaId);
-            if (!ta) return;
+        function fixarPreview(button) {
+          const data = obterMensagemDoBotao(button);
+          const previewBox = document.getElementById('previewFixo');
+          const previewTitle = document.getElementById('previewFixoTitle');
+          const previewTextarea = document.getElementById('previewFixoTextarea');
+          if (!data || !previewBox || !previewTitle || !previewTextarea) return;
 
-            const value = ta.value;
+          mensagemFixadaId = data.id;
+          previewBox.dataset.currentTextarea = data.id;
+          previewTitle.textContent = data.titulo || 'Mensagem selecionada';
+          previewTextarea.value = data.texto;
+          previewBox.classList.add('active');
+        }
 
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-              navigator.clipboard.writeText(value).then(() => {
-                mostrarToast();
-              }).catch(() => {
-                fallbackCopy(ta);
-                mostrarToast();
-              });
-            } else {
+        function fecharPreviewFixo() {
+          mensagemFixadaId = null;
+          const previewBox = document.getElementById('previewFixo');
+          if (previewBox) {
+            previewBox.classList.remove('active');
+            delete previewBox.dataset.currentTextarea;
+          }
+        }
+
+        function copiarPreviewFixo() {
+          const previewBox = document.getElementById('previewFixo');
+          const textareaId = previewBox?.dataset?.currentTextarea;
+          if (!textareaId) return;
+          copiarTexto(textareaId);
+        }
+
+        function setupMessagePreview() {
+          const buttons = document.querySelectorAll('#mensagens .botoes-grid button[data-textarea]');
+
+          buttons.forEach((button) => {
+            button.addEventListener('mouseenter', () => {
+              abrirTooltip(button);
+            });
+
+            button.addEventListener('mouseleave', () => {
+              fecharTooltip();
+            });
+
+            button.addEventListener('click', () => {
+              fixarPreview(button);
+              fecharTooltip();
+              const textareaId = button.dataset.textarea;
+              if (textareaId) copiarTexto(textareaId);
+            });
+          });
+
+          window.addEventListener('scroll', fecharTooltip, { passive: true });
+          window.addEventListener('resize', fecharTooltip);
+        }
+
+        /* toggle card open/close by header click */
+        function toggleCardBody(msgId) {
+          const body = document.getElementById(msgId + '_body');
+          if (!body) return;
+          body.classList.toggle('active');
+        }
+
+        /* ==== Mensagens: copy/edit/save/excluir ==== */
+        function copiarTexto(textareaId) {
+          const ta = document.getElementById(textareaId);
+          if (!ta) return;
+
+          const value = ta.value;
+
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(value).then(() => {
+              mostrarToast();
+            }).catch(() => {
               fallbackCopy(ta);
               mostrarToast();
-            }
+            });
+          } else {
+            fallbackCopy(ta);
+            mostrarToast();
           }
+        }
 
-          function fallbackCopy(ta) {
-            ta.select();
-            document.execCommand('copy');
-          }
+        function fallbackCopy(ta) {
+          ta.select();
+          document.execCommand('copy');
+        }
 
-          function mostrarToast() {
-            const toast = document.getElementById("toastCopiado");
-            toast.classList.add("show");
+        function mostrarToast() {
+          const toast = document.getElementById("toastCopiado");
+          toast.classList.add("show");
 
-            setTimeout(() => {
-              toast.classList.remove("show");
-            }, 1500);
-          }
+          setTimeout(() => {
+            toast.classList.remove("show");
+          }, 1500);
+        }
 
-          function editarMensagem(textareaId) {
-            const ta = document.getElementById(textareaId);
-            if (!ta) return;
-            ta.removeAttribute('readonly');
-            ta.focus();
-          }
-          function salvarTexto(textareaId) {
-            const ta = document.getElementById(textareaId);
-            if (!ta) return;
-            localStorage.setItem(textareaId, ta.value);
-            ta.setAttribute('readonly', 'true');
-            alert('Mensagem salva com sucesso!');
-          }
-          function excluirMensagemCard(cardId) {
-            if (!confirm('Excluir este card de mensagem?')) return;
-            const card = document.getElementById(cardId);
-            if (card) card.remove();
-          }
+        function editarMensagem(textareaId) {
+          const ta = document.getElementById(textareaId);
+          if (!ta) return;
+          ta.removeAttribute('readonly');
+          ta.focus();
+        }
+        function salvarTexto(textareaId) {
+          const ta = document.getElementById(textareaId);
+          if (!ta) return;
+          localStorage.setItem(textareaId, ta.value);
+          ta.setAttribute('readonly', 'true');
+          alert('Mensagem salva com sucesso!');
+        }
+        function excluirMensagemCard(cardId) {
+          if (!confirm('Excluir este card de mensagem?')) return;
+          const card = document.getElementById(cardId);
+          if (card) card.remove();
+        }
 
-          /* load saved messages into textareas on startup */
-          function carregarMensagensSalvas() {
-            document.querySelectorAll('.editable-text, textarea[id^="texto"]').forEach(t => {
-              const saved = localStorage.getItem(t.id);
-              if (saved) t.value = saved;
+        /* load saved messages into textareas on startup */
+        function carregarMensagensSalvas() {
+          document.querySelectorAll('.editable-text, textarea[id^="texto"]').forEach(t => {
+            const saved = localStorage.getItem(t.id);
+            if (saved) t.value = saved;
+          });
+        }
+
+        /* ==== Planilha functions ==== */
+        let contador = 1;
+
+        function adicionarLinha(cpf = "", protocolo = "", telefone = "", observacao = "") {
+          const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
+
+          // INSERE NO TOPO AGORA
+          const novaLinha = tabela.insertRow(0);
+
+          const celulaNumero = novaLinha.insertCell(0);
+          const celulaCPF = novaLinha.insertCell(1);
+          const celulaProtocolo = novaLinha.insertCell(2);
+          const celulaTelefone = novaLinha.insertCell(3);
+          const celulaObservacao = novaLinha.insertCell(4);
+
+          celulaNumero.textContent = contador;
+          celulaCPF.innerHTML = `<input type="text" value="${cpf}" placeholder="CPF">`;
+          celulaProtocolo.innerHTML = `<input type="text" value="${protocolo}" placeholder="Protocolo">`;
+          celulaTelefone.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
+          celulaObservacao.innerHTML = `<input type="text" value="${observacao}" placeholder="Observação">`;
+
+          contador++;
+        }
+
+        function salvarDados() {
+          const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
+          const linhas = tabela.getElementsByTagName('tr');
+          const atendimentos = [];
+
+          for (let i = 0; i < linhas.length; i++) {
+            const inputs = linhas[i].querySelectorAll('input');
+
+            atendimentos.push({
+              numero: (linhas.length - i),
+              cpf: inputs[0]?.value || '',
+              protocolo: inputs[1]?.value || '',
+              telefone: inputs[2]?.value || '',
+              observacao: inputs[3]?.value || ''
             });
           }
 
-          /* ==== Planilha functions ==== */
-          let contador = 1;
+          localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
+          alert('Dados salvos com sucesso!');
+        }
 
-          function adicionarLinha(cpf = "", protocolo = "", telefone = "", observacao = "") {
-            const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
+        function carregarDados() {
+          const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
+          const dadosSalvos = localStorage.getItem('atendimentos');
 
-            // INSERE NO TOPO AGORA
-            const novaLinha = tabela.insertRow(0);
+          if (dadosSalvos) {
+            const atendimentos = JSON.parse(dadosSalvos);
 
-            const celulaNumero = novaLinha.insertCell(0);
-            const celulaCPF = novaLinha.insertCell(1);
-            const celulaProtocolo = novaLinha.insertCell(2);
-            const celulaTelefone = novaLinha.insertCell(3);
-            const celulaObservacao = novaLinha.insertCell(4);
+            tabela.innerHTML = '';
+            contador = 1;
 
-            celulaNumero.textContent = contador;
-            celulaCPF.innerHTML = `<input type="text" value="${cpf}" placeholder="CPF">`;
-            celulaProtocolo.innerHTML = `<input type="text" value="${protocolo}" placeholder="Protocolo">`;
-            celulaTelefone.innerHTML = `<input type="text" value="${telefone}" placeholder="Telefone">`;
-            celulaObservacao.innerHTML = `<input type="text" value="${observacao}" placeholder="Observação">`;
-
-            contador++;
+            // REINSERE mantendo o TOPO primeiro
+            atendimentos.reverse().forEach(a => {
+              adicionarLinha(a.cpf, a.protocolo, a.telefone, a.observacao);
+            });
+          } else {
+            alert('Nenhum dado salvo encontrado!');
           }
+        }
 
-          function salvarDados() {
-            const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
-            const linhas = tabela.getElementsByTagName('tr');
-            const atendimentos = [];
-
-            for (let i = 0; i < linhas.length; i++) {
-              const inputs = linhas[i].querySelectorAll('input');
-
-              atendimentos.push({
-                numero: (linhas.length - i),
-                cpf: inputs[0]?.value || '',
-                protocolo: inputs[1]?.value || '',
-                telefone: inputs[2]?.value || '',
-                observacao: inputs[3]?.value || ''
-              });
-            }
-
-            localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
-            alert('Dados salvos com sucesso!');
+        function baixarDados() {
+          const dadosSalvos = localStorage.getItem('atendimentos');
+          if (!dadosSalvos) { alert("Nenhum dado para baixar!"); return; }
+          const blob = new Blob([dadosSalvos], { type: "application/json" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "atendimentos.json";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+        function limparTabela() {
+          if (confirm("Tem certeza que deseja limpar todos os dados?")) {
+            document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0].innerHTML = '';
+            localStorage.removeItem('atendimentos');
+            contador = 1;
+            alert("Dados apagados com sucesso!");
           }
+        }
 
-          function carregarDados() {
-            const tabela = document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0];
-            const dadosSalvos = localStorage.getItem('atendimentos');
-
-            if (dadosSalvos) {
-              const atendimentos = JSON.parse(dadosSalvos);
-
-              tabela.innerHTML = '';
-              contador = 1;
-
-              // REINSERE mantendo o TOPO primeiro
-              atendimentos.reverse().forEach(a => {
-                adicionarLinha(a.cpf, a.protocolo, a.telefone, a.observacao);
-              });
-            } else {
-              alert('Nenhum dado salvo encontrado!');
-            }
+        /* ==== Forms: gerar mensagens e copiar automaticamente ==== */
+        function copiarResultadoTo(resultSelector, mensagem) {
+          const el = document.querySelector(resultSelector);
+          if (el) {
+            el.style.display = 'block';
+            el.textContent = mensagem;
           }
-
-          function baixarDados() {
-            const dadosSalvos = localStorage.getItem('atendimentos');
-            if (!dadosSalvos) { alert("Nenhum dado para baixar!"); return; }
-            const blob = new Blob([dadosSalvos], { type: "application/json" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "atendimentos.json";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(mensagem).then(() => { alert('Mensagem copiada com sucesso!'); }).catch(() => { fallbackCopyText(mensagem); });
+          } else {
+            fallbackCopyText(mensagem);
           }
-          function limparTabela() {
-            if (confirm("Tem certeza que deseja limpar todos os dados?")) {
-              document.getElementById('tabelaAtendimentos').getElementsByTagName('tbody')[0].innerHTML = '';
-              localStorage.removeItem('atendimentos');
-              contador = 1;
-              alert("Dados apagados com sucesso!");
-            }
+        }
+        function fallbackCopyText(txt) {
+          // create temporary textarea to copy
+          const ta = document.createElement('textarea');
+          ta.value = txt;
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); alert('Mensagem copiada (fallback)!'); } catch (e) { alert('Erro ao copiar'); }
+          document.body.removeChild(ta);
+        }
+
+        function mostrarOutroTipo() {
+          const select = document.getElementById("tipoManutencaoSelect");
+          const customInput = document.getElementById("tipoManutencaoCustom");
+          if (select.value === "Outro") {
+            customInput.style.display = "block";
+          } else {
+            customInput.style.display = "none";
+            customInput.value = "";
           }
-
-          /* ==== Forms: gerar mensagens e copiar automaticamente ==== */
-          function copiarResultadoTo(resultSelector, mensagem) {
-            const el = document.querySelector(resultSelector);
-            if (el) {
-              el.style.display = 'block';
-              el.textContent = mensagem;
-            }
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-              navigator.clipboard.writeText(mensagem).then(() => { alert('Mensagem copiada com sucesso!'); }).catch(() => { fallbackCopyText(mensagem); });
-            } else {
-              fallbackCopyText(mensagem);
-            }
-          }
-          function fallbackCopyText(txt) {
-            // create temporary textarea to copy
-            const ta = document.createElement('textarea');
-            ta.value = txt;
-            document.body.appendChild(ta);
-            ta.select();
-            try { document.execCommand('copy'); alert('Mensagem copiada (fallback)!'); } catch (e) { alert('Erro ao copiar'); }
-            document.body.removeChild(ta);
-          }
-
-          function mostrarOutroTipo() {
-            const select = document.getElementById("tipoManutencaoSelect");
-            const customInput = document.getElementById("tipoManutencaoCustom");
-            if (select.value === "Outro") {
-              customInput.style.display = "block";
-            } else {
-              customInput.style.display = "none";
-              customInput.value = "";
-            }
-          }
+        }
 
 
-          function gerarMensagem1() {
-            const tipoSelect = document.getElementById("tipoManutencaoSelect");
-            const tipoCustom = document.getElementById("tipoManutencaoCustom");
-            const tipo = tipoSelect.value === "Outro" && tipoCustom.value.trim()
-              ? tipoCustom.value.trim()
-              : tipoSelect.value;
+        function gerarMensagem1() {
+          const tipoSelect = document.getElementById("tipoManutencaoSelect");
+          const tipoCustom = document.getElementById("tipoManutencaoCustom");
+          const tipo = tipoSelect.value === "Outro" && tipoCustom.value.trim()
+            ? tipoCustom.value.trim()
+            : tipoSelect.value;
 
-            const atendente = document.getElementById("atendente1").value;
-            const name = document.getElementById("name").value;
-            const loc = document.getElementById("loc").value;
-            const turnoSelect = document.getElementById("turno");
-            const turnoInput = document.getElementById("turnoCustom");
-            const turno = turnoSelect.value === "Outro" && turnoInput.value.trim()
-              ? turnoInput.value.trim()
-              : turnoSelect.value;
-            const causaSelect = document.getElementById("causa");
-            const causaInput = document.getElementById("causaCustom");
-            const causa = causaSelect.value === "Outro" && causaInput.value.trim()
-              ? causaInput.value.trim()
-              : causaSelect.value;
-            const obs = document.getElementById("obs").value;
+          const atendente = document.getElementById("atendente1").value;
+          const name = document.getElementById("name").value;
+          const loc = document.getElementById("loc").value;
+          const turnoSelect = document.getElementById("turno");
+          const turnoInput = document.getElementById("turnoCustom");
+          const turno = turnoSelect.value === "Outro" && turnoInput.value.trim()
+            ? turnoInput.value.trim()
+            : turnoSelect.value;
+          const causaSelect = document.getElementById("causa");
+          const causaInput = document.getElementById("causaCustom");
+          const causa = causaSelect.value === "Outro" && causaInput.value.trim()
+            ? causaInput.value.trim()
+            : causaSelect.value;
+          const obs = document.getElementById("obs").value;
 
-            const msg =
-              `${tipo.toUpperCase()}
+          const msg =
+            `${tipo.toUpperCase()}
 🧑‍💻 Atendente: ${atendente}
 👱 Cliente: ${name}
 📍 Localização: ${loc}
@@ -2086,99 +2328,100 @@ As redes Wi-Fi 2.4GHz e 5GHz possuem características diferentes:
 ⚠️ Causa: ${causa}
 📝 Observação: ${obs}`;
 
-            copiarResultadoTo('#result_vaga', msg);
+          copiarResultadoTo('#result_vaga', msg);
+        }
+
+        function toggleTurnoInput() {
+          const select = document.getElementById("turno");
+          const customInput = document.getElementById("turnoCustom");
+
+          if (select.value === "Outro") {
+            customInput.style.display = "block";
+            customInput.focus();
+          } else {
+            customInput.style.display = "none";
+            customInput.value = "";
+          }
+        }
+
+        function toggleCausaInput() {
+          const select = document.getElementById("causa");
+          const input = document.getElementById("causaCustom");
+          if (select.value === "Outro") {
+            input.style.display = "block";
+          } else {
+            input.style.display = "none";
+            input.value = "";
+          }
+        }
+
+        function calcularDias() {
+          const dataInicio = document.getElementById("dataInicio").value;
+          const dataFim = document.getElementById("dataFim").value;
+          const resultado = document.getElementById("resultadoDias");
+
+          if (!dataInicio || !dataFim) {
+            resultado.textContent = "Selecione as duas datas para calcular.";
+            resultado.style.color = "#004080";
+            return;
           }
 
-          function toggleTurnoInput() {
-            const select = document.getElementById("turno");
-            const customInput = document.getElementById("turnoCustom");
+          const inicio = new Date(dataInicio);
+          const fim = new Date(dataFim);
+          const diffTime = fim - inicio;
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-            if (select.value === "Outro") {
-              customInput.style.display = "block";
-              customInput.focus();
-            } else {
-              customInput.style.display = "none";
-              customInput.value = "";
-            }
+          if (diffDays < 0) {
+            resultado.textContent = "⚠️ A data final é anterior à data inicial!";
+            resultado.style.color = "#cc0000";
+          } else {
+            resultado.textContent = `📅 Diferença: ${diffDays} dias`;
+            resultado.style.color = diffDays > 60 ? "#cc0000" : "#007a00";
           }
+        }
 
-          function toggleCausaInput() {
-            const select = document.getElementById("causa");
-            const input = document.getElementById("causaCustom");
-            if (select.value === "Outro") {
-              input.style.display = "block";
-            } else {
-              input.style.display = "none";
-              input.value = "";
-            }
-          }
+        /* gerarMensagem2 - Reporte Telefonia (Form2) */
+        function gerarMensagem2() {
+          const cliente = document.getElementById("cliente").value;
+          const numero = document.getElementById("numero").value;
+          const problema = document.getElementById("problema").value;
+          const tratativas = document.getElementById("tratativas").value;
+          const atendente = document.getElementById("atendente").value;
+          const msg = `❗ REPORT\n\n👱 CLIENTE: ${cliente}\n📞 NÚMERO: ${numero}\n⚠️ DESCRIÇÃO DO PROBLEMA: ${problema}\n⚙️ TRATATIVAS REALIZADAS: ${tratativas}\n\n👷 ATENDENTE: ${atendente}`;
+          copiarResultadoTo('#result_report2', msg);
+        }
 
-          function calcularDias() {
-            const dataInicio = document.getElementById("dataInicio").value;
-            const dataFim = document.getElementById("dataFim").value;
-            const resultado = document.getElementById("resultadoDias");
+        /* gerarMensagem3 - Reporte N2 (Form3) */
+        function gerarMensagem3() {
+          const cliente = document.getElementById("cliente2").value;
+          const problema = document.getElementById("problema2").value;
+          const ixc = document.getElementById("ixc").value;
+          const opa = document.getElementById("opa").value;
+          const msg = `❗ REPORT\n\n👷 CLIENTE: ${cliente}\n⚠️ DESCRIÇÃO DO PROBLEMA: ${problema}\n📄 PROTOCOLO NO IXC: ${ixc}\n📄 PROTOCOLO NO OPA: ${opa}`;
+          copiarResultadoTo('#result_report3', msg);
+        }
 
-            if (!dataInicio || !dataFim) {
-              resultado.textContent = "Selecione as duas datas para calcular.";
-              resultado.style.color = "#004080";
-              return;
-            }
-
-            const inicio = new Date(dataInicio);
-            const fim = new Date(dataFim);
-            const diffTime = fim - inicio;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-            if (diffDays < 0) {
-              resultado.textContent = "⚠️ A data final é anterior à data inicial!";
-              resultado.style.color = "#cc0000";
-            } else {
-              resultado.textContent = `📅 Diferença: ${diffDays} dias`;
-              resultado.style.color = diffDays > 60 ? "#cc0000" : "#007a00";
-            }
-          }
-
-          /* gerarMensagem2 - Reporte Telefonia (Form2) */
-          function gerarMensagem2() {
-            const cliente = document.getElementById("cliente").value;
-            const numero = document.getElementById("numero").value;
-            const problema = document.getElementById("problema").value;
-            const tratativas = document.getElementById("tratativas").value;
-            const atendente = document.getElementById("atendente").value;
-            const msg = `❗ REPORT\n\n👱 CLIENTE: ${cliente}\n📞 NÚMERO: ${numero}\n⚠️ DESCRIÇÃO DO PROBLEMA: ${problema}\n⚙️ TRATATIVAS REALIZADAS: ${tratativas}\n\n👷 ATENDENTE: ${atendente}`;
-            copiarResultadoTo('#result_report2', msg);
-          }
-
-          /* gerarMensagem3 - Reporte N2 (Form3) */
-          function gerarMensagem3() {
-            const cliente = document.getElementById("cliente2").value;
-            const problema = document.getElementById("problema2").value;
-            const ixc = document.getElementById("ixc").value;
-            const opa = document.getElementById("opa").value;
-            const msg = `❗ REPORT\n\n👷 CLIENTE: ${cliente}\n⚠️ DESCRIÇÃO DO PROBLEMA: ${problema}\n📄 PROTOCOLO NO IXC: ${ixc}\n📄 PROTOCOLO NO OPA: ${opa}`;
-            copiarResultadoTo('#result_report3', msg);
-          }
-
-          /* gerarMensagem4 - Agendamentos sem monitoramento (Form4) */
-          function gerarMensagem4() {
-            const cliente = document.getElementById("cliente4").value;
-            const tecnico = document.getElementById("tecnico").value;
-            const diaAgendamento = document.getElementById("diaAgendamento").value;
-            const msg = `📄 Cliente  ${cliente} agendado para o técnico  ${tecnico}, para o dia 📅 ${diaAgendamento}, pois o setor de monitoramento estava indisponível.`;
-            copiarResultadoTo('#result_agendamentos', msg);
-          }
+        /* gerarMensagem4 - Agendamentos sem monitoramento (Form4) */
+        function gerarMensagem4() {
+          const cliente = document.getElementById("cliente4").value;
+          const tecnico = document.getElementById("tecnico").value;
+          const diaAgendamento = document.getElementById("diaAgendamento").value;
+          const msg = `📄 Cliente  ${cliente} agendado para o técnico  ${tecnico}, para o dia 📅 ${diaAgendamento}, pois o setor de monitoramento estava indisponível.`;
+          copiarResultadoTo('#result_agendamentos', msg);
+        }
 
 
 
 
-          /* onload init */
-          window.addEventListener('DOMContentLoaded', () => {
-            // show mensagens by default
-            document.getElementById('mensagens').style.display = 'block';
-            carregarMensagensSalvas();
-          });
+        /* onload init */
+        window.addEventListener('DOMContentLoaded', () => {
+          // show mensagens by default
+          document.getElementById('mensagens').style.display = 'block';
+          carregarMensagensSalvas();
+          setupMessagePreview();
+        });
 
-        </script>
+      </script>
 </body>
 
 </html>
