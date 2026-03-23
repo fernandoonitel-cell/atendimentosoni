@@ -575,6 +575,8 @@
             <button class="btn-tecnicos" data-textarea="texto44">Informar Agendamento Aberto</button>
             <button class="btn-tecnicos" data-textarea="texto45">Informar que Precisa Reagendar</button>
             <button class="btn-dados" data-textarea="texto46">Roteador Resetado</button>
+            <button class="btn-inicio" data-textarea="texto47">Iniciar Atendimento c/ Boa Tarde</button>
+
 
           </div>
 
@@ -1488,6 +1490,28 @@ ou
 192.168.0.1
 
 Precisamos acessar o roteador para realizar a configuração.
+    </textarea>
+            </div>
+          </div>
+
+          <!-- msg47 -->
+          <div class="msg-card" id="msg47_card">
+            <div class="header" onclick="toggleCardBody('msg47')">
+              <h3>Início de Atendimento (Boa Tarde)</h3>
+              <div class="controls">
+                <button onclick="event.stopPropagation(); copiarTexto('texto47')">Copiar</button>
+                <button onclick="event.stopPropagation(); editarMensagem('texto47')">Editar</button>
+                <button onclick="event.stopPropagation(); salvarTexto('texto47')">Salvar</button>
+                <button onclick="event.stopPropagation(); excluirMensagemCard('msg47_card')">Excluir</button>
+              </div>
+            </div>
+            <div class="body" id="msg47_body">
+              <textarea id="texto47" class="editable-text" readonly>
+Suporte Técnico Onitel, boa noite!  
+
+Para darmos continuidade ao atendimento, por gentileza, informe o CPF ou CNPJ do titular para localizarmos o cadastro.
+
+Aproveitando, poderia descrever a situação EM QUE PODEMOS AJUDAR para que possamos agilizar a análise?
     </textarea>
             </div>
           </div>
